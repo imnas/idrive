@@ -3,6 +3,7 @@ const app = express();
 const config = require('./config/config');
 const bodyParser = require('body-parser');
 const db = require('mongoose');
+const authRoute = require('./routes/api/auth');
 
 // Body Parser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -16,5 +17,8 @@ db.connect(config.db.mongoURL, { useNewUrlParser: true }, (err) => {
     console.log('Mongoose Connection Established!');
   }
 })
+
+// Routes
+app.use('/api/auth', authRoute);
 
 app.listen(config.app.port, () => console.log(`Server's running on port ${config.app.port}!`));
