@@ -6,10 +6,8 @@ const dev = {
     port: process.env.PORT || 8000
   },
   db: {
-    host: process.env.DEV_DB_HOST || '',
-    databaseName: process.env.DEV_DB_NAME || '',
-    user: process.env.DEV_DB_USER || '',
-    password: process.env.DEV_DB_PASSWORD || ''
+    mongoURL: process.env.MONGO_URL || 'mongodb://root:root123@ds127094.mlab.com:27094/instant-driving',
+    secretOrKey: process.env.SECRET_OR_KEY || 'secret'
   }
 };
 
@@ -18,8 +16,8 @@ const prod = {
       port: process.env.PORT
     },
     db: {
-      host: process.env.PROD_DB_HOST,
-      databaseName: process.env.PROD_DB_NAME
+      mongoURL: process.env.MONGO_URL,
+      secretOrKey: process.env.SECRET_OR_KEY
     }
   };
 
