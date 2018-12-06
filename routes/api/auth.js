@@ -1,3 +1,4 @@
+// TODO: Implement validation and cross-checking different account types
 const express = require('express');
 const router = express.Router();
 const Instructor = require('../../models/Instructor');
@@ -10,6 +11,7 @@ const bcrypt = require('bcrypt');
 router.post('/register', (req, res) => {
   // Check what's the user type
   if(req.body.type === 'instructor') {
+    // Register an instructor
     // Check if the user exists
     Instructor.findOne({ email: req.body.email })
     .then(user => {
