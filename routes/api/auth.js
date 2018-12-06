@@ -87,9 +87,50 @@ router.post('/register', (req, res) => {
 // @ACCESS  - Public
 // @DESC    - Log a user in
 router.post('/login', (req, res) => {
-  // Check for existing user
-  // If there is one, check the password using bcrypt
-  // If the password doesn't match, or the user doesn't exist, send an error code
+  // TEMPORARY SOLUTION: Check for user type
+  if(req.body.type === 'instructor') {
+    // Log in an instructor
+    // Check if the user exists
+    Instructor.findOne({ email: req.body.email })
+    .then(user => {
+      if(user) {
+        // If there is one, check the password using bcrypt
+        bcrypt.compare(req.body.password, user.password)
+        .then(match => {
+          if(match) {
+            // TEMPORARY SOLUTION: Send a 'Logged In' message
+            res.status(200).send('Logged In!');
+          } else {
+            // Send a 'Incorrect Password' message
+            res.status(401).send('Incorrect Password')
+          }
+        })
+      } else {
+        res.status(404).send('User does not exist.');
+      }
+    })
+  } else if(req.body.type === 'learner') {
+    // Log in a learner
+    // Check if the user exists
+    Learner.findOne({ email: req.body.email })
+    .then(user => {
+      if(user) {
+        // If there is one, check the password using bcrypt
+        bcrypt.compare(req.body.password, user.password)
+        .then(match => {
+          if(match) {
+            // TEMPORARY SOLUTION: Send a 'Logged In' message
+            res.status(200).send('Logged In!');
+          } else {
+            // Send a 'Incorrect Password' message
+            res.status(401).send('Incorrect Password')
+          }
+        })
+      } else {
+        res.status(404).send('User does not exist.');
+      }
+    })
+  }
 });
 
 module.exports = router;
