@@ -3,34 +3,34 @@ const Schema = mongoose.Schema;
 
 const instructorSchema = new Schema({
   firstName: {
-    type: string,
+    type: String,
     required: true
   },
   lastName: {
-    type: string,
+    type: String,
     required: true
   },
   email: {
-    type: string,
+    type: String,
     required: true
   },
   phone: {
-    type: string,
+    type: String,
     required: true
   },
   password: {
-    type: string,
+    type: String,
     required: true
   },
   city: {
-    type: string,
+    type: String,
     required: true
   },
   postalCode: {
-    type: number,
+    type: String,
     required: true
   }
   // Add ratings and other meta functionality.
 });
 
-module.exports = Instructor = mongoose.model('instructorSchema', instructorSchema);
+module.exports = Instructor = mongoose.model('instructors', instructorSchema);

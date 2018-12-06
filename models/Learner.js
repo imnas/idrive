@@ -3,33 +3,33 @@ const Schema = mongoose.Schema;
 
 const learnerSchema = new Schema({
   firstName: {
-    type: string,
+    type: String,
     required: true
   },
   lastName: {
-    type: string,
+    type: String,
     required: true
   },
   email: {
-    type: string,
+    type: String,
     required: true
   },
   phone: {
-    type: string,
-    required: false
+    type: String,
+    required: true
   },
   password: {
-    type: string,
+    type: String,
     required: true
   },
   city: {
-    type: string,
+    type: String,
     required: true
   },
   postalCode: {
-    type: number,
+    type: String,
     required: true
   }
 });
 
-module.exports = Learner = mongoose.model('learnerSchema', learnerSchema);
+module.exports = Learner = mongoose.model('learners', learnerSchema);
