@@ -6,6 +6,7 @@ const Learner = require('../../models/Learner');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/config');
+const passport = require('passport');
 
 // @PATH    - POST /api/auth/register
 // @ACCESS  - Public
@@ -102,6 +103,7 @@ router.post('/login', (req, res) => {
           if(match) {
             // Sign a JWT token
             const payload = {
+              id: user.id,
               firstName: user.firstName,
               lastName: user.lastName,
               city: user.city,
@@ -135,6 +137,7 @@ router.post('/login', (req, res) => {
           if(match) {
             // Sign a JWT token
             const payload = {
+              id: user.id,
               firstName: user.firstName,
               lastName: user.lastName,
               city: user.city,
@@ -157,6 +160,17 @@ router.post('/login', (req, res) => {
       }
     })
   }
+});
+
+// @PATH    - GET /api/auth/current
+// @ACCESS  - Private
+// @DESC    - Get current user's data
+router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
+  // Temporary response
+  const user = {
+    name: `${req.user.firstName} ${req.user.lastName}`
+  };
+  res.status(200).json(user);
 });
 
 module.exports = router;
