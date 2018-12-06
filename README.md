@@ -4,7 +4,7 @@
 
 ### Trello:
 
-> (https://trello.com/b/8RtVWaJR/idrive)[https://trello.com/b/8RtVWaJR/idrive]
+> [https://trello.com/b/8RtVWaJR/idrive](https://trello.com/b/8RtVWaJR/idrive)
 
 ### Scripts:
 
