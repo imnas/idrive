@@ -4,6 +4,8 @@ const router = express.Router();
 const Instructor = require('../../models/Instructor');
 const Learner = require('../../models/Learner');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const config = require('../../config/config');
 
 // @PATH    - POST /api/auth/register
 // @ACCESS  - Public
@@ -98,8 +100,20 @@ router.post('/login', (req, res) => {
         bcrypt.compare(req.body.password, user.password)
         .then(match => {
           if(match) {
-            // TEMPORARY SOLUTION: Send a 'Logged In' message
-            res.status(200).send('Logged In!');
+            // Sign a JWT token
+            const payload = {
+              firstName: user.firstName,
+              lastName: user.lastName,
+              city: user.city,
+              postalCode: user.postalCode,
+            }
+            jwt.sign(payload, config.db.secretOrKey, { expiresIn: 99999 }, (err, token) => {
+              if(err) {
+                throw err;
+              } else {
+                res.status(200).json({ success: true, token: `Bearer ${token}` });
+              }
+            });
           } else {
             // Send a 'Incorrect Password' message
             res.status(401).send('Incorrect Password')
@@ -119,8 +133,20 @@ router.post('/login', (req, res) => {
         bcrypt.compare(req.body.password, user.password)
         .then(match => {
           if(match) {
-            // TEMPORARY SOLUTION: Send a 'Logged In' message
-            res.status(200).send('Logged In!');
+            // Sign a JWT token
+            const payload = {
+              firstName: user.firstName,
+              lastName: user.lastName,
+              city: user.city,
+              postalCode: user.postalCode,
+            }
+            jwt.sign(payload, config.db.secretOrKey, { expiresIn: 99999 }, (err, token) => {
+              if(err) {
+                throw err;
+              } else {
+                res.status(200).json({ success: true, token: `Bearer ${token}` });
+              }
+            });
           } else {
             // Send a 'Incorrect Password' message
             res.status(401).send('Incorrect Password')
