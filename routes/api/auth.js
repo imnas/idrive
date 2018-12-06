@@ -164,11 +164,12 @@ router.post('/login', (req, res) => {
 
 // @PATH    - GET /api/auth/current
 // @ACCESS  - Private
-// @DESC    - Get current user's data
+// @DESC    - Get user data
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
-  // Temporary response
   const user = {
-    name: `${req.user.firstName} ${req.user.lastName}`
+    firstName: req.user.firstName,
+    lastName: req.user.lastName,
+    fullName: `${req.user.firstName} ${req.user.lastName}`
   };
   res.status(200).json(user);
 });
