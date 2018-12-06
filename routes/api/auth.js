@@ -14,7 +14,7 @@ router.post('/register', (req, res) => {
     Instructor.findOne({ email: req.body.email })
     .then(user => {
       if(user) {
-        res.sendStatus(403).json({userExists: 'User already exists.'});
+        res.status(403).send('User already exists.');
       } else {
         // Then proceed with the registration form
         const newUser = new Instructor({
@@ -49,7 +49,7 @@ router.post('/register', (req, res) => {
     Learner.findOne({ email: req.body.email })
     .then(user => {
       if(user) {
-        res.sendStatus(403).json({userExists: 'User already exists.'});
+        res.status(403).send('User already exists.');
       } else {
         // Then proceed with the registration form
         const newUser = new Learner({
