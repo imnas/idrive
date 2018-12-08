@@ -4,6 +4,7 @@ const config = require('./config/config');
 const bodyParser = require('body-parser');
 const db = require('mongoose');
 const authRoute = require('./routes/api/auth');
+const profileRoute = require('./routes/api/profile');
 const passport = require('passport');
 
 // Body Parser
@@ -25,5 +26,6 @@ require('./config/passport')(passport);
 
 // Routes
 app.use('/api/auth', authRoute);
+app.use('/api/profile', profileRoute);
 
 app.listen(config.app.port, () => console.log(`Server's running on port ${config.app.port}!`));
