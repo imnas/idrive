@@ -1,27 +1,28 @@
-const mongoose = requre('mongoose');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const instructorProfileSchema = new Schema({
   user: {
-    type: Schema.Types.ObjectId,
-    ref: 'learners'
+    type: String,
+    required: true
   },
   schedule: {
     type: Array,
     required: false
   },
-  experience: [
-    {
-      from: {
-        type: Date,
-        required: true,
-      },
-      to: {
-        type: Date || String,
-        required: true
-      }
-    }
-  ],
+  // Fix this below
+  // experience: [
+  //   {
+  //     from: {
+  //       type: Date,
+  //       required: true,
+  //     },
+  //     to: {
+  //       type: Date,
+  //       required: true
+  //     }
+  //   }
+  // ],
   proof: {
     // Set to string temporarily
     type: String,

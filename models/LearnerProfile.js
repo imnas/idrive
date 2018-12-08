@@ -1,10 +1,10 @@
-const mongoose = requre('mongoose');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const learnerProfileSchema = new Schema({
   user: {
-    type: Schema.Types.ObjectId,
-    ref: 'learners'
+    type: String,
+    required: true
   },
   profilePicture: {
     // Set to string temporarily

@@ -30,7 +30,6 @@ const instructorSchema = new Schema({
     type: String,
     required: true
   }
-  // Add ratings and other meta functionality.
 });
 
 module.exports = Instructor = mongoose.model('instructors', instructorSchema);
