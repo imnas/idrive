@@ -2,6 +2,10 @@ const mongoose = requre('mongoose');
 const Schema = mongoose.Schema;
 
 const instructorProfileSchema = new Schema({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'learners'
+  },
   schedule: {
     type: Array,
     required: false
