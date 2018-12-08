@@ -103,11 +103,10 @@ router.post('/login', (req, res) => {
           if(match) {
             // Sign a JWT token
             const payload = {
+              type: 'instructor',
               id: user.id,
               firstName: user.firstName,
-              lastName: user.lastName,
-              city: user.city,
-              postalCode: user.postalCode,
+              lastName: user.lastName
             }
             jwt.sign(payload, config.db.secretOrKey, { expiresIn: 99999 }, (err, token) => {
               if(err) {
@@ -137,6 +136,7 @@ router.post('/login', (req, res) => {
           if(match) {
             // Sign a JWT token
             const payload = {
+              type: 'learner',
               id: user.id,
               firstName: user.firstName,
               lastName: user.lastName
