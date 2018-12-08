@@ -139,9 +139,7 @@ router.post('/login', (req, res) => {
             const payload = {
               id: user.id,
               firstName: user.firstName,
-              lastName: user.lastName,
-              city: user.city,
-              postalCode: user.postalCode,
+              lastName: user.lastName
             }
             jwt.sign(payload, config.db.secretOrKey, { expiresIn: 99999 }, (err, token) => {
               if(err) {
@@ -167,9 +165,9 @@ router.post('/login', (req, res) => {
 // @DESC    - Get user data
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
   const user = {
+    id: req.user.id,
     firstName: req.user.firstName,
-    lastName: req.user.lastName,
-    fullName: `${req.user.firstName} ${req.user.lastName}`
+    lastName: req.user.lastName
   };
   res.status(200).json(user);
 });
