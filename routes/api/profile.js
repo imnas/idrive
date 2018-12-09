@@ -10,7 +10,7 @@ const LearnerProfile = require('../../models/LearnerProfile');
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
   // Check user type
   if (req.body.type === 'instructor') {
-    InstructorProfile.findById(req.body.id)
+    InstructorProfile.findOne({ user: req.body.id })
     .then(profile => {
       if(!profile) {
         res.status(404).send('Profile not found.');
@@ -19,7 +19,7 @@ router.get('/current', passport.authenticate('jwt', { session: false }), (req, r
       }
     })
   } else if (req.body.type === 'learner') {
-    LearnerProfile.findById(req.body.id)
+    LearnerProfile.findOne({ user: req.body.id })
     .then(profile => {
       if(!profile) {
         res.status(404).send('Profile not found.');
