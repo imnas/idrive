@@ -37,7 +37,7 @@ router.post('/add', passport.authenticate('jwt', { session: false }), (req, res)
   // Check user type
   if (req.body.type === 'instructor') {
     // Check if a profile exists
-    Profile.findOne({ user: req.user.id })
+    InstructorProfile.findOne({ user: req.user.id })
     .then(profile => {
       if(!profile) {
         const newProfile = new InstructorProfile({
@@ -54,7 +54,7 @@ router.post('/add', passport.authenticate('jwt', { session: false }), (req, res)
     })
   } else if (req.body.type === 'learner') {
     // Check if a profile exists
-    Profile.findOne({ user: req.user.id })
+    LearnerProfile.findOne({ user: req.user.id })
     .then(profile => {
       if(!profile) {
         const newProfile = new LearnerProfile({
