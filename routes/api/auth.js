@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/config');
 const passport = require('passport');
+const inputValidation = require('../../utils/inputValidation');
 
 // @PATH    - POST /api/auth/register
 // @ACCESS  - Public
@@ -21,31 +22,37 @@ router.post('/register', (req, res) => {
       if(user) {
         res.status(403).send('User already exists.');
       } else {
-        // Then proceed with the registration form
-        const newUser = new Instructor({
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          email: req.body.email,
-          phone: req.body.phone,
-          password: req.body.password,
-          city: req.body.city,
-          postalCode: req.body.postalCode
-        });
-        bcrypt.genSalt(10, (err, salt) => {
-          if(err) {
-            throw err;
-          } else {
-            bcrypt.hash(newUser.password, salt, (err, hash) => {
-              if(err) {
-                throw err;
-              } else {
-                newUser.password = hash;
-                newUser.save();
-                res.json(newUser);
-              }
-            })
-          }
-        })
+        // Check if the user input is valid
+        const isValid = inputValidation.validateRegistrationForm(req.body);
+        if(isValid === true) {
+          // Then proceed with the registration form
+          const newUser = new Instructor({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            phone: req.body.phone,
+            password: req.body.password,
+            city: req.body.city,
+            postalCode: req.body.postalCode
+          });
+          bcrypt.genSalt(10, (err, salt) => {
+            if(err) {
+              throw err;
+            } else {
+              bcrypt.hash(newUser.password, salt, (err, hash) => {
+                if(err) {
+                  throw err;
+                } else {
+                  newUser.password = hash;
+                  newUser.save();
+                  res.json(newUser);
+                }
+              })
+            }
+          })
+        } else {
+          res.status(400).json(isValid);
+        }
       }
     })
   } else if(req.body.type === 'learner') {
@@ -56,7 +63,10 @@ router.post('/register', (req, res) => {
       if(user) {
         res.status(403).send('User already exists.');
       } else {
-        // Then proceed with the registration form
+        // Check if the user input is valid
+        const isValid = inputValidation.validateRegistrationForm(req.body);
+        if(isValid === true) {
+          // Then proceed with the registration form
         const newUser = new Learner({
           firstName: req.body.firstName,
           lastName: req.body.lastName,
@@ -81,6 +91,9 @@ router.post('/register', (req, res) => {
             })
           }
         })
+        } else {
+          res.status(400).json(isValid);
+        }
       }
     })
   }
