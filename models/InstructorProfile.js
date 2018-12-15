@@ -10,19 +10,17 @@ const instructorProfileSchema = new Schema({
     type: Array,
     required: false
   },
-  // Fix this below
-  // experience: [
-  //   {
-  //     from: {
-  //       type: Date,
-  //       required: true,
-  //     },
-  //     to: {
-  //       type: Date,
-  //       required: true
-  //     }
-  //   }
-  // ],
+  experience: [
+    {
+      from: {
+        type: Date,
+        required: true,
+      },
+      to: {
+        type: Date,
+      }
+    }
+  ],
   proof: {
     // Set to string temporarily
     type: String,

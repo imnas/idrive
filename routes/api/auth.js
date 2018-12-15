@@ -17,15 +17,56 @@ router.post('/register', (req, res) => {
     // Register an instructor
     // Check if the user exists
     Instructor.findOne({ email: req.body.email })
-    .then(user => {
-      if(user) {
-        res.status(403).send('User already exists.');
-      } else {
-        // Check if the user input is valid
-        const isValid = inputValidation.validateRegistrationForm(req.body);
-        if(isValid === true) {
-          // Then proceed with the registration form
-          const newUser = new Instructor({
+      .then(user => {
+        if(user) {
+          res.status(403).send('User already exists.');
+        } else {
+          // Check if the user input is valid
+          const isValid = inputValidation.validateRegistrationForm(req.body);
+          if(isValid === true) {
+            // Then proceed with the registration form
+            const newUser = new Instructor({
+              firstName: req.body.firstName,
+              lastName: req.body.lastName,
+              email: req.body.email,
+              phone: req.body.phone,
+              password: req.body.password,
+              city: req.body.city,
+              postalCode: req.body.postalCode
+            });
+            bcrypt.genSalt(10, (err, salt) => {
+              if(err) {
+                throw err;
+              } else {
+                bcrypt.hash(newUser.password, salt, (err, hash) => {
+                  if(err) {
+                    throw err;
+                  } else {
+                    newUser.password = hash;
+                    newUser.save();
+                    res.json(newUser);
+                  }
+                })
+              }
+            })
+          } else {
+            res.status(400).json(isValid);
+          }
+        }
+      })
+  } else if(req.body.type === 'learner') {
+    // Register a learner
+    // Check for an existing user
+    Learner.findOne({ email: req.body.email })
+      .then(user => {
+        if(user) {
+          res.status(403).send('User already exists.');
+        } else {
+          // Check if the user input is valid
+          const isValid = inputValidation.validateRegistrationForm(req.body);
+          if(isValid === true) {
+            // Then proceed with the registration form
+          const newUser = new Learner({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
@@ -49,52 +90,11 @@ router.post('/register', (req, res) => {
               })
             }
           })
-        } else {
-          res.status(400).json(isValid);
-        }
-      }
-    })
-  } else if(req.body.type === 'learner') {
-    // Register a learner
-    // Check for an existing user
-    Learner.findOne({ email: req.body.email })
-    .then(user => {
-      if(user) {
-        res.status(403).send('User already exists.');
-      } else {
-        // Check if the user input is valid
-        const isValid = inputValidation.validateRegistrationForm(req.body);
-        if(isValid === true) {
-          // Then proceed with the registration form
-        const newUser = new Learner({
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          email: req.body.email,
-          phone: req.body.phone,
-          password: req.body.password,
-          city: req.body.city,
-          postalCode: req.body.postalCode
-        });
-        bcrypt.genSalt(10, (err, salt) => {
-          if(err) {
-            throw err;
           } else {
-            bcrypt.hash(newUser.password, salt, (err, hash) => {
-              if(err) {
-                throw err;
-              } else {
-                newUser.password = hash;
-                newUser.save();
-                res.json(newUser);
-              }
-            })
+            res.status(400).json(isValid);
           }
-        })
-        } else {
-          res.status(400).json(isValid);
         }
-      }
-    })
+      })
   }
 });
 
@@ -111,22 +111,22 @@ router.post('/login', (req, res) => {
       if(user) {
         // If there is one, check the password using bcrypt
         bcrypt.compare(req.body.password, user.password)
-        .then(match => {
-          if(match) {
-            // Sign a JWT token
-            const payload = {
-              type: 'instructor',
-              id: user.id,
-              firstName: user.firstName,
-              lastName: user.lastName
-            }
-            jwt.sign(payload, config.db.secretOrKey, { expiresIn: 99999 }, (err, token) => {
-              if(err) {
-                throw err;
-              } else {
-                res.status(200).json({ success: true, token: `Bearer ${token}` });
+          .then(match => {
+            if(match) {
+              // Sign a JWT token
+              const payload = {
+                type: 'instructor',
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName
               }
-            });
+              jwt.sign(payload, config.db.secretOrKey, { expiresIn: 99999 }, (err, token) => {
+                if(err) {
+                  throw err;
+                } else {
+                  res.status(200).json({ success: true, token: `Bearer ${token}` });
+                }
+              });
           } else {
             // Send a 'Incorrect Password' message
             res.status(401).send('Incorrect Password')
@@ -144,27 +144,27 @@ router.post('/login', (req, res) => {
       if(user) {
         // If there is one, check the password using bcrypt
         bcrypt.compare(req.body.password, user.password)
-        .then(match => {
-          if(match) {
-            // Sign a JWT token
-            const payload = {
-              type: 'learner',
-              id: user.id,
-              firstName: user.firstName,
-              lastName: user.lastName
-            }
-            jwt.sign(payload, config.db.secretOrKey, { expiresIn: 99999 }, (err, token) => {
-              if(err) {
-                throw err;
-              } else {
-                res.status(200).json({ success: true, token: `Bearer ${token}` });
+          .then(match => {
+            if(match) {
+              // Sign a JWT token
+              const payload = {
+                type: 'learner',
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName
               }
-            });
-          } else {
-            // Send a 'Incorrect Password' message
-            res.status(401).send('Incorrect Password')
-          }
-        })
+              jwt.sign(payload, config.db.secretOrKey, { expiresIn: 99999 }, (err, token) => {
+                if(err) {
+                  throw err;
+                } else {
+                  res.status(200).json({ success: true, token: `Bearer ${token}` });
+                }
+              });
+            } else {
+              // Send a 'Incorrect Password' message
+              res.status(401).send('Incorrect Password')
+            }
+          })
       } else {
         res.status(404).send('User does not exist.');
       }

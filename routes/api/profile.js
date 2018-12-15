@@ -11,22 +11,22 @@ router.get('/current', passport.authenticate('jwt', { session: false }), (req, r
   // Check user type
   if (req.body.type === 'instructor') {
     InstructorProfile.findOne({ user: req.body.id })
-    .then(profile => {
-      if(!profile) {
-        res.status(404).send('Profile not found.');
-      } else {
-        res.status(200).json(profile);
-      }
-    })
+      .then(profile => {
+        if(!profile) {
+          res.status(404).send('Profile not found.');
+        } else {
+          res.status(200).json(profile);
+        }
+      })
   } else if (req.body.type === 'learner') {
     LearnerProfile.findOne({ user: req.body.id })
-    .then(profile => {
-      if(!profile) {
-        res.status(404).send('Profile not found.');
-      } else {
-        res.status(200).json(profile);
-      }
-    })
+      .then(profile => {
+        if(!profile) {
+          res.status(404).send('Profile not found.');
+        } else {
+          res.status(200).json(profile);
+        }
+      })
   }
 });
 
@@ -38,34 +38,58 @@ router.post('/add', passport.authenticate('jwt', { session: false }), (req, res)
   if (req.body.type === 'instructor') {
     // Check if a profile exists
     InstructorProfile.findOne({ user: req.user.id })
-    .then(profile => {
-      if(!profile) {
-        const newProfile = new InstructorProfile({
-          // Add experience and similar meta data
-          user: req.body.user,
-          proof: req.body.proof,
-          profilePicture: req.body.profilePicture
-        });
-        newProfile.save();
-        res.status(200).json(newProfile);
-      } else {
-        res.status(401).send('You already have a profile.');
-      }
-    })
+      .then(profile => {
+        if(!profile) {
+          const newProfile = new InstructorProfile({
+            // Add experience and similar meta data
+            user: req.body.user,
+            proof: req.body.proof,
+            profilePicture: req.body.profilePicture
+          });
+          newProfile.save();
+          res.status(200).json(newProfile);
+        } else {
+          res.status(401).send('You already have a profile.');
+        }
+      })
   } else if (req.body.type === 'learner') {
     // Check if a profile exists
     LearnerProfile.findOne({ user: req.user.id })
-    .then(profile => {
-      if(!profile) {
-        const newProfile = new LearnerProfile({
-          profilePicture: req.body.profilePicture
-        });
-        newProfile.save();
-        res.status(200).json(newProfile);
-      } else {
-        res.status(401).send('You already have a profile.');
-      }
-    })
+      .then(profile => {
+        if(!profile) {
+          const newProfile = new LearnerProfile({
+            profilePicture: req.body.profilePicture
+          });
+          newProfile.save();
+          res.status(200).json(newProfile);
+        } else {
+          res.status(401).send('You already have a profile.');
+        }
+      })
+  }
+});
+
+// @PATH    - PUT /api/profile/experience
+// @ACCESS  - Private
+// @DESC    - Add experience to instructor profiles
+router.put('/experience', passport.authenticate('jwt', { session: false }), (req, res) => {
+  if(req.body.type !== 'instructor') {
+    res.status(401).send('Unauthorized.')
+  } else {
+    InstructorProfile.findOne({ user: req.body.id })
+      .then(profile => {
+        if(!profile) {
+        res.status(404).send('Profile not found.');
+        } else {
+          const newExp = {
+            from: req.body.from,
+            to: req.body.to
+          };
+          profile.experience.push(newExp)
+            .save()
+            .then(profile => res.json(profile));
+        }
+      })
   }
 });
 
