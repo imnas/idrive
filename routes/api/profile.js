@@ -4,7 +4,7 @@ const passport = require('passport');
 const InstructorProfile = require('../../models/InstructorProfile');
 const LearnerProfile = require('../../models/LearnerProfile');
 
-// @PATH    - GET /api/profile/all
+// @PATH    - GET /api/profile/current
 // @ACCESS  - Private
 // @DESC    - Get current users profile
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -68,35 +68,5 @@ router.post('/add', passport.authenticate('jwt', { session: false }), (req, res)
     })
   }
 });
-
-// @PATH    - PUT /api/profile/edit
-// @ACCESS  - Private
-// @DESC    - Edit a profile
-router.put('/edit', passport.authenticate('jwt', { session: false }), (req, res) => {
-  // Check user type
-  if (req.body.type === 'instructor') {
-    // Values for editing the profile are saved here
-    const profileKey = req.body.key;
-    const keyValue = req.body.value; 
-    LearnerProfile.findOneAndUpdate({ user: req.body.id }, { profileKey: keyValue }, (err, editedProfile) => {
-      if(err) {
-        res.status(400).send('An error has occured.');
-      } else {
-        res.status(200).json(editedProfile);
-      }
-    });
-  } else if (req.body.type === 'learner') {
-    // Values for editing the profile are saved here
-    const profileKey = req.body.key;
-    const keyValue = req.body.value; 
-    LearnerProfile.findOneAndUpdate({ user: req.body.id }, { profileKey: keyValue }, (err, editedProfile) => {
-      if(err) {
-        res.status(400).send('An error has occured.');
-      } else {
-        res.status(200).json(editedProfile);
-      }
-    });
-  }
-})
 
 module.exports = router;
