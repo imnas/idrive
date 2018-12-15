@@ -1,4 +1,3 @@
-// TODO: Implement validation and cross-checking different account types
 const express = require('express');
 const router = express.Router();
 const Instructor = require('../../models/Instructor');

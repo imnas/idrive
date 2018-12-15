@@ -75,22 +75,26 @@ router.post('/add', passport.authenticate('jwt', { session: false }), (req, res)
 router.put('/edit', passport.authenticate('jwt', { session: false }), (req, res) => {
   // Check user type
   if (req.body.type === 'instructor') {
-    InstructorProfile.findOneAndUpdate({ user: req.body.id })
-    .then(profile => {
-      if(profile) {
-        // Edit the profile here
+    // Values for editing the profile are saved here
+    const profileKey = req.body.key;
+    const keyValue = req.body.value; 
+    LearnerProfile.findOneAndUpdate({ user: req.body.id }, { profileKey: keyValue }, (err, editedProfile) => {
+      if(err) {
+        res.status(400).send('An error has occured.');
       } else {
-        res.status(404).send('Profile not found.');
-      };
+        res.status(200).json(editedProfile);
+      }
     });
   } else if (req.body.type === 'learner') {
-    LearnerProfile.findOneAndUpdate({ user: req.body.id })
-    .then(profile => {
-      if(profile) {
-        // Edit the profile here
+    // Values for editing the profile are saved here
+    const profileKey = req.body.key;
+    const keyValue = req.body.value; 
+    LearnerProfile.findOneAndUpdate({ user: req.body.id }, { profileKey: keyValue }, (err, editedProfile) => {
+      if(err) {
+        res.status(400).send('An error has occured.');
       } else {
-        res.status(404).send('Profile not found.');
-      };
+        res.status(200).json(editedProfile);
+      }
     });
   }
 })
