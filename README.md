@@ -8,4 +8,6 @@
 
 ### Scripts:
 
-- `npm run dev` - Runs the Express Server using Nodemon
+- `./autocommit.sh` - Runs the bash script for pushing to the repository.
+
+- `npm run dev` - Runs the Express Server using Nodemon.
