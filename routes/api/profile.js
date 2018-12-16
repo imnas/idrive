@@ -73,23 +73,22 @@ router.post('/add', passport.authenticate('jwt', { session: false }), (req, res)
 // @ACCESS  - Private
 // @DESC    - Add experience to instructor profiles
 router.put('/experience', passport.authenticate('jwt', { session: false }), (req, res) => {
-  if(req.body.type !== 'instructor') {
-    res.status(401).send('Unauthorized.')
-  } else {
+  if(req.body.type === 'instructor') {
     InstructorProfile.findOne({ user: req.body.id })
-      .then(profile => {
-        if(!profile) {
-        res.status(404).send('Profile not found.');
-        } else {
-          const newExp = {
-            from: req.body.from,
-            to: req.body.to
-          };
-          profile.experience.push(newExp)
-            .save()
-            .then(profile => res.json(profile));
-        }
-      })
+    .then(profile => {
+      if(!profile) {
+      res.status(404).send('Profile not found.');
+      } else {
+        const newExp = {
+          from: req.body.from
+        };
+        profile.experience = (newExp)
+        profile.save()
+        res.json(profile)
+      }
+    })
+  } else {
+    res.status(401).send('Unauthorized.')
   }
 });
 
