@@ -3,9 +3,11 @@
 
 commitMessage = ''
 
-git add .
+echo "Commit Message:"
 read commitMessage
-git commit -m '${commitMessage}'
+
+git add .
+git commit -m '"${commitMessage}"'
 git push
 
 echo 'You have succesfully pushed to GitHub!'
