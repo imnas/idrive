@@ -82,13 +82,13 @@ router.put('/experience', passport.authenticate('jwt', { session: false }), (req
         const newExp = {
           from: req.body.from
         };
-        profile.experience = (newExp)
-        profile.save()
-        res.json(profile)
+        profile.experience = (newExp);
+        profile.save();
+        res.json(profile);
       }
     })
   } else {
-    res.status(401).send('Unauthorized.')
+    res.status(401).send('Unauthorized.');
   }
 });
 
