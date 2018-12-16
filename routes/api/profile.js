@@ -92,4 +92,29 @@ router.put('/experience', passport.authenticate('jwt', { session: false }), (req
   }
 });
 
+// @PATH    - PUT /api/profile/schedule
+// @ACCESS  - Private
+// @DESC    - Push reminders to instructors schedules
+router.put('/schedule', passport.authenticate('jwt', { session: false }), (req, res) => {
+  if(req.body.type === 'instructor') {
+    InstructorProfile.findOne({ user: req.body.id })
+    .then(profile => {
+      if(!profile) {
+      res.status(404).send('Profile not found.');
+      } else {
+        const newReminder = {
+          time: req.body.time,
+          note: req.body.note
+        };
+        profile.experience.push(newReminder)
+        profile.save();
+        res.json(profile);
+      }
+    })
+  } else {
+    res.status(401).send('Unauthorized.');
+  }
+});
+
+
 module.exports = router;
