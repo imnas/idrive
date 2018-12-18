@@ -4,8 +4,10 @@
   "description": "TBA",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server",
-    "git": "autocommit.sh"
+    "prep": "npm install && npm install --prefix client",
+    "client": "npm start --prefix client",
+    "server": "nodemon server",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
