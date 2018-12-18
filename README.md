@@ -21,3 +21,22 @@
 - `npm run server` - Runs the Express server using Nodemon.
 
 - `npm run dev` - Runs both the React and Express servers concurrently.
+
+
+### API Endpoints:
+
+- `POST /api/auth/register` - Registers a new user.
+ 
+- `POST /api/auth/login` - Logs in a user.
+
+- `GET /api/auth/current` - Gets the data for the user.
+
+- `GET /api/profile/current` - Gets the extended user data.
+
+- `POST /api/profile/add` - Adds the necessary data to the user profile.
+
+- `PUT /api/profile/experience` - Adds the experience data to instructors.
+
+- `PUT /api/profile/schedule` - Push reminders to instructors schedules.
+
+- `DELETE /api/profile/schedule` - Delete reminders.
