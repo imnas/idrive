@@ -118,7 +118,7 @@ router.put('/schedule', passport.authenticate('jwt', { session: false }), (req, 
 
 // @PATH    - DELETE /api/profile/schedule
 // @ACCESS  - Private
-// @DESC    - Push reminders to instructors schedules
+// @DESC    - Delete reminders
 router.delete('/schedule', passport.authenticate('jwt', { session: false }), (req, res) => {
   if(req.body.type === 'instructor') {
     InstructorProfile.findOne({ user: req.body.id })
