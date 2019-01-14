@@ -61,12 +61,12 @@ router.get('/:type/:id/current', passport.authenticate('jwt', {
         InstructorProfile.findOne({
                 user: req.params.id
             })
-            .then(user => {
-                if (user) {
+            .then(profile => {
+                if (profile) {
                     const instructor = {
-                        profilePicture: user.profilePicture,
-                        biography: user.biography,
-                        experience: user.experience
+                        profilePicture: profile.profilePicture,
+                        biography: profile.biography,
+                        experience: profile.experience
                     };
                     return res.status(200).json(instructor);
                 } else {
@@ -74,11 +74,11 @@ router.get('/:type/:id/current', passport.authenticate('jwt', {
                 }
             })
     } else if (req.params.type = 'learner') {
-        LearnerProfile.findById(req.params.id)
-            .then(user => {
-                if (user) {
+        LearnerProfile.findOne({ user: req.params.id })
+            .then(profile => {
+                if (profile) {
                     const learner = {
-                        profilePicture: user.profilePicture
+                        profilePicture: profile.profilePicture
                     };
                     return res.status(200).json(learner);
                 } else {
