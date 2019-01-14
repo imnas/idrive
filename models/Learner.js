@@ -29,6 +29,10 @@ const learnerSchema = new Schema({
   postalCode: {
     type: String,
     required: true
+  },
+  address: {
+    type: String,
+    required: true
   }
 });
 
