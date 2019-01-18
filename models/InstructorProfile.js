@@ -10,18 +10,16 @@ const instructorProfileSchema = new Schema({
     type: Array,
     required: false
   },
-  experience: [
-    {
-      from: {
-        type: Date,
-        required: true,
-      },
-      to: {
-        type: Date,
-        default: Date.now
-      }
+  experience: [{
+    from: {
+      type: Date,
+      required: true,
+    },
+    to: {
+      type: Date,
+      default: Date.now
     }
-  ],
+  }],
   proof: {
     // Set to string temporarily - Change to file type
     type: String,
@@ -35,10 +33,6 @@ const instructorProfileSchema = new Schema({
   biography: {
     type: String,
     required: false
-  },
-  created: {
-    type: Date,
-    default: Date.now
   }
 });
 

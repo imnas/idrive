@@ -24,7 +24,8 @@ router.get('/:handle', passport.authenticate('jwt', {
                     phone: user.phone,
                     city: user.city,
                     postalCode: user.postalCode,
-                    address: user.address
+                    address: user.address,
+                    created: user.created
                 };
                 return res.status(200).json(instructor);
             } else {
@@ -40,7 +41,8 @@ router.get('/:handle', passport.authenticate('jwt', {
                                 phone: user.phone,
                                 city: user.city,
                                 postalCode: user.postalCode,
-                                address: user.address
+                                address: user.address,
+                                created: user.created
                             };
                             return res.status(200).json(learner);
                         } else {
@@ -65,8 +67,7 @@ router.get('/:handle/profile', passport.authenticate('jwt', {
                 const instructor = {
                     profilePicture: profile.profilePicture,
                     biography: profile.biography,
-                    experience: profile.experience,
-                    created: profile.created
+                    experience: profile.experience
                 };
                 return res.status(200).json(instructor);
             } else {
@@ -76,8 +77,7 @@ router.get('/:handle/profile', passport.authenticate('jwt', {
                     .then(profile => {
                         if (profile) {
                             const learner = {
-                                profilePicture: profile.profilePicture,
-                                created: profile.created
+                                profilePicture: profile.profilePicture
                             };
                             return res.status(200).json(learner);
                         } else {

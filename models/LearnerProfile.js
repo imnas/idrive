@@ -10,10 +10,6 @@ const learnerProfileSchema = new Schema({
     // Set to string temporarily - Change to file type
     type: String,
     required: true
-  },
-  created: {
-    type: Date,
-    default: Date.now
   }
 });
 
