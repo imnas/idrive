@@ -44,7 +44,11 @@ router.post('/add', passport.authenticate('jwt', { session: false }), (req, res)
             // Add experience and similar meta data
             user: req.body.user,
             proof: req.body.proof,
-            profilePicture: req.body.profilePicture
+            profilePicture: req.body.profilePicture,
+            experience: {
+              from: req.body.from,
+              to: req.body.to
+            }
           });
           newProfile.save();
           res.status(200).json(newProfile);
@@ -98,6 +102,13 @@ router.put('/experience', passport.authenticate('jwt', { session: false }), (req
 router.get('/schedule', passport.authenticate('jwt', { session: false }), (req, res) => {
   if (req.body.type === 'instructor') {
     InstructorProfile.findById(req.user.id)
+      .then(profile => {
+        if (!profile) {
+          return res.status(404).send('Profile not found.');
+        } else {
+          return res.status(200).json(profile.schedule);
+        }
+      })
   }
 });
 

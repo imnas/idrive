@@ -64,7 +64,8 @@ router.get('/:type/:id/current', passport.authenticate('jwt', {
                     const instructor = {
                         profilePicture: profile.profilePicture,
                         biography: profile.biography,
-                        experience: profile.experience
+                        experience: profile.experience,
+                        created: profile.created
                     };
                     return res.status(200).json(instructor);
                 } else {
@@ -76,7 +77,8 @@ router.get('/:type/:id/current', passport.authenticate('jwt', {
             .then(profile => {
                 if (profile) {
                     const learner = {
-                        profilePicture: profile.profilePicture
+                        profilePicture: profile.profilePicture,
+                        created: profile.created
                     };
                     return res.status(200).json(learner);
                 } else {
