@@ -165,7 +165,7 @@ router.post('/login', (req, res) => {
                 }
               });
             } else {
-              // Send a 'Incorrect Password' message
+              // Send an 'Incorrect Password' message
               res.status(401).send('Incorrect Password')
             }
           })

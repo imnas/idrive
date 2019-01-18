@@ -10,7 +10,7 @@ const LearnerProfile = require('../../models/LearnerProfile');
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
   // Check user type
   if (req.body.type === 'instructor') {
-    InstructorProfile.findOne({ user: req.body.id })
+    InstructorProfile.findById(req.user.id)
       .then(profile => {
         if(!profile) {
           res.status(404).send('Profile not found.');
@@ -37,7 +37,7 @@ router.post('/add', passport.authenticate('jwt', { session: false }), (req, res)
   // Check user type
   if (req.body.type === 'instructor') {
     // Check if a profile exists
-    InstructorProfile.findOne({ user: req.user.id })
+    InstructorProfile.findById(req.user.id)
       .then(profile => {
         if(!profile) {
           const newProfile = new InstructorProfile({
@@ -54,7 +54,7 @@ router.post('/add', passport.authenticate('jwt', { session: false }), (req, res)
       })
   } else if (req.body.type === 'learner') {
     // Check if a profile exists
-    LearnerProfile.findOne({ user: req.user.id })
+    LearnerProfile.findById(req.user.id)
       .then(profile => {
         if(!profile) {
           const newProfile = new LearnerProfile({
@@ -74,7 +74,7 @@ router.post('/add', passport.authenticate('jwt', { session: false }), (req, res)
 // @DESC    - Add experience to instructor profiles
 router.put('/experience', passport.authenticate('jwt', { session: false }), (req, res) => {
   if(req.body.type === 'instructor') {
-    InstructorProfile.findOne({ user: req.body.id })
+    InstructorProfile.findById(req.user.id)
     .then(profile => {
       if(!profile) {
       res.status(404).send('Profile not found.');
@@ -92,12 +92,21 @@ router.put('/experience', passport.authenticate('jwt', { session: false }), (req
   }
 });
 
+// @PATH    - GET /api/profile/schedule
+// @ACCESS  - Private
+// @DESC    - Get instructor schedule
+router.get('/schedule', passport.authenticate('jwt', { session: false }), (req, res) => {
+  if (req.body.type === 'instructor') {
+    InstructorProfile.findById(req.user.id)
+  }
+});
+
 // @PATH    - PUT /api/profile/schedule
 // @ACCESS  - Private
 // @DESC    - Push reminders to instructors schedules
 router.put('/schedule', passport.authenticate('jwt', { session: false }), (req, res) => {
   if(req.body.type === 'instructor') {
-    InstructorProfile.findOne({ user: req.body.id })
+    InstructorProfile.findById(req.user.id)
     .then(profile => {
       if(!profile) {
       res.status(404).send('Profile not found.');
@@ -121,7 +130,7 @@ router.put('/schedule', passport.authenticate('jwt', { session: false }), (req, 
 // @DESC    - Delete reminders
 router.delete('/schedule/:index', passport.authenticate('jwt', { session: false }), (req, res) => {
   if(req.body.type === 'instructor') {
-    InstructorProfile.findOne({ user: req.body.id })
+    InstructorProfile.findById(req.user.id)
     .then(profile => {
       if(!profile) {
       res.status(404).send('Profile not found.');
