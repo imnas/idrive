@@ -14,7 +14,7 @@ const CrossValidation = require('../../utils/CrossValidation');
 // @DESC    - Register a new user
 router.post('/register', (req, res) => {
   // Check if an user is registered with the same email address within either the instructor or learner table
-  const isRegistered = CrossValidation(req.body);
+  const isRegistered = CrossValidation.crossCheck(req.body);
   if (isRegistered === true) {
     // Check what's the user type
     if (req.body.type === 'instructor') {
@@ -109,6 +109,7 @@ router.post('/register', (req, res) => {
         })
     }
   } else {
+    console.log(isRegistered);
     return res.status(403).json(isRegistered);
   }
 });

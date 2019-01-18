@@ -1,31 +1,40 @@
 const Instructor = require('../models/Instructor');
 const Learner = require('../models/Learner');
 
-module.exports = (data) => {
-    let errors = {};
-    const {
-        email
-    } = data;
-    Instructor.findOne({
-            email: email
-        })
-        .then(user => {
-            if (user) {
-                errors.instructorExists = 'This Email Address Has An Account Registered To It.';
-            } else {
-                Learner.findOne({
-                        email: email
-                    })
-                    .then(user => {
-                        if (user) {
-                            errors.learnerExists = 'This Email Address Has An Account Registered To It.';
-                        }
-                    })
-            }
-        })
-    if (Reflect.ownKeys(errors).length > 0) {
-        return errors;
-    } else {
-        return true;
+module.exports = {
+    checkInstructor(data) {
+        Instructor.findOne({
+                email: data.email
+            })
+            .then(user => {
+                if (user) {
+                    return false;
+                } else {
+                    return true;
+                }
+            })
+            .catch(err => console.log(err))
+    },
+    checkLearner(data) {
+        Learner.findOne({
+                email: data.email
+            })
+            .then(user => {
+                if (user) {
+                    return false;
+                } else {
+                    return true;
+                }
+            })
+            .catch(err => console.log(err))
+    },
+    crossCheck(data) {
+        const instructorResult = this.checkInstructor(data);
+        const learnerResult = this.checkLearner(data);
+        if (instructorResult === true && learnerResult === true) {
+            return true;
+        } else {
+            return 'This email is already in use.';
+        }
     }
 };
