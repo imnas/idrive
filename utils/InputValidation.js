@@ -43,4 +43,21 @@ module.exports = {
       return true;
     }
   },
+  validateLoginForm(data) {
+    let errors = {};
+    if(Validator.isEmpty(data.email)) {
+      errors.emailEmpty = 'Email Field Is Required.';
+    }
+    if(!Validator.isEmail(data.email)) {
+      errors.emailInvalid = 'Email Address Is Not Valid.';
+    }
+    if(Validator.isEmpty(data.password)) {
+      errors.passwordEmpty = 'Password Field Is Required.';
+    }
+    if(Reflect.ownKeys(errors).length >= 1) {
+      return errors;
+    } else {
+      return true;
+    }
+  }
 }
