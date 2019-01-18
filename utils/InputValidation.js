@@ -34,7 +34,10 @@ module.exports = {
     if(Validator.isEmpty(data.postalCode)) {
       errors.postalCodeEmpty = 'Postal Code Field Is Required.';
     }
-    if(errors.firstNameEmpty || errors.lastNameEmpty || errors.passwordEmpty || errors.passwordLength || errors.passwordNotMatching || errors.emailEmpty || errors.emailInvalid || errors.phoneEmpty || errors.cityEmpty || errors.postalCodeEmpty) {
+    if(Validator.isEmpty(data.address)) {
+      errors.addressEmpty = 'Address Field Is Required.';
+    }
+    if(Reflect.ownKeys(errors).length >= 1) {
       return errors;
     } else {
       return true;
