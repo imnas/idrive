@@ -7,9 +7,13 @@ const learnerProfileSchema = new Schema({
     required: true
   },
   profilePicture: {
-    // Set to string temporarily
+    // Set to string temporarily - Change to file type
     type: String,
     required: true
+  },
+  created: {
+    type: Date,
+    default: Date.now
   }
 });
 

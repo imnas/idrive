@@ -15,22 +15,30 @@ const instructorProfileSchema = new Schema({
       from: {
         type: Date,
         required: true,
+      },
+      to: {
+        type: Date,
+        default: Date.now
       }
     }
   ],
   proof: {
-    // Set to string temporarily
+    // Set to string temporarily - Change to file type
     type: String,
     required: true
   },
   profilePicture: {
-    // Set to string temporarily
+    // Set to string temporarily - Change to file type
     type: String,
     required: true
   },
   biography: {
     type: String,
     required: false
+  },
+  created: {
+    type: Date,
+    default: Date.now
   }
 });
 
