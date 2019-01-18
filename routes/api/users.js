@@ -70,7 +70,7 @@ router.get('/:type/:id/current', passport.authenticate('jwt', {
                     };
                     return res.status(200).json(instructor);
                 } else {
-                    return res.status(404).send('Instructor not found.');
+                    return res.status(404).send('Profile not found.');
                 }
             })
     } else if (req.params.type = 'learner') {
@@ -84,7 +84,7 @@ router.get('/:type/:id/current', passport.authenticate('jwt', {
                     };
                     return res.status(200).json(learner);
                 } else {
-                    return res.status(404).send('Learner not found.');
+                    return res.status(404).send('Profile not found.');
                 }
             })
     }
