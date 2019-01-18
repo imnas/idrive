@@ -58,9 +58,7 @@ router.get('/:type/:id/current', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
     if (req.params.type === 'instructor') {
-        InstructorProfile.findOne({
-                user: req.params.id
-            })
+        InstructorProfile.findById(req.user.id)
             .then(profile => {
                 if (profile) {
                     const instructor = {
@@ -74,9 +72,7 @@ router.get('/:type/:id/current', passport.authenticate('jwt', {
                 }
             })
     } else if (req.params.type = 'learner') {
-        LearnerProfile.findOne({
-                user: req.params.id
-            })
+        LearnerProfile.findById(req.user.id)
             .then(profile => {
                 if (profile) {
                     const learner = {

@@ -19,7 +19,7 @@ router.get('/current', passport.authenticate('jwt', { session: false }), (req, r
         }
       })
   } else if (req.body.type === 'learner') {
-    LearnerProfile.findOne({ user: req.body.id })
+    LearnerProfile.findById(req.user.id)
       .then(profile => {
         if(!profile) {
           res.status(404).send('Profile not found.');
