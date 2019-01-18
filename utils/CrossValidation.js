@@ -31,10 +31,10 @@ module.exports = {
     crossCheck(data) {
         const instructorResult = this.checkInstructor(data);
         const learnerResult = this.checkLearner(data);
-        if (instructorResult === true && learnerResult === true) {
-            return true;
-        } else {
+        if (instructorResult === false || learnerResult === false) {
             return 'This email is already in use.';
+        } else {
+            return true;
         }
     }
 };

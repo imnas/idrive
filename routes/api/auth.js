@@ -109,7 +109,6 @@ router.post('/register', (req, res) => {
         })
     }
   } else {
-    console.log(isRegistered);
     return res.status(403).json(isRegistered);
   }
 });
