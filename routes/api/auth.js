@@ -32,7 +32,8 @@ router.post('/register', (req, res) => {
               phone: req.body.phone,
               password: req.body.password,
               city: req.body.city,
-              postalCode: req.body.postalCode
+              postalCode: req.body.postalCode,
+              address: req.body.address,
             });
             bcrypt.genSalt(10, (err, salt) => {
               if(err) {
@@ -73,7 +74,8 @@ router.post('/register', (req, res) => {
             phone: req.body.phone,
             password: req.body.password,
             city: req.body.city,
-            postalCode: req.body.postalCode
+            postalCode: req.body.postalCode,
+            address: req.body.address
           });
           bcrypt.genSalt(10, (err, salt) => {
             if(err) {
