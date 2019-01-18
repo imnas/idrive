@@ -10,6 +10,10 @@ const learnerSchema = new Schema({
     type: String,
     required: true
   },
+  handle: {
+    type: String,
+    required: true
+  },
   email: {
     type: String,
     required: true

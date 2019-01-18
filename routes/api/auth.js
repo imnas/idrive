@@ -28,6 +28,7 @@ router.post('/register', (req, res) => {
             const newUser = new Instructor({
               firstName: req.body.firstName,
               lastName: req.body.lastName,
+              handle: `${req.body.firstName.toLowerCase()}-${req.body.lastName.toLowerCase()}`,
               email: req.body.email,
               phone: req.body.phone,
               password: req.body.password,
@@ -70,6 +71,7 @@ router.post('/register', (req, res) => {
           const newUser = new Learner({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
+            handle: `${req.body.firstName.toLowerCase()}-${req.body.lastName.toLowerCase()}`,
             email: req.body.email,
             phone: req.body.phone,
             password: req.body.password,
