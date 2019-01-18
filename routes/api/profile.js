@@ -119,15 +119,14 @@ router.put('/schedule', passport.authenticate('jwt', { session: false }), (req, 
 // @PATH    - DELETE /api/profile/schedule
 // @ACCESS  - Private
 // @DESC    - Delete reminders
-router.delete('/schedule', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.delete('/schedule/:index', passport.authenticate('jwt', { session: false }), (req, res) => {
   if(req.body.type === 'instructor') {
     InstructorProfile.findOne({ user: req.body.id })
     .then(profile => {
       if(!profile) {
       res.status(404).send('Profile not found.');
       } else {
-        const reminderIndex = req.body.reminderIndex;
-        profile.schedule.splice(reminderIndex, 1);
+        profile.schedule.splice(req.params.index, 1);
         profile.save();
         res.json(profile);
       }
