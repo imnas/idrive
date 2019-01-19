@@ -8,10 +8,17 @@ class CrossValidation {
             learnerResult: undefined,
             finalResult: undefined
         };
+        this.types = {
+            instructorResult: undefined,
+            learnerResult: undefined,
+            finalResult: undefined
+        };
         this.checkInstructor = this.checkInstructor.bind(this);
         this.checkLearner = this.checkLearner.bind(this);
         this.crossCheck = this.crossCheck.bind(this);
+        this.typeCheck = this.typeCheck.bind(this);
     };
+    // Check for existing user with the email provided from the client
     checkInstructor(data) {
         Instructor.findOne({
                 email: data.email
@@ -19,8 +26,10 @@ class CrossValidation {
             .then(user => {
                 if (user) {
                     this.results.instructorResult = true;
+                    this.types.instructorResult = true;
                 } else {
                     this.results.instructorResult = false;
+                    this.types.instructorResult = false;
                 }
             })
             .catch(err => console.log(err));
@@ -32,8 +41,10 @@ class CrossValidation {
             .then(user => {
                 if (user) {
                     this.results.learnerResult = true;
+                    this.types.learnerResult = true;
                 } else {
                     this.results.learnerResult = false;
+                    this.types.learnerResult = false;
                 }
             })
             .catch(err => console.log(err));
@@ -49,6 +60,20 @@ class CrossValidation {
             }
         }, 500);
     };
+    // Check user type
+    typeCheck(data) {
+        this.checkInstructor(data);
+        this.checkLearner(data);
+        setTimeout(() => {
+            if (this.types.instructorResult && !this.types.learnerResult) {
+                this.types.finalResult = 'instructor';
+            } else if (this.types.learnerResult && !this.types.instructorResult) {
+                this.types.finalResult = 'learner';
+            } else {
+                this.types.finalResult = false;
+            }
+        }, 500);
+    }
 };
 
 const crossValidator = new CrossValidation();

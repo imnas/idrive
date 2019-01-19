@@ -101,88 +101,96 @@ router.post('/register', (req, res) => {
 // @ACCESS  - Public
 // @DESC    - Log a user in
 router.post('/login', (req, res) => {
-  // TEMPORARY SOLUTION: Check for user type
-  if (req.body.type === 'instructor') {
+  // Check for user type
+  crossValidator.typeCheck(req.body);
+  setTimeout(() => {
+    const {
+      finalResult
+    } = crossValidator.types;
     // Log in an instructor
-    // Check if the user exists
-    Instructor.findOne({
-        email: req.body.email
-      })
-      .then(user => {
-        if (user) {
-          // If there is one, check the password using bcrypt
-          bcrypt.compare(req.body.password, user.password)
-            .then(match => {
-              if (match) {
-                // Sign a JWT token
-                const payload = {
-                  type: 'instructor',
-                  id: user.id,
-                  firstName: user.firstName,
-                  lastName: user.lastName
-                }
-                jwt.sign(payload, config.db.secretOrKey, {
-                  expiresIn: 99999
-                }, (err, token) => {
-                  if (err) {
-                    throw err;
-                  } else {
-                    res.status(200).json({
-                      success: true,
-                      token: `Bearer ${token}`
-                    });
+    if (finalResult === 'instructor') {
+      // Check if the user exists
+      Instructor.findOne({
+          email: req.body.email
+        })
+        .then(user => {
+          if (user) {
+            // If there is one, check the password using bcrypt
+            bcrypt.compare(req.body.password, user.password)
+              .then(match => {
+                if (match) {
+                  // Sign a JWT token
+                  const payload = {
+                    type: 'instructor',
+                    id: user.id,
+                    firstName: user.firstName,
+                    lastName: user.lastName
                   }
-                });
-              } else {
-                // Send a 'Incorrect Password' message
-                res.status(401).send('Incorrect password.')
-              }
-            })
-        } else {
-          res.status(404).send('User does not exist.');
-        }
-      })
-  } else if (req.body.type === 'learner') {
-    // Log in a learner
-    // Check if the user exists
-    Learner.findOne({
-        email: req.body.email
-      })
-      .then(user => {
-        if (user) {
-          // If there is one, check the password using bcrypt
-          bcrypt.compare(req.body.password, user.password)
-            .then(match => {
-              if (match) {
-                // Sign a JWT token
-                const payload = {
-                  type: 'learner',
-                  id: user.id,
-                  firstName: user.firstName,
-                  lastName: user.lastName
+                  jwt.sign(payload, config.db.secretOrKey, {
+                    expiresIn: 99999
+                  }, (err, token) => {
+                    if (err) {
+                      throw err;
+                    } else {
+                      res.status(200).json({
+                        success: true,
+                        token: `Bearer ${token}`
+                      });
+                    }
+                  });
+                } else {
+                  // Send a 'Incorrect Password' message
+                  res.status(401).send('Incorrect password.')
                 }
-                jwt.sign(payload, config.db.secretOrKey, {
-                  expiresIn: 99999
-                }, (err, token) => {
-                  if (err) {
-                    throw err;
-                  } else {
-                    res.status(200).json({
-                      success: true,
-                      token: `Bearer ${token}`
-                    });
+              })
+          } else {
+            res.status(404).send('User does not exist.');
+          }
+        })
+      // Log in a learner
+    } else if (finalResult === 'learner') {
+      // Check if the user exists
+      Learner.findOne({
+          email: req.body.email
+        })
+        .then(user => {
+          if (user) {
+            // If there is one, check the password using bcrypt
+            bcrypt.compare(req.body.password, user.password)
+              .then(match => {
+                if (match) {
+                  // Sign a JWT token
+                  const payload = {
+                    type: 'learner',
+                    id: user.id,
+                    firstName: user.firstName,
+                    lastName: user.lastName
                   }
-                });
-              } else {
-                // Send an 'Incorrect Password' message
-                res.status(401).send('Incorrect password.')
-              }
-            })
-        } else {
-          res.status(404).send('User does not exist.');
-        }
-      })
-  }
+                  jwt.sign(payload, config.db.secretOrKey, {
+                    expiresIn: 99999
+                  }, (err, token) => {
+                    if (err) {
+                      throw err;
+                    } else {
+                      res.status(200).json({
+                        success: true,
+                        token: `Bearer ${token}`
+                      });
+                    }
+                  });
+                } else {
+                  // Send an 'Incorrect Password' message
+                  res.status(401).send('Incorrect password.')
+                }
+              })
+          } else {
+            res.status(404).send('User does not exist.');
+          }
+        })
+    } else {
+      res.status(404).send('User does not exist.');
+    }
+  }, 1000);
 });
 
 // @PATH    - GET /api/auth/current
