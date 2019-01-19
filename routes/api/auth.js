@@ -127,7 +127,7 @@ router.post('/login', (req, res) => {
                     lastName: user.lastName
                   }
                   jwt.sign(payload, config.db.secretOrKey, {
-                    expiresIn: 99999
+                    expiresIn: 86400
                   }, (err, token) => {
                     if (err) {
                       throw err;
@@ -167,7 +167,7 @@ router.post('/login', (req, res) => {
                     lastName: user.lastName
                   }
                   jwt.sign(payload, config.db.secretOrKey, {
-                    expiresIn: 99999
+                    expiresIn: 86400
                   }, (err, token) => {
                     if (err) {
                       throw err;
