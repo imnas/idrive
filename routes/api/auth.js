@@ -22,16 +22,18 @@ router.post('/register', (req, res) => {
     if (finalResult) {
       return res.status(403).send('Email address is already in use.');
     } else {
+      // Create a random 4 digit number for the handle to avoid different users having the same handle
+      const handleNumber = `${Math.floor(Math.random() *10)}${Math.floor(Math.random() *10)}${Math.floor(Math.random() *10)}${Math.floor(Math.random() *10)}`;
       // Check user type
       if (req.body.type === 'instructor') {
         // Check if the user input is valid
         const isValid = InputValidation.validateRegistrationForm(req.body);
+        // Then proceed with the registration form
         if (isValid === true) {
-          // Then proceed with the registration form
           const newUser = new Instructor({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-            handle: `${req.body.firstName.toLowerCase()}-${req.body.lastName.toLowerCase()}`,
+            handle: `${req.body.firstName.toLowerCase()}-${req.body.lastName.toLowerCase()}-${handleNumber}`,
             email: req.body.email,
             phone: req.body.phone,
             password: req.body.password,
@@ -66,7 +68,7 @@ router.post('/register', (req, res) => {
           const newUser = new Learner({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-            handle: `${req.body.firstName.toLowerCase()}-${req.body.lastName.toLowerCase()}`,
+            handle: `${req.body.firstName.toLowerCase()}-${req.body.lastName.toLowerCase()}-${handleNumber}`,
             email: req.body.email,
             phone: req.body.phone,
             password: req.body.password,
