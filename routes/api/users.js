@@ -8,7 +8,7 @@ const passport = require('passport');
 
 // @PATH    - GET /api/users/:handle
 // @ACCESS  - Private
-// @DESC    - Get user by ID
+// @DESC    - Get user by the handle
 router.get('/:handle', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
@@ -55,7 +55,7 @@ router.get('/:handle', passport.authenticate('jwt', {
 
 // @PATH    - GET /api/users/:handle/profile
 // @ACCESS  - Private
-// @DESC    - Get user by ID
+// @DESC    - Get user profile by the handle
 router.get('/:handle/profile', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
