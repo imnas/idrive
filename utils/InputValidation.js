@@ -5,40 +5,40 @@ module.exports = {
   validateRegistrationForm(data) {
     let errors = {};
     if (Validator.isEmpty(data.firstName)) {
-      errors.firstNameEmpty = 'First Name Field Is Required.';
+      errors.firstNameEmpty = 'First Name field is required.';
     }
     if (Validator.isEmpty(data.lastName)) {
-      errors.lastNameEmpty = 'Last Name Field Is Required.';
+      errors.lastNameEmpty = 'Last Name field is required.';
     }
     if (Validator.isEmpty(data.password)) {
-      errors.passwordEmpty = 'Password Field Is Required.';
+      errors.passwordEmpty = 'Password field is required.';
     }
     if (data.password !== data.confirmPassword) {
-      errors.passwordNotMatching = 'Passwords Are Not Matching.';
+      errors.passwordNotMatching = 'Passwords are Not Matching.';
     }
     if (!Validator.isLength(data.password, {
         min: 8,
         max: 32
       })) {
-      errors.passwordLength = 'Password Length Should Be Between 8 And 32 Characters.';
+      errors.passwordLength = 'Your password should be between 8 and 32 characters long.';
     }
     if (Validator.isEmpty(data.email)) {
-      errors.emailEmpty = 'Email Field Is Required.';
+      errors.emailEmpty = 'Email field is required.';
     }
     if (!Validator.isEmail(data.email)) {
-      errors.emailInvalid = 'Email Address Is Not Valid.';
+      errors.emailInvalid = 'Email address is not valid.';
     }
     if (Validator.isEmpty(data.phone)) {
-      errors.phoneEmpty = 'Phone Field Is Required.';
+      errors.phoneEmpty = 'Phone field is required.';
     }
     if (Validator.isEmpty(data.city)) {
-      errors.cityEmpty = 'City Name Field Is Required.';
+      errors.cityEmpty = 'City Name field is required.';
     }
     if (Validator.isEmpty(data.postalCode)) {
-      errors.postalCodeEmpty = 'Postal Code Field Is Required.';
+      errors.postalCodeEmpty = 'Postal Code field is required.';
     }
     if (Validator.isEmpty(data.address)) {
-      errors.addressEmpty = 'Address Field Is Required.';
+      errors.addressEmpty = 'Address field is required.';
     }
     if (Reflect.ownKeys(errors).length > 0) {
       return errors;
@@ -49,13 +49,13 @@ module.exports = {
   validateLoginForm(data) {
     let errors = {};
     if (Validator.isEmpty(data.email)) {
-      errors.emailEmpty = 'Email Field Is Required.';
+      errors.emailEmpty = 'Email field is required.';
     }
     if (!Validator.isEmail(data.email)) {
-      errors.emailInvalid = 'Email Address Is Not Valid.';
+      errors.emailInvalid = 'Email Address is not valid.';
     }
     if (Validator.isEmpty(data.password)) {
-      errors.passwordEmpty = 'Password Field Is Required.';
+      errors.passwordEmpty = 'Password field is required.';
     }
     if (Reflect.ownKeys(errors).length > 0) {
       return errors;
