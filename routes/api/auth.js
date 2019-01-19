@@ -6,111 +6,123 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/config');
 const passport = require('passport');
-const inputValidation = require('../../utils/inputValidation');
-const CrossValidation = require('../../utils/CrossValidation');
+const InputValidation = require('../../utils/InputValidation');
 
 // @PATH    - POST /api/auth/register
 // @ACCESS  - Public
 // @DESC    - Register a new user
 router.post('/register', (req, res) => {
+  // TEMPORARY SOLUTION FOR CROSS-CHECKING USER TABLES
   // Check if an user is registered with the same email address within either the instructor or learner table
-  const isRegistered = CrossValidation.crossCheck(req.body);
-  if (isRegistered === true) {
-    // Check what's the user type
-    if (req.body.type === 'instructor') {
-      // Register an instructor
-      // Check if the user exists
-      Instructor.findOne({
-          email: req.body.email
-        })
-        .then(user => {
-          if (user) {
-            res.status(403).send('User already exists.');
-          } else {
-            // Check if the user input is valid
-            const isValid = inputValidation.validateRegistrationForm(req.body);
-            if (isValid === true) {
-              // Then proceed with the registration form
-              const newUser = new Instructor({
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                handle: `${req.body.firstName.toLowerCase()}-${req.body.lastName.toLowerCase()}`,
-                email: req.body.email,
-                phone: req.body.phone,
-                password: req.body.password,
-                city: req.body.city,
-                postalCode: req.body.postalCode,
-                address: req.body.address,
-              });
-              bcrypt.genSalt(10, (err, salt) => {
-                if (err) {
-                  throw err;
-                } else {
-                  bcrypt.hash(newUser.password, salt, (err, hash) => {
-                    if (err) {
-                      throw err;
+  Instructor.findOne({
+      email: req.body.email
+    })
+    .then(user => {
+      if (user) {
+        return res.status(403).send('This email is already in use.');
+      } else {
+        Learner.findOne({
+            email: req.body.email
+          })
+          .then(user => {
+            if (user) {
+              return res.status(403).send('This email is already in use.');
+            } else {
+              if (req.body.type === 'instructor') {
+                // Register an instructor
+                // Check if the user exists
+                Instructor.findOne({
+                    email: req.body.email
+                  })
+                  .then(user => {
+                    if (user) {
+                      res.status(403).send('User already exists.');
                     } else {
-                      newUser.password = hash;
-                      newUser.save();
-                      res.json(newUser);
+                      // Check if the user input is valid
+                      const isValid = InputValidation.validateRegistrationForm(req.body);
+                      if (isValid === true) {
+                        // Then proceed with the registration form
+                        const newUser = new Instructor({
+                          firstName: req.body.firstName,
+                          lastName: req.body.lastName,
+                          handle: `${req.body.firstName.toLowerCase()}-${req.body.lastName.toLowerCase()}`,
+                          email: req.body.email,
+                          phone: req.body.phone,
+                          password: req.body.password,
+                          city: req.body.city,
+                          postalCode: req.body.postalCode,
+                          address: req.body.address,
+                        });
+                        bcrypt.genSalt(10, (err, salt) => {
+                          if (err) {
+                            throw err;
+                          } else {
+                            bcrypt.hash(newUser.password, salt, (err, hash) => {
+                              if (err) {
+                                throw err;
+                              } else {
+                                newUser.password = hash;
+                                newUser.save();
+                                res.json(newUser);
+                              }
+                            })
+                          }
+                        })
+                      } else {
+                        res.status(400).json(isValid);
+                      }
                     }
                   })
-                }
-              })
-            } else {
-              res.status(400).json(isValid);
-            }
-          }
-        })
-    } else if (req.body.type === 'learner') {
-      // Register a learner
-      // Check for an existing user
-      Learner.findOne({
-          email: req.body.email
-        })
-        .then(user => {
-          if (user) {
-            res.status(403).send('User already exists.');
-          } else {
-            // Check if the user input is valid
-            const isValid = inputValidation.validateRegistrationForm(req.body);
-            if (isValid === true) {
-              // Then proceed with the registration form
-              const newUser = new Learner({
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                handle: `${req.body.firstName.toLowerCase()}-${req.body.lastName.toLowerCase()}`,
-                email: req.body.email,
-                phone: req.body.phone,
-                password: req.body.password,
-                city: req.body.city,
-                postalCode: req.body.postalCode,
-                address: req.body.address
-              });
-              bcrypt.genSalt(10, (err, salt) => {
-                if (err) {
-                  throw err;
-                } else {
-                  bcrypt.hash(newUser.password, salt, (err, hash) => {
-                    if (err) {
-                      throw err;
+              } else if (req.body.type === 'learner') {
+                // Register a learner
+                // Check for an existing user
+                Learner.findOne({
+                    email: req.body.email
+                  })
+                  .then(user => {
+                    if (user) {
+                      res.status(403).send('User already exists.');
                     } else {
-                      newUser.password = hash;
-                      newUser.save();
-                      res.json(newUser);
+                      // Check if the user input is valid
+                      const isValid = InputValidation.validateRegistrationForm(req.body);
+                      if (isValid === true) {
+                        // Then proceed with the registration form
+                        const newUser = new Learner({
+                          firstName: req.body.firstName,
+                          lastName: req.body.lastName,
+                          handle: `${req.body.firstName.toLowerCase()}-${req.body.lastName.toLowerCase()}`,
+                          email: req.body.email,
+                          phone: req.body.phone,
+                          password: req.body.password,
+                          city: req.body.city,
+                          postalCode: req.body.postalCode,
+                          address: req.body.address
+                        });
+                        bcrypt.genSalt(10, (err, salt) => {
+                          if (err) {
+                            throw err;
+                          } else {
+                            bcrypt.hash(newUser.password, salt, (err, hash) => {
+                              if (err) {
+                                throw err;
+                              } else {
+                                newUser.password = hash;
+                                newUser.save();
+                                res.json(newUser);
+                              }
+                            })
+                          }
+                        })
+                      } else {
+                        res.status(400).json(isValid);
+                      }
                     }
                   })
-                }
-              })
-            } else {
-              res.status(400).json(isValid);
+              }
             }
-          }
-        })
-    }
-  } else {
-    return res.status(403).json(isRegistered);
-  }
+          })
+      }
+    })
 });
 
 // @PATH    - POST /api/auth/login
