@@ -135,7 +135,7 @@ router.post('/login', (req, res) => {
                 });
               } else {
                 // Send a 'Incorrect Password' message
-                res.status(401).send('Incorrect Password')
+                res.status(401).send('Incorrect password.')
               }
             })
         } else {
@@ -175,7 +175,7 @@ router.post('/login', (req, res) => {
                 });
               } else {
                 // Send an 'Incorrect Password' message
-                res.status(401).send('Incorrect Password')
+                res.status(401).send('Incorrect password.')
               }
             })
         } else {
