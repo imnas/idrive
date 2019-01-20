@@ -7,10 +7,14 @@ const authRoute = require('./routes/api/auth');
 const profileRoute = require('./routes/api/profile');
 const usersRoute = require('./routes/api/users');
 const passport = require('passport');
+const cors = require('cors');
 
 // Body Parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// TEMP: Remove after testing
+app.use(cors())
 
 // Mongoose
 db.connect(config.db.mongoURL, { useNewUrlParser: true }, (err) => {

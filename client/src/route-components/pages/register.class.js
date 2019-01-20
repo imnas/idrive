@@ -3,6 +3,7 @@ import Checkbox from "rc-checkbox";
 import Header from "../includes/header.class";
 import { NavLink } from "react-router-dom";
 import "rc-checkbox/assets/index.css";
+import axios from 'axios';
 
 export default class Register extends Component {
   constructor() {
@@ -15,6 +16,28 @@ export default class Register extends Component {
       disabled: !state.disabled
     }));
   };
+
+  testRegister = (e) => {
+    e.preventDefault();
+    // Change to ref value and put input field values into state
+    const newUser = {
+      type: 'learner',
+      firstName: document.getElementById('inputFirstName').value,
+      lastName: document.getElementById('inputLastName').value,
+      email: document.getElementById('inputEmail').value,
+      postalCode: document.getElementById('inputPostcode').value,
+      phone: document.getElementById('inputNumber').value,
+      city: document.getElementById('inputCity').value,
+      address: document.getElementById('inputAddress').value,
+      password: document.getElementById('inputPassword').value,
+      confirmPassword: document.getElementById('inputConfirm').value 
+    };
+    axios.post('http://localhost:9000/api/auth/register', newUser)
+      .then(res => res.data)
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
+    };
+
   render() {
     return (
       <div>
@@ -28,35 +51,45 @@ export default class Register extends Component {
             <form>
               <div className="dualFloatingInputs">
                 <div className="floatingInputContainer">
-                  <input type="text" class="inputText" required />
+                  <input id="inputFirstName" type="text" class="inputText" required />
                   <span class="floating-label">First Name</span>
                 </div>
                 <div className="floatingInputContainer">
-                  <input type="text" class="inputText" required />
+                  <input id="inputLastName" type="text" class="inputText" required />
                   <span class="floating-label">Last Name</span>
                 </div>
               </div>
               <div className="floatingInputContainer">
-                <input type="text" class="inputText" required />
+                <input id="inputEmail" type="text" class="inputText" required />
                 <span class="floating-label">Your Email</span>
               </div>
               <div className="dualFloatingInputs">
                 <div className="floatingInputContainer">
-                  <input type="text" class="inputText" required />
+                  <input id="inputPostcode" type="text" class="inputText" required />
                   <span class="floating-label">Postcode</span>
                 </div>
                 <div className="floatingInputContainer">
-                  <input type="text" class="inputText" required />
+                  <input id="inputNumber" type="text" class="inputText" required />
                   <span class="floating-label">Mobile No.</span>
                 </div>
               </div>
               <div className="dualFloatingInputs">
                 <div className="floatingInputContainer">
-                  <input type="password" class="inputText" required />
+                  <input id="inputCity" type="text" class="inputText" required />
+                  <span class="floating-label">City</span>
+                </div>
+                <div className="floatingInputContainer">
+                  <input id="inputAddress" type="text" class="inputText" required />
+                  <span class="floating-label">Street Name</span>
+                </div>
+              </div>
+              <div className="dualFloatingInputs">
+                <div className="floatingInputContainer">
+                  <input id="inputPassword" type="password" class="inputText" required />
                   <span class="floating-label">Password</span>
                 </div>
                 <div className="floatingInputContainer">
-                  <input type="password" class="inputText" required />
+                  <input id="inputConfirm" type="password" class="inputText" required />
                   <span class="floating-label">Confirm Password</span>
                 </div>
               </div>
@@ -70,7 +103,7 @@ export default class Register extends Component {
                 </p>
               </div>
               <div className="formCta">
-                <button>Sign up</button>
+                <button onClick={this.testRegister}>Sign up</button>
                 <NavLink to="/login">Already have an account</NavLink>
               </div>
             </form>
