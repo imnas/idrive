@@ -125,8 +125,8 @@ router.post('/login', (req, res) => {
                   const payload = {
                     type: 'instructor',
                     id: user.id,
-                    firstName: user.firstName,
-                    lastName: user.lastName
+                    email: user.email,
+                    handle: user.handle
                   }
                   jwt.sign(payload, config.db.secretOrKey, {
                     expiresIn: 86400
@@ -165,8 +165,8 @@ router.post('/login', (req, res) => {
                   const payload = {
                     type: 'learner',
                     id: user.id,
-                    firstName: user.firstName,
-                    lastName: user.lastName
+                    email: user.email,
+                    handle: user.handle
                   }
                   jwt.sign(payload, config.db.secretOrKey, {
                     expiresIn: 86400
