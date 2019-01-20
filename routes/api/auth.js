@@ -204,7 +204,14 @@ router.get('/current', passport.authenticate('jwt', {
   const user = {
     id: req.user.id,
     handle: req.user.handle,
-    email: req.user.email
+    email: req.user.email,
+    firstName: user.firstName,
+    lastName: req.user.lastName,
+    phone: req.user.phone,
+    city: req.user.city,
+    postalCode: req.user.postalCode,
+    address: req.user.address,
+    created: req.user.created
   };
   res.status(200).json(user);
 });
