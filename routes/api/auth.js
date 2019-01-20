@@ -203,8 +203,8 @@ router.get('/current', passport.authenticate('jwt', {
 }), (req, res) => {
   const user = {
     id: req.user.id,
-    firstName: req.user.firstName,
-    lastName: req.user.lastName
+    handle: req.user.handle,
+    email: req.user.email
   };
   res.status(200).json(user);
 });
