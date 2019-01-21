@@ -117,7 +117,7 @@ button {
     align-items: center;
     .logo {
       img {
-        width: 200px;
+        width: 160px;
       }
     }
   }
@@ -446,4 +446,91 @@ button {
 }
 .formContainerExternal {
   padding: 0 40px;
+}
+
+.resultsWrapper {
+  .resultsFilterTopWrap {
+    padding: 50px 50px;
+    background: $primary-solid;
+    border-top: 1px solid #ffffff14;
+  }
+  .resultsFilterContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    > h4 {
+      font-size: 23px;
+      margin: 0 0 40px 0;
+      color: #fff;
+      font-weight: 800;
+    }
+    .filterOptionsContainer {
+      .filterRow {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .individualFilterContainer {
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+          &:not(:first-child) {
+            margin: 0 0 0 25px;
+          }
+          > label {
+            font-size: 13px;
+            font-weight: 800;
+            color: #fff;
+            margin: 0 0 10px 0;
+          }
+          > input {
+            height: 60px;
+            border: 0;
+            border-radius: 2px;
+            padding: 0 30px;
+            font-weight: 800;
+          }
+        }
+        .searchCtaContainerResults {
+          margin: 0 0 0 25px;
+          button {
+            border: 0;
+            background: #23e0ab;
+            color: #fff;
+            font-weight: 900;
+            text-transform: uppercase;
+            height: 60px;
+            padding: 0 30px;
+            border-radius: 2px;
+            margin: 26px 0 0 0;
+            i {
+              margin: 0 0 0 7.5px;
+              font-size: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.Dropdown-control {
+  box-shadow: none !important;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 30px 0 30px;
+  font-weight: 800;
+  font-size: 13px;
+  border: 0;
+}
+
+.Dropdown-arrow {
+  top: 26px;
+  right: 30px;
+  border-color: #23e0ab transparent transparent;
+}
+
+.is-open .Dropdown-arrow {
+  border-color: transparent transparent #23e0ab;
+  border-width: 0 5px 5px;
 }
