@@ -69,6 +69,10 @@ const instructorProfileSchema = new Schema({
       type: String,
       required: true
     },
+    gearbox: {
+      type: String,
+      required: true
+    },
     image: {
       type: String,
       required: true
