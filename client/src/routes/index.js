@@ -5,6 +5,7 @@ import Landing from "./landing";
 import LoginPage from "./login";
 import RegisterPage from "./register";
 import RecoverPage from "./recover";
+import InstructorResults from "./instructor-results";
 
 export default () => (
   <BrowserRouter>
@@ -13,6 +14,7 @@ export default () => (
       <Route path="/login" exact component={LoginPage} />
       <Route path="/signup" exact component={RegisterPage} />
       <Route path="/recover" exact component={RecoverPage} />
+      <Route path="/search" exact component={InstructorResults} />
     </Switch>
   </BrowserRouter>
 );
