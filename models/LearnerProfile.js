@@ -6,8 +6,11 @@ const learnerProfileSchema = new Schema({
     type: String,
     required: true
   },
+  gender: {
+    type: String,
+    required: true
+  },
   profilePicture: {
-    // Set to string temporarily - Change to file type
     type: String,
     required: true
   }
