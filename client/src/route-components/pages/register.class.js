@@ -21,7 +21,8 @@ export default class Register extends Component {
     e.preventDefault();
     // Change to ref value and put input field values into state
     const newUser = {
-      type: 'learner',
+      // Change to learner - currently set to instructor for testing
+      type: 'instructor',
       firstName: document.getElementById('inputFirstName').value,
       lastName: document.getElementById('inputLastName').value,
       email: document.getElementById('inputEmail').value,

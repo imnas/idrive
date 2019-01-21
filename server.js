@@ -6,6 +6,7 @@ const db = require('mongoose');
 const authRoute = require('./routes/api/auth');
 const profileRoute = require('./routes/api/profile');
 const usersRoute = require('./routes/api/users');
+const resultsRoute = require('./routes/api/results');
 const passport = require('passport');
 const cors = require('cors');
 
@@ -33,6 +34,7 @@ require('./config/passport')(passport);
 app.use('/api/auth', authRoute);
 app.use('/api/profile', profileRoute);
 app.use('/api/users', usersRoute);
+app.use('/api/results', resultsRoute);
 
 // Server
 app.listen(config.app.port, () => console.log(`Server's running on port ${config.app.port}!`));
