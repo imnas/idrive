@@ -117,7 +117,7 @@ button {
     align-items: center;
     .logo {
       img {
-        width: 160px;
+        width: 185px;
       }
     }
   }
@@ -455,14 +455,23 @@ button {
     border-top: 1px solid #ffffff14;
   }
   .resultsFilterContainer {
-    max-width: 1200px;
+    // max-width: 1200px;
     margin: 0 auto;
     width: 100%;
     > h4 {
-      font-size: 23px;
-      margin: 0 0 40px 0;
+      font-size: 25px;
+      margin: 0px 0px 50px 0;
       color: #fff;
       font-weight: 800;
+      i {
+        margin: 0px 5px 0 0;
+        color: #ffffff;
+      }
+      strong {
+        font-weight: 900;
+        margin: 0 0 0 10px;
+        color: #23e0ab;
+      }
     }
     .filterOptionsContainer {
       .filterRow {

@@ -16,7 +16,10 @@ export class InstructorResults extends Component {
       <div className="resultsWrapper">
         <div className="resultsFilterTopWrap">
           <div className="resultsFilterContainer">
-            <h4>Driving instructors near SK17 2JE</h4>
+            <h4>
+              <i className="far fa-search-location" /> Driving instructors near
+              <strong>SK17 2JE</strong>
+            </h4>
             <div className="filterOptionsContainer">
               <div className="filterRow">
                 <div className="individualFilterContainer">
