@@ -113,31 +113,6 @@ router.post('/add', passport.authenticate('jwt', {
   }, 1000);
 });
 
-// @PATH    - PUT /api/profile/experience
-// @ACCESS  - Private
-// @DESC    - Add experience to instructor profiles
-router.put('/experience', passport.authenticate('jwt', {
-  session: false
-}), (req, res) => {
-  if (req.body.type === 'instructor') {
-    InstructorProfile.findById(req.user.id)
-      .then(profile => {
-        if (!profile) {
-          res.status(404).send('Profile not found.');
-        } else {
-          const newExp = {
-            from: req.body.from
-          };
-          profile.experience = (newExp);
-          profile.save();
-          res.json(profile);
-        }
-      })
-  } else {
-    res.status(401).send('Unauthorized.');
-  }
-});
-
 // @PATH    - GET /api/profile/schedule
 // @ACCESS  - Private
 // @DESC    - Get instructor schedule
