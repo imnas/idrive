@@ -144,24 +144,31 @@ router.get('/schedule', passport.authenticate('jwt', {
 router.put('/schedule', passport.authenticate('jwt', {
   session: false
 }), (req, res) => {
-  if (req.body.type === 'instructor') {
-    InstructorProfile.findById(req.user.id)
-      .then(profile => {
-        if (!profile) {
-          res.status(404).send('Profile not found.');
-        } else {
-          const newReminder = {
-            time: req.body.time,
-            note: req.body.note
-          };
-          profile.schedule.push(newReminder)
-          profile.save();
-          res.json(profile);
-        }
-      })
-  } else {
-    res.status(401).send('Unauthorized.');
-  }
+  // Check user type
+  crossValidator.typeCheck(req.user);
+  setTimeout(() => {
+    const {
+      finalResult
+    } = crossValidator.types
+    if (finalResult === 'instructor') {
+      InstructorProfile.findById(req.user.id)
+        .then(profile => {
+          if (!profile) {
+            res.status(404).send('Profile not found.');
+          } else {
+            const newReminder = {
+              time: req.body.time,
+              note: req.body.note
+            };
+            profile.schedule.push(newReminder)
+            profile.save();
+            res.json(profile);
+          }
+        })
+    } else {
+      res.status(401).send('Unauthorized.');
+    }
+  }, 1000);
 });
 
 // @PATH    - DELETE /api/profile/schedule
@@ -170,7 +177,10 @@ router.put('/schedule', passport.authenticate('jwt', {
 router.delete('/schedule/:index', passport.authenticate('jwt', {
   session: false
 }), (req, res) => {
-  if (req.body.type === 'instructor') {
+  const {
+    finalResult
+  } = crossValidator.types
+  if (finalResult === 'instructor') {
     InstructorProfile.findById(req.user.id)
       .then(profile => {
         if (!profile) {
