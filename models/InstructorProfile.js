@@ -25,9 +25,8 @@ const instructorProfileSchema = new Schema({
     }
   }],
   profilePicture: {
-    // Set to string temporarily - Change to file type
     type: String,
-    required: true
+    required: false
   },
   biography: {
     type: String,
@@ -52,6 +51,28 @@ const instructorProfileSchema = new Schema({
         required: false
       }
     }]
+  }],
+  cars: [{
+    make: {
+      type: String,
+      required: true
+    },
+    model: {
+      type: String,
+      required: true
+    },
+    year: {
+      type: String,
+      required: true
+    },
+    registration: {
+      type: String,
+      required: true
+    },
+    image: {
+      type: String,
+      required: true
+    }
   }]
 });
 
