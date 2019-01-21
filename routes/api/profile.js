@@ -119,16 +119,23 @@ router.post('/add', passport.authenticate('jwt', {
 router.get('/schedule', passport.authenticate('jwt', {
   session: false
 }), (req, res) => {
-  if (req.body.type === 'instructor') {
-    InstructorProfile.findById(req.user.id)
-      .then(profile => {
-        if (!profile) {
-          return res.status(404).send('Profile not found.');
-        } else {
-          return res.status(200).json(profile.schedule);
-        }
-      })
-  }
+  // Check user type
+  crossValidator.typeCheck(req.user);
+  setTimeout(() => {
+    const {
+      finalResult
+    } = crossValidator.types
+    if (finalResult === 'instructor') {
+      InstructorProfile.findById(req.user.id)
+        .then(profile => {
+          if (!profile) {
+            return res.status(404).send('Profile not found.');
+          } else {
+            return res.status(200).json(profile.schedule);
+          }
+        })
+    }
+  }, 1000);
 });
 
 // @PATH    - PUT /api/profile/schedule
