@@ -6,6 +6,10 @@ const instructorProfileSchema = new Schema({
     type: String,
     required: true
   },
+  gender: {
+    type: String,
+    required: true
+  },
   schedule: {
     type: Array,
     required: false
@@ -20,11 +24,6 @@ const instructorProfileSchema = new Schema({
       default: Date.now
     }
   }],
-  proof: {
-    // Set to string temporarily - Change to file type
-    type: String,
-    required: true
-  },
   profilePicture: {
     // Set to string temporarily - Change to file type
     type: String,
@@ -33,7 +32,27 @@ const instructorProfileSchema = new Schema({
   biography: {
     type: String,
     required: false
-  }
+  },
+  qualifications: [{
+    adi: {
+      type: String,
+      required: true
+    },
+    cpd: {
+      type: String,
+      required: false
+    },
+    transmissionTypes: [{
+      manual: {
+        type: Boolean,
+        required: false
+      },
+      automatic: {
+        type: Boolean,
+        required: false
+      }
+    }]
+  }]
 });
 
 module.exports = InstructorProfile = mongoose.model('instructorProfiles', instructorProfileSchema);
