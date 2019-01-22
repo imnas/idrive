@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
+import axios from 'axios';
 
 const distance = ["+ 1 miles", "+ 30 miles", "+ 40 miles"];
 const transmission = ["Both", "Automatic", "Manual"];
@@ -11,6 +12,14 @@ const defaultOptionTransmission = transmission[0];
 const defaultOptionGender = gender[0];
 
 export class InstructorResults extends Component {
+  
+  search() {
+    const zipCode = document.getElementById('testingZipCode').value;
+    const url = `http://localhost:9000/api/results/${zipCode}`;
+    axios.get(url)
+      .then(res => console.log(res.data));
+  }
+
   render() {
     return (
       <div className="resultsWrapper">
@@ -18,13 +27,13 @@ export class InstructorResults extends Component {
           <div className="resultsFilterContainer">
             <h4>
               <i className="far fa-search-location" /> Driving instructors near
-              <strong>SK17 2JE</strong>
+              <strong>12345</strong>
             </h4>
             <div className="filterOptionsContainer">
               <div className="filterRow">
                 <div className="individualFilterContainer">
                   <label>Your Location</label>
-                  <input value="SK17 2JE" />
+                  <input id="testingZipCode" value="12345" />
                 </div>
                 <div className="individualFilterContainer">
                   <label>Search Distance</label>
@@ -54,7 +63,7 @@ export class InstructorResults extends Component {
                   />
                 </div>
                 <div className="searchCtaContainerResults">
-                  <button type="submit">
+                  <button type="submit" onClick={this.search}>
                     Update <i class="fas fa-search" />
                   </button>
                 </div>
