@@ -25,7 +25,8 @@ export class InstructorResults extends Component {
 
   // @TODO: Output the data instead of logging it
   search() {
-      axios.get(`http://localhost:9000/api/results/${this.state.zipCode}`, { headers: { "Authorization": localStorage.jwt } })
+    setAuthToken(localStorage.jwt);
+      axios.get(`http://localhost:9000/api/results/${this.state.zipCode}`)
       .then(res => console.log(res.data));
   }
 
