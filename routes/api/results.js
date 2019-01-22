@@ -12,13 +12,13 @@ router.get('/:postalCode', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
     let result = [];
-    let newInstructorResult = {};
     Instructor.find({
             postalCode: req.params.postalCode
         })
         .then(instructors => {
             if (instructors) {
                 instructors.map(instructor => {
+                    let newInstructorResult = {};
                     newInstructorResult.name = `${instructor.firstName} ${instructor.lastName}`;
                     result.push(newInstructorResult);
                 });
