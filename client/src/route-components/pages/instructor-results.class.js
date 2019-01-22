@@ -12,7 +12,7 @@ const defaultOptionTransmission = transmission[0];
 const defaultOptionGender = gender[0];
 
 export class InstructorResults extends Component {
-  
+  // @TODO: Change the value from an placeholder to an actual value - preferably hook it up to the state
   search() {
     const zipCode = document.getElementById('testingZipCode').value;
     const url = `http://localhost:9000/api/results/${zipCode}`;
