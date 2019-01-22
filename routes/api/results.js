@@ -32,7 +32,7 @@ router.get(
             if (profile) {
               (result[index].gender = profile.gender),
                 (result[index].carImage = profile.cars[0].image);
-              if (index === 2) {
+              if (index === result.length - 1) {
                 setTimeout(() => {
                   res.json(result);
                 }, 500);
