@@ -12,12 +12,26 @@ const defaultOptionTransmission = transmission[0];
 const defaultOptionGender = gender[0];
 
 export class InstructorResults extends Component {
-  // @TODO: Change the value from an placeholder to an actual value - preferably hook it up to the state
+
+  constructor() {
+    super();
+    this.state = {
+      zipCode: ''
+    };
+    this.search = this.search.bind(this);
+    this.zipCode = this.zipCode.bind(this);
+  }
+
+  // @TODO: Output the data instead of logging it
   search() {
-    const zipCode = document.getElementById('testingZipCode').value;
-    const url = `http://localhost:9000/api/results/${zipCode}`;
-    axios.get(url)
+    axios.get(`http://localhost:9000/api/results/${this.state.zipCode}`)
       .then(res => console.log(res.data));
+  }
+
+  zipCode(e) {
+    this.setState({
+      zipCode: e.target.value
+    })
   }
 
   render() {
@@ -27,13 +41,13 @@ export class InstructorResults extends Component {
           <div className="resultsFilterContainer">
             <h4>
               <i className="far fa-search-location" /> Driving instructors near
-              <strong>12345</strong>
+              <strong>{ this.state.zipCode }</strong>
             </h4>
             <div className="filterOptionsContainer">
               <div className="filterRow">
                 <div className="individualFilterContainer">
                   <label>Your Location</label>
-                  <input id="testingZipCode" value="12345" />
+                  <input name="zipCode" onChange={this.zipCode} />
                 </div>
                 <div className="individualFilterContainer">
                   <label>Search Distance</label>
