@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
-import axios from 'axios';
+import axios from "axios";
 
 const distance = ["+ 1 miles", "+ 30 miles", "+ 40 miles"];
 const transmission = ["Both", "Automatic", "Manual"];
@@ -12,11 +12,10 @@ const defaultOptionTransmission = transmission[0];
 const defaultOptionGender = gender[0];
 
 export class InstructorResults extends Component {
-
   constructor() {
     super();
     this.state = {
-      zipCode: ''
+      zipCode: ""
     };
     this.search = this.search.bind(this);
     this.zipCode = this.zipCode.bind(this);
@@ -24,14 +23,15 @@ export class InstructorResults extends Component {
 
   // @TODO: Output the data instead of logging it
   search() {
-    axios.get(`http://localhost:9000/api/results/${this.state.zipCode}`)
+    axios
+      .get(`http://localhost:9000/api/results/${this.state.zipCode}`)
       .then(res => console.log(res.data));
   }
 
   zipCode(e) {
     this.setState({
       zipCode: e.target.value
-    })
+    });
   }
 
   render() {
@@ -40,8 +40,8 @@ export class InstructorResults extends Component {
         <div className="resultsFilterTopWrap">
           <div className="resultsFilterContainer">
             <h4>
-              <i className="far fa-search-location" /> Driving instructors near: 
-              <strong>{ this.state.zipCode }</strong>
+              <i className="far fa-search-location" /> Driving instructors near:
+              <strong>{this.state.zipCode}</strong>
             </h4>
             <div className="filterOptionsContainer">
               <div className="filterRow">
@@ -87,7 +87,51 @@ export class InstructorResults extends Component {
         </div>
         <div className="resultsFilterWrapper">
           <div className="resultsContainer">
-            <div>xxx</div>
+            <div className="individualResult">
+              <div className="iRTop">
+                <div
+                  className="profileCarContainer"
+                  style={{
+                    backgroundImage:
+                      "url(" + "https://i.imgur.com/DPLaNh0.jpg" + ")"
+                  }}
+                />
+                <div className="instructorDetailsContainer">
+                  <h4>Antonio Banderas</h4>
+                  <p>Driving Instructor</p>
+                  <div className="skillsContainer">
+                    <span>ADI CoP</span>
+                    <span>CPD</span>
+                    <span>Multilingual</span>
+                  </div>
+                  <div className="vehicleContainer">
+                    <h5>Vehicle</h5>
+                    <div className="skillsContainer">
+                      <span>Automatic</span>
+                      <span>Petrol</span>
+                      <span>Saloon</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="locationDistance">0.3 Miles away</div>
+              </div>
+              <div className="irBot">
+                <div className="instructorCta">
+                  <a>Book Now</a>
+                </div>
+                <div className="abilitiesContainer">
+                  <h4>
+                    <i class="fas fa-hand-holding-magic" /> £10/Lesson
+                  </h4>
+                  <h4>
+                    <i class="fas fa-trophy-alt" /> 100% Success Rate
+                  </h4>
+                  <h4>
+                    <i class="fas fa-car" /> Porsche Panamera
+                  </h4>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
