@@ -16,7 +16,8 @@ export class InstructorResults extends Component {
   constructor() {
     super();
     this.state = {
-      zipCode: ""
+      zipCode: "",
+      TEMP_DATA: []
     };
     this.search = this.search.bind(this);
     this.zipCode = this.zipCode.bind(this);
@@ -27,7 +28,7 @@ export class InstructorResults extends Component {
     setAuthToken(localStorage.jwt);
     axios
       .get(`http://localhost:9000/api/results/${this.state.zipCode}`)
-      .then(res => console.log(res.data));
+      .then(res => this.setState({ TEMP_DATA: res.data }));
   }
 
   zipCode(e) {
@@ -89,51 +90,57 @@ export class InstructorResults extends Component {
         </div>
         <div className="resultsFilterWrapper">
           <div className="resultsContainer">
-            <div className="individualResult">
-              <div className="iRTop">
-                <div
-                  className="profileCarContainer"
-                  style={{
-                    backgroundImage:
-                      "url(" + "https://i.imgur.com/DPLaNh0.jpg" + ")"
-                  }}
-                />
-                <div className="instructorDetailsContainer">
-                  <h4>Antonio Banderas</h4>
-                  <p>Driving Instructor</p>
-                  <div className="skillsContainer">
-                    <span>ADI CoP</span>
-                    <span>CPD</span>
-                    <span>Multilingual</span>
+          {
+            this.state.TEMP_DATA.map((instructor, index) => {
+              return (
+                <div key={index} className="individualResult" style={{ marginBottom: "1em" }}>
+                  <div className="iRTop">
+                    <div
+                      className="profileCarContainer"
+                      style={{
+                        backgroundImage:
+                          "url(" + "https://i.imgur.com/DPLaNh0.jpg" + ")"
+                      }}
+                    />
+                    <div className="instructorDetailsContainer">
+                      <h4>{instructor.name}</h4>
+                      <p>Driving Instructor</p>
+                      <div className="skillsContainer">
+                        <span>ADI CoP</span>
+                        <span>CPD</span>
+                        <span>Multilingual</span>
+                      </div>
+                      <div className="vehicleContainer">
+                        <h5>Vehicle</h5>
+                        <div className="skillsContainer">
+                          <span>Automatic</span>
+                          <span>Petrol</span>
+                          <span>Saloon</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="locationDistance">0.3 Miles away</div>
                   </div>
-                  <div className="vehicleContainer">
-                    <h5>Vehicle</h5>
-                    <div className="skillsContainer">
-                      <span>Automatic</span>
-                      <span>Petrol</span>
-                      <span>Saloon</span>
+                  <div className="irBot">
+                    <div className="instructorCta">
+                      <a>Book Now</a>
+                    </div>
+                    <div className="abilitiesContainer">
+                      <h4>
+                        <i class="fas fa-hand-holding-magic" /> £10/Lesson
+                      </h4>
+                      <h4>
+                        <i class="fas fa-trophy-alt" /> 100% Success Rate
+                      </h4>
+                      <h4>
+                        <i class="fas fa-car" /> Porsche Panamera
+                      </h4>
                     </div>
                   </div>
                 </div>
-                <div className="locationDistance">0.3 Miles away</div>
-              </div>
-              <div className="irBot">
-                <div className="instructorCta">
-                  <a>Book Now</a>
-                </div>
-                <div className="abilitiesContainer">
-                  <h4>
-                    <i class="fas fa-hand-holding-magic" /> £10/Lesson
-                  </h4>
-                  <h4>
-                    <i class="fas fa-trophy-alt" /> 100% Success Rate
-                  </h4>
-                  <h4>
-                    <i class="fas fa-car" /> Porsche Panamera
-                  </h4>
-                </div>
-              </div>
-            </div>
+              )
+            })
+          }
           </div>
         </div>
       </div>
