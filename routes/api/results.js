@@ -7,7 +7,7 @@ const InstructorProfile = require("../../models/InstructorProfile");
 // @PATH    - GET /api/results/:postalCode
 // @ACCESS  - Private
 // @DESC    - Get instructors within the zip code area
-// @TODO:   - Add more data to the response
+// @TODO:   - Add more data to the response, add Passport authentication after done with testing
 router.get(
   "/:postalCode",
   (req, res) => {
