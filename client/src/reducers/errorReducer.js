@@ -1,6 +1,8 @@
+import { GET_ERRORS } from '../actions/types';
+
 export default (state = {}, action) => {
   switch (action.type) {
-    case "SIMPLE_ACTION":
+    case GET_ERRORS:
       return {
         result: action.payload
       };
