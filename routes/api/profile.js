@@ -17,9 +17,13 @@ router.get(
     // Check user type
     crossValidator.typeCheck(req.user);
     setTimeout(() => {
-      const { finalResult } = crossValidator.types;
+      const {
+        finalResult
+      } = crossValidator.types;
       if (finalResult === "instructor") {
-        InstructorProfile.findOne({ user: req.user.id })
+        InstructorProfile.findOne({
+            user: req.user.id
+          })
           .then(profile => {
             if (!profile) {
               res
@@ -35,7 +39,9 @@ router.get(
           })
           .catch(err => console.log(err));
       } else if (finalResult === "learner") {
-        LearnerProfile.findOne({ user: req.user.id }).then(profile => {
+        LearnerProfile.findOne({
+          user: req.user.id
+        }).then(profile => {
           if (!profile) {
             res
               .status(404)
@@ -65,7 +71,9 @@ router.post(
     // Check user type
     crossValidator.typeCheck(req.user);
     setTimeout(() => {
-      const { finalResult } = crossValidator.types;
+      const {
+        finalResult
+      } = crossValidator.types;
       if (finalResult === "instructor") {
         // Check if a profile exists
         InstructorProfile.findOne({
@@ -73,13 +81,12 @@ router.post(
         }).then(profile => {
           if (!profile) {
             const newProfile = new InstructorProfile({
-              user: req.body.user,
+              user: req.user.id,
               gender: req.body.gender,
               schedule: [],
               profilePicture: req.body.profilePicture,
               experience: {
-                from: req.body.from,
-                to: req.body.to
+                from: req.body.from
               },
               biography: req.body.biography,
               qualifications: {
@@ -138,9 +145,13 @@ router.get(
     // Check user type
     crossValidator.typeCheck(req.user);
     setTimeout(() => {
-      const { finalResult } = crossValidator.types;
+      const {
+        finalResult
+      } = crossValidator.types;
       if (finalResult === "instructor") {
-        InstructorProfile.findOne({ user: req.user.id }).then(profile => {
+        InstructorProfile.findOne({
+          user: req.user.id
+        }).then(profile => {
           if (!profile) {
             return res.status(404).send("Profile not found.");
           } else {
@@ -164,9 +175,13 @@ router.put(
     // Check user type
     crossValidator.typeCheck(req.user);
     setTimeout(() => {
-      const { finalResult } = crossValidator.types;
+      const {
+        finalResult
+      } = crossValidator.types;
       if (finalResult === "instructor") {
-        InstructorProfile.findOne({ user: req.user.id }).then(profile => {
+        InstructorProfile.findOne({
+          user: req.user.id
+        }).then(profile => {
           if (!profile) {
             res.status(404).send("Profile not found.");
           } else {
@@ -195,9 +210,13 @@ router.delete(
     session: false
   }),
   (req, res) => {
-    const { finalResult } = crossValidator.types;
+    const {
+      finalResult
+    } = crossValidator.types;
     if (finalResult === "instructor") {
-      InstructorProfile.findOne({ user: req.user.id }).then(profile => {
+      InstructorProfile.findOne({
+        user: req.user.id
+      }).then(profile => {
         if (!profile) {
           res.status(404).send("Profile not found.");
         } else {
