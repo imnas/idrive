@@ -40,7 +40,7 @@ export class InstructorResults extends Component {
         <div className="resultsFilterTopWrap">
           <div className="resultsFilterContainer">
             <h4>
-              <i className="far fa-search-location" /> Driving instructors near
+              <i className="far fa-search-location" /> Driving instructors near: 
               <strong>{ this.state.zipCode }</strong>
             </h4>
             <div className="filterOptionsContainer">

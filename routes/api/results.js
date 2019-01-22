@@ -15,7 +15,7 @@ router.get(
     Instructor.find({
       postalCode: req.params.postalCode
     }).then(instructors => {
-      if (instructors) {
+      if (instructors.length > 0) {
         instructors.map(instructor => {
           let newInstructorResult = {};
           newInstructorResult.id = instructor.id;
@@ -38,6 +38,7 @@ router.get(
           });
         });
       } else {
+        console.log('hey')
         res.status(404).send("No instructors found in your area.");
       }
     });
