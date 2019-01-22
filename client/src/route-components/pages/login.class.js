@@ -3,39 +3,53 @@ import Checkbox from "rc-checkbox";
 import Header from "../includes/header.class";
 import { NavLink } from "react-router-dom";
 import "rc-checkbox/assets/index.css";
-import axios from 'axios';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { loginUser } from '../../actions/authActions';
 
-export default class Login extends Component {
+class Login extends Component {
+
   constructor() {
     super();
-    this.state = { disabled: false };
+    this.state = {
+      email: '',
+      password: '',
+      errors: {}
+    };
+    this.onChange = this.onChange.bind(this);
+    this.loginUser = this.loginUser.bind(this);
   }
 
-  toggle = () => {
-    this.setState(state => ({
-      disabled: !state.disabled
-    }));
+  onChange(e) {
+    this.setState({[e.target.name]: e.target.value});
   };
 
-  testLogin = (e) => {
+  loginUser(e) {
     e.preventDefault();
-    // Change to ref value and put input field values into state
-    const newUser = {
-      email: document.getElementById('inputEmail').value,
-      password: document.getElementById('inputPassword').value, 
+    const userData = {
+      email: this.state.email,
+      password: this.state.password
     };
-    axios.post('http://localhost:9000/api/auth/login', newUser)
-      .then(res => res.data)
-      .then(data => {
-        localStorage.setItem('token', data.token);
-        if(localStorage.token) {
-          console.log('Logged In!');
-        }
-      })
-      .catch(err => console.log(err));
+    this.props.loginUser(userData);
+  };
+  
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/dashboard');
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.auth.isAuthenticated) {
+      this.props.history.push('/dashboard');
+    }
+    if(nextProps.errors) {
+      this.setState({errors: nextProps.errors});
+    }
+  }
 
   render() {
+    const { errors } = this.state;
     return (
       <div className="formsWrapper">
         <Header />
@@ -47,11 +61,11 @@ export default class Login extends Component {
             <h4>Welcome back, Please login to your account</h4>
             <form>
               <div className="floatingInputContainer">
-                <input id="inputEmail" type="text" className="inputText" required />
+                <input onChange={this.onChange} name="email" type="text" className="inputText" required />
                 <span className="floating-label">Your Email</span>
               </div>
               <div className="floatingInputContainer">
-                <input id="inputPassword" type="password" className="inputText" required />
+                <input onChange={this.onChange} name="password" type="password" className="inputText" required />
                 <span className="floating-label">Your Password</span>
               </div>
               <div className="formLinks">
@@ -64,7 +78,7 @@ export default class Login extends Component {
                 <NavLink to="/recover">Forgot Password?</NavLink>
               </div>
               <div className="formCta">
-                <button onClick={this.testLogin}>Login</button>
+                <button onClick={this.loginUser}>Login</button>
                 <NavLink to="/signup">Sign Up</NavLink>
               </div>
             </form>
@@ -74,3 +88,16 @@ export default class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(mapStateToProps, { loginUser })(Login);
