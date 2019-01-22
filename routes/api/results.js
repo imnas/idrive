@@ -16,13 +16,13 @@ router.get('/:postalCode', passport.authenticate('jwt', {
             postalCode: req.params.postalCode
         })
         .then(instructors => {
-            if(instructors) {
-                for (let i = 0; i < instructors.length; i++) {
+            if (instructors) {
+                instructors.map(instructor => {
                     let newInstructorResult = {
-                        name: `${instructors[i].firstName} ${instructors[i].lastName}`
+                        name: `${instructor.firstName} ${instructor.lastName}`
                     };
                     result.push(newInstructorResult);
-                }
+                })
                 res.json(result);
             } else {
                 res.status(404).send('No instructors found in your area.');
