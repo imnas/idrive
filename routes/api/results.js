@@ -16,7 +16,7 @@ router.get(
       postalCode: req.params.postalCode
     }).then(instructors => {
       if (instructors) {
-        instructors.map((instructor, index) => {
+        instructors.map(instructor => {
           let newInstructorResult = {};
           newInstructorResult.id = instructor.id;
           newInstructorResult.name = `${instructor.firstName} ${
