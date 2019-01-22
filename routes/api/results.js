@@ -10,6 +10,7 @@ const InstructorProfile = require("../../models/InstructorProfile");
 // @TODO:   - Add more data to the response, add Passport authentication after done with testing
 router.get(
   "/:postalCode",
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     let result = [];
     Instructor.find({
@@ -19,26 +20,23 @@ router.get(
         instructors.map(instructor => {
           let newInstructorResult = {};
           newInstructorResult.id = instructor.id;
-          newInstructorResult.name = `${instructor.firstName} ${
-            instructor.lastName
-          }`;
+          newInstructorResult.name = `${instructor.firstName} ${instructor.lastName}`;
           result.push(newInstructorResult);
         });
         result.map((instructor, index) => {
           InstructorProfile.findOne({ user: instructor.id }).then(profile => {
             if (profile) {
-              (result[index].gender = profile.gender),
-                (result[index].carImage = profile.cars[0].image);
-              if (index === result.length - 1) {
-                setTimeout(() => {
-                  res.json(result);
-                }, 500);
-              }
+              result[index].gender = profile.gender,
+                result[index].carImage = profile.cars[0].image;
+            }
+            if (index == result.length - 1) {
+              setTimeout(() => {
+                res.status(200).json(result);
+              }, 500);
             }
           });
         });
       } else {
-        console.log('hey')
         res.status(404).send("No instructors found in your area.");
       }
     });

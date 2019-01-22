@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import axios from 'axios';
+import setAuthToken from '../../utils/setAuthToken';
 
 const distance = ["+ 1 miles", "+ 30 miles", "+ 40 miles"];
 const transmission = ["Both", "Automatic", "Manual"];
@@ -24,7 +25,7 @@ export class InstructorResults extends Component {
 
   // @TODO: Output the data instead of logging it
   search() {
-    axios.get(`http://localhost:9000/api/results/${this.state.zipCode}`)
+      axios.get(`http://localhost:9000/api/results/${this.state.zipCode}`, { headers: { "Authorization": localStorage.jwt } })
       .then(res => console.log(res.data));
   }
 
