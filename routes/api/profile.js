@@ -133,6 +133,72 @@ router.post(
   }
 );
 
+// @PATH    - PUT /api/profile/edit
+// @ACCESS  - Private
+// @DESC    - Edit a profile
+router.post(
+  "/add",
+  passport.authenticate("jwt", {
+    session: false
+  }),
+  (req, res) => {
+    // Check user type
+    crossValidator.typeCheck(req.user);
+    setTimeout(() => {
+      const {
+        finalResult
+      } = crossValidator.types;
+      if (finalResult === "instructor") {
+        // Check if a profile exists
+        InstructorProfile.findOne({
+          user: req.user.id
+        }).then(profile => {
+          if (profile) {
+            const editedProfile = {
+              profilePicture: req.body.profilePicture,
+              experience: {
+                from: req.body.from
+              },
+              biography: req.body.biography,
+              qualifications: {
+                transmissionTypes: {
+                  manual: req.body.manual,
+                  automatic: req.body.automatic
+                }
+              }
+            };
+            profile.profilePicture = editedProfile.profilePicture;
+            profile.experience.from = editedProfile.experience.from;
+            profile.biography = editedProfile.biography;
+            profile.qualifications.transmissionTypes.manual = editedProfile.qualifications.transmissionTypes.manual;
+            profile.qualifications.transmissionTypes.automatic = editedProfile.qualifications.transmissionTypes.automatic;
+            profile.save();
+            res.status(200).json(profile);
+          } else {
+            res.status(404).send("No profile found.");
+          }
+        });
+      } else if (finalResult === "learner") {
+        // Check if a profile exists
+        LearnerProfile.findOne({
+          user: req.user.id
+        }).then(profile => {
+          if (profile) {
+            const editedProfile = {
+              profilePicture: req.body.profilePicture
+            };
+            profile.profilePicture = editedProfile.profilePicture;
+            profile.save();
+            res.status(200).json(profile);
+          } else {
+            res.status(404).send("No profile found.");
+          }
+        });
+      }
+    }, 1000);
+  }
+);
+
 // @PATH    - GET /api/profile/schedule
 // @ACCESS  - Private
 // @DESC    - Get instructor schedule
