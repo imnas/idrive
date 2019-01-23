@@ -21,11 +21,11 @@ export default class Recover extends Component {
         <Header />
         <div class="formContainerExternal">
           <div className="formContainer recoverForm">
-            <h2>
-              Passwords can get hard to remember, that's why we recommend
-              lastpass
-            </h2>
-            <h4>Enter your email below to regain access to your account</h4>
+            <h2>Keep your password safe!</h2>
+            <h4>
+              Enter your email below to begin the process and regain access to
+              your account
+            </h4>
             <form>
               <div className="floatingInputContainer">
                 <input type="text" class="inputText" required />
