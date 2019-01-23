@@ -163,10 +163,10 @@ router.get(
   }
 );
 
-// @PATH    - PUT /api/profile/schedule
+// @PATH    - POST /api/profile/schedule
 // @ACCESS  - Private
 // @DESC    - Push reminders to instructors schedules
-router.put(
+router.post(
   "/schedule",
   passport.authenticate("jwt", {
     session: false
@@ -191,7 +191,7 @@ router.put(
             };
             profile.schedule.push(newReminder);
             profile.save();
-            res.json(profile);
+            res.status(200).json(profile);
           }
         });
       } else {
@@ -201,7 +201,7 @@ router.put(
   }
 );
 
-// @PATH    - DELETE /api/profile/schedule
+// @PATH    - DELETE /api/profile/schedule/:index
 // @ACCESS  - Private
 // @DESC    - Delete reminders
 router.delete(
@@ -222,7 +222,7 @@ router.delete(
         } else {
           profile.schedule.splice(req.params.index, 1);
           profile.save();
-          res.json(profile);
+          res.status(200).json(profile);
         }
       });
     } else {
