@@ -23,7 +23,6 @@ export class InstructorResults extends Component {
     this.zipCode = this.zipCode.bind(this);
   }
 
-  // @TODO: Output the data instead of logging it
   search() {
     setAuthToken(localStorage.jwt);
     axios
