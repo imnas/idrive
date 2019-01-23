@@ -10,7 +10,6 @@ const InstructorProfile = require("../../models/InstructorProfile");
 // @TODO:   - Add more data to the response, add Passport authentication after done with testing
 router.get(
   "/:postalCode",
-  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     let result = [];
     Instructor.find({
