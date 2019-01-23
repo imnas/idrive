@@ -231,4 +231,62 @@ router.delete(
   }
 );
 
+// @PATH    - POST /api/profile/:id/cars/add
+// @ACCESS  - Private
+// @DESC    - Add a car
+router.post('/:id/cars/add', passport.authenticate('jwt', { session: false }), (req, res) => {
+  InstructorProfile.findOne({ user: req.params.id })
+      .then(profile => {
+        if (profile) {
+          const newCar = {
+            make: req.body.make,
+            model: req.body.model,
+            year: req.body.year,
+            registration: req.body.registration,
+            gearbox: req.body.registration,
+            image: req.body.image
+          };
+          profile.cars.push(newCar);
+          profile.save();
+          res.status(200).json(profile);
+        }
+      })
+});
+
+// @PATH    - PUT /api/profile/:id/cars/edit
+// @ACCESS  - Private
+// @DESC    - Edit a car
+router.put('/:id/cars/:index/edit', passport.authenticate('jwt', { session: false }), (req, res) => {
+  InstructorProfile.findOne({ user: req.params.id })
+      .then(profile => {
+        if (profile) {
+          const editedCar = {
+            make: req.body.make,
+            model: req.body.model,
+            year: req.body.year,
+            registration: req.body.registration,
+            gearbox: req.body.registration,
+            image: req.body.image
+          };
+          profile.cars[req.params.index] = editedCar;
+          profile.save();
+          res.status(200).json(profile);
+        }
+      })
+});
+
+// @PATH    - DELETE /api/profile/:id/cars/:id/delete
+// @ACCESS  - Private
+// @DESC    - Delete a car
+router.delete('/:id/cars/:index/delete', passport.authenticate('jwt', { session: false }), (req, res) => {
+  InstructorProfile.findOne({ user: req.params.id })
+      .then(profile => {
+        if (profile) {
+          profile.cars.splice(req.params.index, 1);
+          profile.save();
+          res.status(200).json(profile);
+        }
+      })
+});
+
 module.exports = router;
