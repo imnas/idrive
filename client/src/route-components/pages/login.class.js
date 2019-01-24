@@ -30,7 +30,7 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password
     };
-    this.props.loginUser(userData);
+    this.props.loginUser(userData, this.props.history);
   };
   
   componentDidMount() {
@@ -49,7 +49,6 @@ class Login extends Component {
   }
 
   render() {
-    const { errors } = this.state;
     return (
       <div className="formsWrapper">
         <Header />

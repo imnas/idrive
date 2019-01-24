@@ -17,7 +17,7 @@ export const registerUser = (userData, history) => dispatch => {
 };
 
 // Login User -> Get Token
-export const loginUser = userData => dispatch => {
+export const loginUser = (userData, history) => dispatch => {
   axios
     .post("http://localhost:9000/api/auth/login", userData)
     .then(res => {
@@ -26,12 +26,16 @@ export const loginUser = userData => dispatch => {
       setAuthToken(token);
       const decoded = jwt_decode(token);
       dispatch(setCurrentUser(decoded));
+      history.push('/search');
     })
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
+    .catch(err => {
+        if (err) {
+          dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+          })
+        }  
+      }
     );
 };
 
