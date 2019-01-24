@@ -30,21 +30,19 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password
     };
-    this.props.loginUser(userData, this.props.history);
+    this.props.loginUser(userData);
   };
   
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/search');
+      window.location.href = '/search';
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.auth.isAuthenticated) {
-      this.props.history.push('/search');
-    }
+    console.log('new props', nextProps);
     if(nextProps.errors) {
-      this.setState({errors: nextProps.errors});
+      this.setState({errors: nextProps.errors})
     }
   }
 
