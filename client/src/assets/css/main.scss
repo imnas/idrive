@@ -39,6 +39,7 @@ body,
 body {
   margin: 0;
   color: $primary-color;
+  background: #f6f7f8;
 }
 a,
 button {
@@ -451,7 +452,7 @@ button {
 .resultsWrapper {
   .resultsFilterTopWrap {
     padding: 50px 50px;
-    background: $primary-solid;
+    background: #ffffff;
     border-top: 1px solid #ffffff14;
   }
   .resultsFilterContainer {
@@ -461,11 +462,11 @@ button {
     > h4 {
       font-size: 25px;
       margin: 0px 0px 50px 0;
-      color: #fff;
+      // color: #fff;
       font-weight: 800;
       i {
         margin: 0px 5px 0 0;
-        color: #ffffff;
+        // color: #ffffff;
       }
       strong {
         font-weight: 900;
@@ -488,7 +489,7 @@ button {
           > label {
             font-size: 13px;
             font-weight: 800;
-            color: #fff;
+            // color: #fff;
             margin: 0 0 10px 0;
           }
           > input {
@@ -497,6 +498,11 @@ button {
             border-radius: 2px;
             padding: 0 30px;
             font-weight: 800;
+            border: 1px solid #23e0ab;
+          }
+          .Dropdown-control {
+            background: #ffffff !important;
+            border: 1px solid #ececec;
           }
         }
         .searchCtaContainerResults {
@@ -643,6 +649,154 @@ button {
           font-size: 11px;
           color: #fff;
         }
+      }
+    }
+  }
+}
+
+.resultsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 25px;
+  .individualResultAlt {
+    max-width: 325px;
+    width: 100%;
+    .instructorProfilePicContainer {
+      display: flex;
+      flex-direction: column;
+      height: 230px;
+      position: relative;
+      .distanceFromLearner {
+        position: absolute;
+        z-index: 1;
+        right: 20px;
+        top: 20px;
+        background: #525252;
+        border-radius: 2px;
+        font-size: 13px;
+        font-weight: 800;
+        padding: 5px 10px;
+        color: #fff;
+        i {
+          margin: 0 5px 0 0px;
+        }
+      }
+      .instructorCarContainer {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .starRatingInstructor {
+        position: absolute;
+        z-index: 1;
+        bottom: -13px;
+        right: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #525252;
+        max-width: 110px;
+        padding: 7.5px 0;
+        margin: auto;
+        border-radius: 2px;
+        color: #23e0ab;
+        font-size: 12px;
+        i:not(:first-child) {
+          margin-left: 5px;
+        }
+      }
+    }
+    .instructorListingInfoContainer {
+      text-align: center;
+      padding: 35px 10px 20px 10px;
+      background: #fff;
+      border: 1px solid rgb(239, 239, 239);
+      border-top: 0;
+      .vehicleContainer {
+        h5 {
+          font-size: 13px;
+          font-weight: 800;
+        }
+        .skillsContainer {
+          span {
+            background: #525252;
+            border-radius: 2px;
+            font-weight: 900;
+            color: #fff;
+            font-size: 9px;
+            text-transform: uppercase;
+            padding: 2.5px 5px;
+            &:not(:first-child) {
+              margin: 0 0 0 5px;
+            }
+          }
+        }
+      }
+      .costLesson {
+        font-size: 23px;
+        margin: 20px 0 0 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-weight: 800;
+        span {
+          color: $primary-solid;
+          margin: 0 5px 0 0;
+        }
+      }
+      .iPICta {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0 0 0;
+        padding: 0px 10px;
+        a {
+          &:nth-child(2) {
+            background: #0a71dd;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 15px;
+            font-weight: 800;
+            color: #fff;
+            border-radius: 2px;
+          }
+          &:nth-child(1) {
+            text-decoration: underline;
+            font-size: 13px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+    }
+    .instructorProfileInListing {
+      padding: 20px;
+      background: #fff;
+      border: 1px solid #efefef;
+      border-top: 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      > div:first-child {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .instructorProfileRound {
+        width: 50px;
+        height: 50px;
+        border-radius: 100%;
+        background-position: Center center;
+        background-size: cover;
       }
     }
   }

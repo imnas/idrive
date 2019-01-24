@@ -50,7 +50,11 @@ export class InstructorResults extends Component {
               <div className="filterRow">
                 <div className="individualFilterContainer">
                   <label>Your Location</label>
-                  <input name="zipCode" onChange={this.zipCode} />
+                  <input
+                    name="zipCode"
+                    onChange={this.zipCode}
+                    placeholder="SK7 2JE"
+                  />
                 </div>
                 <div className="individualFilterContainer">
                   <label>Search Distance</label>
@@ -90,16 +94,21 @@ export class InstructorResults extends Component {
         </div>
         <div className="resultsFilterWrapper">
           <div className="resultsContainer">
-          {
-            this.state.TEMP_DATA.map((instructor, index) => {
+            {/* {this.state.TEMP_DATA.map((instructor, index) => {
               return (
-                <div key={index} className="individualResult" style={{ marginBottom: "1em" }}>
+                <div
+                  key={index}
+                  className="individualResult"
+                  style={{ marginBottom: "1em" }}
+                >
                   <div className="iRTop">
                     <div
                       className="profileCarContainer"
                       style={{
                         backgroundImage:
-                          "url(" + "https://i.imgur.com/DPLaNh0.jpg" + ")"
+                          "url(" +
+                          "https://mydrivinglesson.co.uk/wp-content/uploads/2018/02/gp-pro-pic1-220x220.jpg" +
+                          ")"
                       }}
                     />
                     <div className="instructorDetailsContainer">
@@ -138,9 +147,68 @@ export class InstructorResults extends Component {
                     </div>
                   </div>
                 </div>
-              )
-            })
-          }
+              );
+            })} */}
+
+            {this.state.TEMP_DATA.map((instructor, index) => {
+              return (
+                <div key={index} className="individualResultAlt">
+                  <div className="instructorProfilePicContainer">
+                    <span className="distanceFromLearner">
+                      <i class="fas fa-location-circle" /> 3.4 mi
+                    </span>
+                    <div
+                      className="instructorCarContainer"
+                      style={{
+                        backgroundImage:
+                          "url(" + "https://i.imgur.com/DPLaNh0.jpg" + ")"
+                      }}
+                    />
+                    <span className="starRatingInstructor">
+                      <i class="fas fa-star" />
+                      <i class="fas fa-star" />
+                      <i class="fas fa-star" />
+                      <i class="fas fa-star" />
+                      <i class="fas fa-star" />
+                    </span>
+                  </div>
+                  <div className="instructorListingInfoContainer">
+                    <div className="vehicleContainer">
+                      <h5>Porsche Panamera 4S</h5>
+                      <div className="skillsContainer">
+                        <span>Automatic</span>
+                        <span>Petrol</span>
+                        <span>Saloon</span>
+                      </div>
+                    </div>
+                    <span className="costLesson">
+                      <span>£10</span> Per lesson
+                    </span>
+                    <div className="iPICta">
+                      <a>Bulk Prices</a>
+                      <a>Book Now</a>
+                    </div>
+                  </div>
+                  <div className="instructorProfileInListing">
+                    <div>
+                      <h4>{instructor.name}</h4>
+                      <h6>Driving Instructor</h6>
+                    </div>
+                    <div>
+                      <div
+                        className="instructorProfileRound"
+                        style={{
+                          backgroundImage:
+                            "url(" +
+                            "https://cdn.dribbble.com/users/45617/avatars/small/752d04eceff7497c06c15d59d3d7b45a.jpg?1456872243" +
+                            ")"
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
