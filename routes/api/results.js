@@ -1,13 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const passport = require("passport");
 const Instructor = require("../../models/Instructor");
 const InstructorProfile = require("../../models/InstructorProfile");
 
 // @PATH    - GET /api/results/:postalCode
 // @ACCESS  - Private
 // @DESC    - Get instructors within the zip code area
-// @TODO:   - Add more data to the response, add Passport authentication after done with testing
+// @TODO:   - Add more data to the response
 router.get(
   "/:postalCode",
   (req, res) => {
