@@ -12,8 +12,6 @@
 
 > Note: The `dev` script requires the `concurrently` npm module, so please install the dependencies before attempting to use it.
 
-- `./autocommit.sh` - Runs the bash script for pushing to the repository.
-
 - `npm run prep` - Installs dependencies for both the front-end and back-end.
 
 - `npm run client` - Runs the React server.
