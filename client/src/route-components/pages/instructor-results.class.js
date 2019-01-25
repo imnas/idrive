@@ -17,20 +17,50 @@ export class InstructorResults extends Component {
   constructor() {
     super();
     this.state = {
-      zipCode: ""
+      zipCode: "",
+      gender: "",
+      transmission: "",
+      query: {}
     };
     this.search = this.search.bind(this);
     this.zipCode = this.zipCode.bind(this);
+    this.query = this.query.bind(this);
+    this._onSelectGender = this._onSelectGender.bind(this);
+    this._onSelectTransmission = this._onSelectTransmission.bind(this);
   }
 
   search() {
     this.props.getInstructors(this.state.zipCode);
+    this.query();
   }
 
   zipCode(e) {
     this.setState({
       zipCode: e.target.value
     });
+  }
+
+  _onSelectGender = (e) => {
+      this.setState({
+        gender: e.value
+      });
+  }
+
+  _onSelectTransmission = (e) => {
+      this.setState({
+        transmission: e.value
+      });
+  }
+
+  query() {
+    const newQuery = {
+      gender: this.state.gender,
+      transmissionTypes: this.state.transmission
+    }
+    this.setState({
+      query: newQuery
+    });
+    console.log(this.state.query);
   }
 
   render() {
@@ -65,7 +95,7 @@ export class InstructorResults extends Component {
                   <label>Transmission Type</label>
                   <Dropdown
                     options={transmission}
-                    onChange={this._onSelect}
+                    onChange={this._onSelectTransmission}
                     value={defaultOptionTransmission}
                     placeholder="Automatic"
                   />
@@ -74,7 +104,7 @@ export class InstructorResults extends Component {
                   <label>Instructor Gender</label>
                   <Dropdown
                     options={gender}
-                    onChange={this._onSelect}
+                    onChange={this._onSelectGender}
                     value={defaultOptionGender}
                     placeholder="Any"
                   />
