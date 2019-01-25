@@ -25,6 +25,7 @@ router.get(
           InstructorProfile.findOne({ user: instructor.id }).then(profile => {
             if (profile) {
               result[index].gender = profile.gender,
+              result[index].profilePicture = profile.profilePicture,
               result[index].rate = profile.cars[0].rate,
               result[index].carMake = profile.cars[0].make,
               result[index].carModel = profile.cars[0].model,
