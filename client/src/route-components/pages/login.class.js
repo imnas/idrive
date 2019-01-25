@@ -13,7 +13,8 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      errors: {}
+      errors: {},
+      showErrors: false
     };
     this.onChange = this.onChange.bind(this);
     this.loginUser = this.loginUser.bind(this);
@@ -45,8 +46,14 @@ class Login extends Component {
     }
   }
 
+  toggleErrors = () => {
+    this.setState({ showErrors: true });
+    setTimeout(() => {
+      this.setState({ showErrors: false });
+    }, 500);
+  };
+
   render() {
-    var errors = JSON.stringify(this.state.errors.result);
     return (
       <div className="formsWrapper">
         <Header />
@@ -57,7 +64,6 @@ class Login extends Component {
             </h2>
             <h4>Welcome back, Please login to your account</h4>
             <form>
-              {errors}
               <div className="floatingInputContainer">
                 <input
                   onChange={this.onChange}
@@ -67,6 +73,15 @@ class Login extends Component {
                   required
                 />
                 <span className="floating-label">Your Email</span>
+                {this.state.errors.result ? (
+                  <div>
+                    {this.state.errors.result.userDoesNotExist ? (
+                      <span className="errorsOutputField">
+                        {this.state.errors.result.userDoesNotExist}
+                      </span>
+                    ) : null}
+                  </div>
+                ) : null}
               </div>
               <div className="floatingInputContainer">
                 <input
@@ -77,6 +92,15 @@ class Login extends Component {
                   required
                 />
                 <span className="floating-label">Your Password</span>
+                {this.state.errors.result ? (
+                  <div>
+                    {this.state.errors.result.incorrectPassword ? (
+                      <span className="errorsOutputField">
+                        {this.state.errors.result.incorrectPassword}
+                      </span>
+                    ) : null}
+                  </div>
+                ) : null}
               </div>
               <div className="formLinks">
                 <p>
@@ -112,5 +136,4 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { loginUser }
-)(Login);
+  { loginUser })(Login);
