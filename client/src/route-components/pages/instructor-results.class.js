@@ -92,7 +92,7 @@ export class InstructorResults extends Component {
                   <Dropdown
                     options={distance}
                     onChange={this._onSelectDistance}
-                    value={this.state.distance}
+                    value={this.state.distance === '1' ? `${this.state.distance} mile` : `${this.state.distance} miles`}
                     placeholder="1 mile"
                   />
                 </div>
@@ -101,7 +101,7 @@ export class InstructorResults extends Component {
                   <Dropdown
                     options={transmission}
                     onChange={this._onSelectTransmission}
-                    value={this.state.transmission}
+                    value={`${this.state.transmission.charAt(0).toUpperCase()}${this.state.transmission.slice(1)}`}
                     placeholder="Both"
                   />
                 </div>
@@ -110,7 +110,7 @@ export class InstructorResults extends Component {
                   <Dropdown
                     options={gender}
                     onChange={this._onSelectGender}
-                    value={this.state.gender}
+                    value={`${this.state.gender.charAt(0).toUpperCase()}${this.state.gender.slice(1)}`}
                     placeholder="Any"
                   />
                 </div>
