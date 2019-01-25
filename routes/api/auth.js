@@ -142,11 +142,11 @@ router.post('/login', (req, res) => {
                   });
                 } else {
                   // Send a 'Incorrect Password' message
-                  res.status(401).send('Incorrect password.')
+                  res.status(401).json({ incorrectPassword: 'Incorrect Password.' });
                 }
               })
           } else {
-            res.status(404).send('User does not exist.');
+            res.status(404).json({userDoesNotExist: 'User does not exist.'});
           }
         })
       // Log in a learner
@@ -182,15 +182,15 @@ router.post('/login', (req, res) => {
                   });
                 } else {
                   // Send an 'Incorrect Password' message
-                  res.status(401).send('Incorrect password.')
+                  res.status(401).json({ incorrectPassword: 'Incorrect Password.' });
                 }
               })
           } else {
-            res.status(404).send('User does not exist.');
+            res.status(404).json({userDoesNotExist: 'User does not exist.'});
           }
         })
     } else {
-      res.status(404).send('User does not exist.');
+      res.status(404).json({userDoesNotExist: 'User does not exist.'});
     }
   }, 1000);
 });
