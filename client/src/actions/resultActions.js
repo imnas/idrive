@@ -4,8 +4,7 @@ import { SEARCH_RESULTS, SEARCH_LOADING, GET_ERRORS } from './types';
 // Get instructors via zipcode
 export const getInstructors = zipCode => dispatch => {
   dispatch(setInstructorLoading());
-  axios
-      .get(`http://localhost:9000/api/results/${zipCode}`)
+    axios.get(`http://localhost:9000/api/results/${zipCode}`)
       .then(res => dispatch({
           type: SEARCH_RESULTS,
           payload: res.data

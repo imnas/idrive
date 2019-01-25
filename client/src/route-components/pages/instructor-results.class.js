@@ -10,8 +10,6 @@ const transmission = ["Both", "Automatic", "Manual"];
 const gender = ["Any", "Male", "Female"];
 
 const defaultOptionDistance = distance[0];
-const defaultOptionTransmission = transmission[0];
-const defaultOptionGender = gender[0];
 
 export class InstructorResults extends Component {
   constructor() {
@@ -19,19 +17,24 @@ export class InstructorResults extends Component {
     this.state = {
       zipCode: "",
       gender: "",
-      transmission: "",
-      query: {}
+      transmission: ""
     };
     this.search = this.search.bind(this);
     this.zipCode = this.zipCode.bind(this);
-    this.query = this.query.bind(this);
     this._onSelectGender = this._onSelectGender.bind(this);
     this._onSelectTransmission = this._onSelectTransmission.bind(this);
   }
 
   search() {
-    this.props.getInstructors(this.state.zipCode);
-    this.query();
+    const { gender, transmission, zipCode } = this.state;
+    if (gender.length > 0 || transmission.length > 0) {
+      const query = {
+        gender: gender.toLowerCase(),
+        transmissionTypes: transmission.toLowerCase()
+      };
+      this.props.getInstructors(zipCode, query);
+    }
+    this.props.getInstructors(zipCode);
   }
 
   zipCode(e) {
@@ -41,26 +44,27 @@ export class InstructorResults extends Component {
   }
 
   _onSelectGender = (e) => {
+    if (e.value !== 'Any') {
       this.setState({
         gender: e.value
       });
+    } else {
+      this.setState({
+        gender: ''
+      });
+    }
   }
 
   _onSelectTransmission = (e) => {
+    if (e.value !== 'Both') {
       this.setState({
         transmission: e.value
       });
-  }
-
-  query() {
-    const newQuery = {
-      gender: this.state.gender,
-      transmissionTypes: this.state.transmission
+    } else {
+      this.setState({
+        transmission: ''
+      });
     }
-    this.setState({
-      query: newQuery
-    });
-    console.log(this.state.query);
   }
 
   render() {
@@ -96,8 +100,8 @@ export class InstructorResults extends Component {
                   <Dropdown
                     options={transmission}
                     onChange={this._onSelectTransmission}
-                    value={defaultOptionTransmission}
-                    placeholder="Automatic"
+                    value={this.state.transmission}
+                    placeholder="Both"
                   />
                 </div>
                 <div className="individualFilterContainer">
@@ -105,7 +109,7 @@ export class InstructorResults extends Component {
                   <Dropdown
                     options={gender}
                     onChange={this._onSelectGender}
-                    value={defaultOptionGender}
+                    value={this.state.gender}
                     placeholder="Any"
                   />
                 </div>
