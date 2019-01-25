@@ -65,9 +65,30 @@ router.get('/:handle/profile', passport.authenticate('jwt', {
         .then(profile => {
             if (profile) {
                 const instructor = {
+                    gender: profile.gender,
                     profilePicture: profile.profilePicture,
+                    experience: {
+                        from: profile.from
+                    },
                     biography: profile.biography,
-                    experience: profile.experience
+                    qualifications: {
+                        adi: profile.adi,
+                        cpd: profile.cpd,
+                        transmissionTypes: {
+                        manual: profile.manual,
+                        automatic: profile.automatic
+                        }
+                    },
+                    cars: {
+                        make: profile.make,
+                        model: profile.model,
+                        year: profile.year,
+                        registration: profile.registration,
+                        gearbox: profile.gearbox,
+                        image: profile.image,
+                        fuel: profile.fuel
+                    },
+                    rate: profile.rate
                 };
                 return res.status(200).json(instructor);
             } else {

@@ -76,8 +76,16 @@ const instructorProfileSchema = new Schema({
     image: {
       type: String,
       required: true
+    },
+    fuel: {
+      type: String,
+      required: true
     }
-  }]
+  }],
+  rate: {
+    type: String,
+    required: true
+  }
 });
 
 module.exports = InstructorProfile = mongoose.model('instructorProfiles', instructorProfileSchema);

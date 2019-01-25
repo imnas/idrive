@@ -103,8 +103,10 @@ router.post(
                 year: req.body.year,
                 registration: req.body.registration,
                 gearbox: req.body.gearbox,
-                image: req.body.image
-              }
+                image: req.body.image,
+                fuel: req.body.fuel
+              },
+              rate: req.body.rate
             });
             newProfile.save();
             res.status(200).json(newProfile);
@@ -310,7 +312,8 @@ router.post('/cars/add', passport.authenticate('jwt', { session: false }), (req,
             year: req.body.year,
             registration: req.body.registration,
             gearbox: req.body.registration,
-            image: req.body.image
+            image: req.body.image,
+            fuel: req.body.fuel
           };
           profile.cars.push(newCar);
           profile.save();
@@ -332,7 +335,8 @@ router.put('/cars/edit/:index', passport.authenticate('jwt', { session: false })
             year: req.body.year,
             registration: req.body.registration,
             gearbox: req.body.registration,
-            image: req.body.image
+            image: req.body.image,
+            fuel: req.body.fuel
           };
           profile.cars[req.params.index] = editedCar;
           profile.save();
