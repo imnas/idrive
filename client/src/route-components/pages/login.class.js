@@ -42,7 +42,6 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("new props", nextProps);
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
