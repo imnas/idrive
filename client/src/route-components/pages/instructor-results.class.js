@@ -5,11 +5,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getInstructors } from "../../actions/resultActions";
 
-const distance = ["+ 1 miles", "+ 30 miles", "+ 40 miles"];
+const distance = ["1 mile", "30 miles", "40 miles"];
 const transmission = ["Both", "Automatic", "Manual"];
 const gender = ["Any", "Male", "Female"];
-
-const defaultOptionDistance = distance[0];
 
 export class InstructorResults extends Component {
   constructor() {
@@ -17,23 +15,19 @@ export class InstructorResults extends Component {
     this.state = {
       zipCode: "",
       gender: "",
-      transmission: ""
+      transmission: "",
+      distance: "1"
     };
     this.search = this.search.bind(this);
     this.zipCode = this.zipCode.bind(this);
-    this._onSelectGender = this._onSelectGender.bind(this);
-    this._onSelectTransmission = this._onSelectTransmission.bind(this);
   }
 
   search() {
     const { gender, transmission, zipCode } = this.state;
-    if (gender.length > 0 || transmission.length > 0) {
-      const query = {
-        gender: gender.toLowerCase(),
-        transmissionTypes: transmission.toLowerCase()
-      };
-      this.props.getInstructors(zipCode, query);
-    }
+    const query = {
+      gender,
+      transmissionTypes: transmission
+    };
     this.props.getInstructors(zipCode);
   }
 
@@ -46,7 +40,7 @@ export class InstructorResults extends Component {
   _onSelectGender = (e) => {
     if (e.value !== 'Any') {
       this.setState({
-        gender: e.value
+        gender: e.value.toLowerCase()
       });
     } else {
       this.setState({
@@ -58,13 +52,20 @@ export class InstructorResults extends Component {
   _onSelectTransmission = (e) => {
     if (e.value !== 'Both') {
       this.setState({
-        transmission: e.value
+        transmission: e.value.toLowerCase()
       });
     } else {
       this.setState({
         transmission: ''
       });
     }
+  }
+
+  _onSelectDistance = (e) => {
+    const value = e.value.split(' ');
+    this.setState({
+      distance: `${value[0]}`
+    });
   }
 
   render() {
@@ -90,9 +91,9 @@ export class InstructorResults extends Component {
                   <label>Search Distance</label>
                   <Dropdown
                     options={distance}
-                    onChange={this._onSelect}
-                    value={defaultOptionDistance}
-                    placeholder="+ 1 miles"
+                    onChange={this._onSelectDistance}
+                    value={this.state.distance}
+                    placeholder="1 mile"
                   />
                 </div>
                 <div className="individualFilterContainer">
