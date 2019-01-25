@@ -159,8 +159,7 @@ export class InstructorResults extends Component {
                     <div
                       className="instructorCarContainer"
                       style={{
-                        backgroundImage:
-                          "url(" + "https://i.imgur.com/DPLaNh0.jpg" + ")"
+                        backgroundImage: `url(${instructor.carImage})`
                       }}
                     />
                     <span className="starRatingInstructor">
@@ -173,15 +172,14 @@ export class InstructorResults extends Component {
                   </div>
                   <div className="instructorListingInfoContainer">
                     <div className="vehicleContainer">
-                      <h5>Porsche Panamera 4S</h5>
+                      <h5>{`${instructor.carMake} ${instructor.carModel}`}</h5>
                       <div className="skillsContainer">
-                        <span>Automatic</span>
-                        <span>Petrol</span>
-                        <span>Saloon</span>
+                        <span>{instructor.carGearbox}</span>
+                        <span>{instructor.carFuel}</span>
                       </div>
                     </div>
                     <span className="costLesson">
-                      <span>£10</span> Per lesson
+                      <span>{instructor.rate}</span> Per lesson
                     </span>
                     <div className="iPICta">
                       <a>Bulk Prices</a>
@@ -197,10 +195,7 @@ export class InstructorResults extends Component {
                       <div
                         className="instructorProfileRound"
                         style={{
-                          backgroundImage:
-                            "url(" +
-                            "https://cdn.dribbble.com/users/45617/avatars/small/752d04eceff7497c06c15d59d3d7b45a.jpg?1456872243" +
-                            ")"
+                          backgroundImage: `url(${instructor.profilePicture})`
                         }}
                       />
                     </div>
