@@ -3,17 +3,16 @@ import Checkbox from "rc-checkbox";
 import Header from "../includes/header.class";
 import { NavLink } from "react-router-dom";
 import "rc-checkbox/assets/index.css";
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { loginUser } from '../../actions/authActions';
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { loginUser } from "../../actions/authActions";
 
 class Login extends Component {
-
   constructor() {
     super();
     this.state = {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       errors: {}
     };
     this.onChange = this.onChange.bind(this);
@@ -21,8 +20,8 @@ class Login extends Component {
   }
 
   onChange(e) {
-    this.setState({[e.target.name]: e.target.value});
-  };
+    this.setState({ [e.target.name]: e.target.value });
+  }
 
   loginUser(e) {
     e.preventDefault();
@@ -31,22 +30,23 @@ class Login extends Component {
       password: this.state.password
     };
     this.props.loginUser(userData);
-  };
-  
+  }
+
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
-      window.location.href = '/search';
-    };
+      window.location.href = "/search";
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('new props', nextProps);
-    if(nextProps.errors) {
-      this.setState({errors: nextProps.errors})
+    console.log("new props", nextProps);
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
     }
   }
 
   render() {
+    var errors = JSON.stringify(this.state.errors.result);
     return (
       <div className="formsWrapper">
         <Header />
@@ -57,12 +57,25 @@ class Login extends Component {
             </h2>
             <h4>Welcome back, Please login to your account</h4>
             <form>
+              {errors}
               <div className="floatingInputContainer">
-                <input onChange={this.onChange} name="email" type="text" className="inputText" required />
+                <input
+                  onChange={this.onChange}
+                  name="email"
+                  type="text"
+                  className="inputText"
+                  required
+                />
                 <span className="floating-label">Your Email</span>
               </div>
               <div className="floatingInputContainer">
-                <input onChange={this.onChange} name="password" type="password" className="inputText" required />
+                <input
+                  onChange={this.onChange}
+                  name="password"
+                  type="password"
+                  className="inputText"
+                  required
+                />
                 <span className="floating-label">Your Password</span>
               </div>
               <div className="formLinks">
@@ -90,11 +103,14 @@ Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
-}
+};
 
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { loginUser })(Login);
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(Login);

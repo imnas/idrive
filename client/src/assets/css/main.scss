@@ -659,7 +659,7 @@ button {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-gap: 25px;
   .individualResultAlt {
-    max-width: 325px;
+    // max-width: 325px;
     width: 100%;
     .instructorProfilePicContainer {
       display: flex;
