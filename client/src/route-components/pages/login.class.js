@@ -25,12 +25,14 @@ class Login extends Component {
   }
 
   loginUser(e) {
+    this.setState({ errors: {} });
     e.preventDefault();
     const userData = {
       email: this.state.email,
       password: this.state.password
     };
     this.props.loginUser(userData);
+    this.toggleErrors();
   }
 
   componentDidMount() {
@@ -50,7 +52,7 @@ class Login extends Component {
     this.setState({ showErrors: true });
     setTimeout(() => {
       this.setState({ showErrors: false });
-    }, 500);
+    }, 2500);
   };
 
   render() {
@@ -73,7 +75,7 @@ class Login extends Component {
                   required
                 />
                 <span className="floating-label">Your Email</span>
-                {this.state.errors.result ? (
+                {this.state.errors.result && this.state.showErrors ? (
                   <div>
                     {this.state.errors.result.userDoesNotExist ? (
                       <span className="errorsOutputField">
@@ -92,7 +94,7 @@ class Login extends Component {
                   required
                 />
                 <span className="floating-label">Your Password</span>
-                {this.state.errors.result ? (
+                {this.state.errors.result && this.state.showErrors ? (
                   <div>
                     {this.state.errors.result.incorrectPassword ? (
                       <span className="errorsOutputField">
