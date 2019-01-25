@@ -142,7 +142,7 @@ router.post('/login', (req, res) => {
                   });
                 } else {
                   // Send a 'Incorrect Password' message
-                  res.status(401).json({ incorrectPassword: 'Incorrect Password.' });
+                  res.status(401).json({incorrectPassword: 'Incorrect Password.'});
                 }
               })
           } else {
@@ -182,7 +182,7 @@ router.post('/login', (req, res) => {
                   });
                 } else {
                   // Send an 'Incorrect Password' message
-                  res.status(401).json({ incorrectPassword: 'Incorrect Password.' });
+                  res.status(401).json({incorrectPassword: 'Incorrect Password.'});
                 }
               })
           } else {
