@@ -19,6 +19,7 @@ router.get(
           let newInstructorResult = {};
           newInstructorResult.id = instructor.id;
           newInstructorResult.name = `${instructor.firstName} ${instructor.lastName}`;
+          newInstructorResult.address = instructor.address;
           result.push(newInstructorResult);
         });
         result.map((instructor, index) => {
