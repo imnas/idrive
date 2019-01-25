@@ -17,8 +17,7 @@ export class InstructorResults extends Component {
   constructor() {
     super();
     this.state = {
-      zipCode: "",
-      TEMP_DATA: []
+      zipCode: ""
     };
     this.search = this.search.bind(this);
     this.zipCode = this.zipCode.bind(this);
