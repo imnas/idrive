@@ -26,9 +26,6 @@ export class InstructorResults extends Component {
 
   search() {
     this.props.getInstructors(this.state.zipCode);
-    // axios
-    //   .get(`http://localhost:9000/api/results/${this.state.zipCode}`)
-    //   .then(res => this.setState({ TEMP_DATA: res.data }));
   }
 
   zipCode(e) {
