@@ -15,7 +15,8 @@ export default function(state = initialState, action) {
     case SEARCH_RESULTS:
       return {
         ...state,
-        instructors: action.payload
+        instructors: action.payload,
+        loading: false
     }
     default:
       return state;

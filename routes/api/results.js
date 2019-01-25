@@ -29,6 +29,10 @@ router.get(
                 result[index].gender = profile.gender,
                 result[index].profilePicture = profile.profilePicture,
                 result[index].rate = profile.rate,
+                result[index].transmissionTypes = {
+                  manual: profile.qualifications[0].transmissionTypes[0].manual,
+                  automatic: profile.qualifications[0].transmissionTypes[0].automatic
+                },
                 result[index].carMake = profile.cars[0].make,
                 result[index].carModel = profile.cars[0].model,
                 result[index].carFuel = profile.cars[0].fuel,
