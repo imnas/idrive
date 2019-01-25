@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
-import axios from "axios";
-import setAuthToken from "../../utils/setAuthToken";
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getInstructors } from '../../actions/resultActions';
 
 const distance = ["+ 1 miles", "+ 30 miles", "+ 40 miles"];
 const transmission = ["Both", "Automatic", "Manual"];
@@ -24,10 +25,10 @@ export class InstructorResults extends Component {
   }
 
   search() {
-    setAuthToken(localStorage.jwt);
-    axios
-      .get(`http://localhost:9000/api/results/${this.state.zipCode}`)
-      .then(res => this.setState({ TEMP_DATA: res.data }));
+    this.props.getInstructors(this.state.zipCode);
+    // axios
+    //   .get(`http://localhost:9000/api/results/${this.state.zipCode}`)
+    //   .then(res => this.setState({ TEMP_DATA: res.data }));
   }
 
   zipCode(e) {
@@ -149,7 +150,7 @@ export class InstructorResults extends Component {
               );
             })} */}
 
-            {this.state.TEMP_DATA.map((instructor, index) => {
+            {this.props.results.instructors.map((instructor, index) => {
               return (
                 <div key={index} className="individualResultAlt">
                   <div className="instructorProfilePicContainer">
@@ -210,4 +211,15 @@ export class InstructorResults extends Component {
   }
 }
 
-export default InstructorResults;
+InstructorResults.propTypes = {
+  getInstructors: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  results: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  errors: state.errors,
+  results: state.results
+});
+
+export default connect(mapStateToProps, { getInstructors })(InstructorResults);
