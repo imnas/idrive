@@ -11,7 +11,7 @@ export default class Landing extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="homeContainer">
         <div className="homeHeader">
           <Header landing={true} />
           <div className="headerBodyContainer">
@@ -56,7 +56,7 @@ export default class Landing extends Component {
             </div>
             <div>
               <span className="abShape" />
-              <i class="fal fa-car" />
+              <i class="fal fa-car-bump" />
               <h5>Learn in any car</h5>
             </div>
             <div>
@@ -66,7 +66,7 @@ export default class Landing extends Component {
             </div>
             <div>
               <span className="abShape" />
-              <i class="fal fa-smile" />
+              <i class="fal fa-star-half-alt" />
               <h5>Highly rated</h5>
             </div>
           </div>
