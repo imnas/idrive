@@ -17,7 +17,8 @@ export class InstructorResults extends Component {
       zipCode: "",
       gender: "",
       transmission: "",
-      distance: "1"
+      distance: "1",
+      results: []
     };
     this.search = this.search.bind(this);
     this.zipCode = this.zipCode.bind(this);
@@ -31,7 +32,8 @@ export class InstructorResults extends Component {
     };
     this.props.getInstructors(zipCode);
     setTimeout(() => {
-      console.log(this.filterFunction(this.props.results.instructors, filterQuery));
+      const results = this.filterFunction(this.props.results.instructors, filterQuery);
+      this.setState({ results });
     }, 1000);
   }
 
@@ -112,11 +114,13 @@ export class InstructorResults extends Component {
 
   filterFunction = (array, query) => {
     if (query.gender !== '' && query.transmission === '') {
-      return this.filterByGender(array, query.gender);
+       return this.filterByGender(array, query.gender)
     } else if (query.transmission !== '' && query.gender === '') {
-      return this.filterByTransmission(array, query.transmission)
+       return this.filterByTransmission(array, query.transmission)
     } else if (query.gender !== '' && query.transmission !== '') {
-      return this.filter(array, query);
+       return this.filter(array, query)
+    } else {
+      return array;
     }
   }
 
@@ -262,7 +266,7 @@ export class InstructorResults extends Component {
             </div>
           )}
           <div className="resultsContainer">
-            {this.props.results.instructors.map((instructor, index) => {
+            {this.state.results.map((instructor, index) => {
               return (
                 <div key={index} className="individualResultAlt">
                   <div className="instructorProfilePicContainer">
