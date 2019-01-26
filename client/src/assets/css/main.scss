@@ -972,6 +972,7 @@ button {
   flex-direction: column;
 }
 .resultsLoader {
+  z-index: 3;
   position: absolute;
   top: 0;
   bottom: 0;

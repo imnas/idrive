@@ -17,19 +17,29 @@ export class InstructorResults extends Component {
       zipCode: "",
       gender: "",
       transmission: "",
-      distance: "1"
+      distance: "1",
+      results: []
     };
     this.search = this.search.bind(this);
     this.zipCode = this.zipCode.bind(this);
+    this.getData = this.getData.bind(this);
   }
 
   search() {
     const { gender, transmission, zipCode } = this.state;
-    const query = {
+    const filterQuery = {
       gender,
-      transmissionTypes: transmission
+      transmission
     };
+    this.getData(zipCode, filterQuery);
+  }
+  
+  getData(zipCode, query) {
     this.props.getInstructors(zipCode);
+    const results = this.filterFunction(this.props.results.instructors, query);
+    setTimeout(() => {
+      this.setState({ results });
+    }, 1000);
   }
 
   zipCode(e) {
@@ -68,6 +78,56 @@ export class InstructorResults extends Component {
       distance: `${value[0]}`
     });
   };
+
+  filterByGender(array, gender) {
+    if (gender !== '') {
+      return array.filter(value => {
+        return value.gender === gender;
+      });
+    } else {
+      return 'Gender: No results found.';
+    }
+  }
+
+  filterByTransmission(array, transmission) {
+    if (transmission !== '') {
+      return array.filter(value => {
+        return value.carGearbox === transmission;
+      });
+    } else {
+      return 'Transmission: No results found.';
+    }
+  }
+
+  filter = (array, query) => {
+    if (query.gender === '' && query.transmission === '') {
+      // Return the error message
+      return 'No results found.';
+    } else {
+      // Filter by gender
+      const genderArray = this.filterByGender(array, query.gender);
+      // If a string has not been returned, filter the array by transmission type
+      if (typeof genderArray !== 'string' && query.transmission !== '') {
+        const resultArray = this.filterByTransmission(genderArray, query.transmission);
+        return resultArray;
+      } else {
+        // Return the error message
+        return genderArray;
+      }
+    }
+  };
+
+  filterFunction = (array, query) => {
+    if (query.gender !== '' && query.transmission === '') {
+       return this.filterByGender(array, query.gender)
+    } else if (query.transmission !== '' && query.gender === '') {
+       return this.filterByTransmission(array, query.transmission)
+    } else if (query.gender !== '' && query.transmission !== '') {
+       return this.filter(array, query)
+    } else {
+      return array;
+    }
+  }
 
   render() {
     return (
@@ -216,7 +276,7 @@ export class InstructorResults extends Component {
             </div>
           )}
           <div className="resultsContainer">
-            {this.props.results.instructors.map((instructor, index) => {
+            {this.state.results.map((instructor, index) => {
               return (
                 <div key={index} className="individualResultAlt">
                   <div className="instructorProfilePicContainer">
