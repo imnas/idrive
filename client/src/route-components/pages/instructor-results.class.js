@@ -119,17 +119,19 @@ export class InstructorResults extends Component {
   };
 
   filterFunction = (array, query) => {
-    if (query.gender !== '' && query.transmission === '') {
-       const results = this.filterByGender(array, query.gender);
-       this.setState({ results }, () => console.log('Gender: Done.'))
-    } else if (query.transmission !== '' && query.gender === '') {
-       const results = this.filterByTransmission(array, query.transmission);
-       this.setState({ results }, () => console.log('Transmission: Done.'))
-    } else if (query.gender !== '' && query.transmission !== '') {
-       const results = this.filter(array, query);
-       this.setState({ results }, () => console.log('Both: Done.'))
-    } else {
-      this.setState({ results: array }, () => console.log('None: Done.'))
+    switch(query) {
+      case (query.gender !== '' && query.transmission === ''):
+        this.setState({ results: this.filterByGender(array, query.gender) }, () => console.log('Gender: Done.'));
+        break
+      case (query.transmission !== '' && query.gender === ''):
+        this.setState({ results: this.filterByTransmission(array, query.transmission) }, () => console.log('Transmission: Done.'));
+        break
+      case (query.gender !== '' && query.transmission !== ''):
+        this.setState({ results: this.filter(array, query) }, () => console.log('Both: Done.'));
+        break
+      default:
+        this.setState({ results: array }, () => console.log('None: Done.'));
+        break
     }
   }
 
