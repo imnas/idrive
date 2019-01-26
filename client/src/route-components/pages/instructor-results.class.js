@@ -25,25 +25,7 @@ export class InstructorResults extends Component {
     this.getData = this.getData.bind(this);
     this.filterFunction = this.filterFunction.bind(this);
   }
-
-  search() {
-    const { gender, transmission, zipCode } = this.state;
-    const filterQuery = {
-      gender,
-      transmission
-    };
-    this.getData(zipCode, filterQuery);
-  }
-
-  getData(zipCode, query) {
-    if (this.state.results.length === 0) {
-      this.props.getInstructors(zipCode);
-    }
-    // setTimeout(() => {
-      this.filterFunction(this.props.results.instructors, query);
-    // }, 2500);
-  }
-
+  
   zipCode(e) {
     this.setState({
       zipCode: e.target.value
@@ -81,6 +63,8 @@ export class InstructorResults extends Component {
     });
   };
 
+  // Filtering functions
+
   filterByGender(array, gender) {
     return new Promise((resolve, reject) => {
       if (gender !== '') {
@@ -110,24 +94,35 @@ export class InstructorResults extends Component {
   async filterFunction(array, query) {
       if (query.gender !== "" && query.transmission === "") {
         const res = await this.filterByGender(array, query.gender);
-        this.setState(
-          { results: res },
-          () => console.log("Gender: Done.")
-        );
+        return res;
       } else if (query.transmission !== "" && query.gender === "") {
         const res = await this.filterByTransmission(array, query.transmission);
-        this.setState(
-          { results: res },
-          () => console.log("Transmission: Done.")
-        );
+        return res;
       } else if (query.gender !== "" && query.transmission !== "") {
         const genderArray = await this.filterByGender(array, query.gender);
         const finalArray = await this.filterByTransmission(genderArray, query.transmission);
-        this.setState({ results: finalArray }, () => console.log('Both: Done.'));
+        return finalArray;
       } else {
-        this.setState({ results: array }, () => console.log("None: Done."));
+        return array;
       }
-  };
+  }
+
+  async getData(zipCode, query) {
+    if (this.state.results.length <= 0) {
+      this.props.getInstructors(zipCode);
+    }
+    const results = await this.filterFunction(this.props.results.instructors, query);
+    console.log(results)
+  }
+
+  search() {
+    const { gender, transmission, zipCode } = this.state;
+    const filterQuery = {
+      gender,
+      transmission
+    };
+    this.getData(zipCode, filterQuery);
+  }
 
   render() {
     return (
