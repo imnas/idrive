@@ -33,14 +33,14 @@ export class InstructorResults extends Component {
     };
     this.getData(zipCode, filterQuery);
   }
-  
+
   getData(zipCode, query) {
     if (this.state.results.length === 0) {
       this.props.getInstructors(zipCode);
     }
     setTimeout(() => {
       this.filterFunction(this.props.results.instructors, query);
-    }, 500);
+    }, 2500);
   }
 
   zipCode(e) {
@@ -81,35 +81,38 @@ export class InstructorResults extends Component {
   };
 
   filterByGender(array, gender) {
-    if (gender !== '') {
+    if (gender !== "") {
       return array.filter(value => {
         return value.gender === gender;
       });
     } else {
-      return 'Gender: No results found.';
+      return "Gender: No results found.";
     }
   }
 
   filterByTransmission(array, transmission) {
-    if (transmission !== '') {
+    if (transmission !== "") {
       return array.filter(value => {
         return value.carGearbox === transmission;
       });
     } else {
-      return 'Transmission: No results found.';
+      return "Transmission: No results found.";
     }
   }
 
   filter = (array, query) => {
-    if (query.gender === '' && query.transmission === '') {
+    if (query.gender === "" && query.transmission === "") {
       // Return the error message
-      return 'No results found.';
+      return "No results found.";
     } else {
       // Filter by gender
       const genderArray = this.filterByGender(array, query.gender);
       // If a string has not been returned, filter the array by transmission type
-      if (typeof genderArray !== 'string' && query.transmission !== '') {
-        const resultArray = this.filterByTransmission(genderArray, query.transmission);
+      if (typeof genderArray !== "string" && query.transmission !== "") {
+        const resultArray = this.filterByTransmission(
+          genderArray,
+          query.transmission
+        );
         return resultArray;
       } else {
         // Return the error message
@@ -119,30 +122,39 @@ export class InstructorResults extends Component {
   };
 
   filterFunction = (array, query) => {
-    switch(query) {
-      case (query.gender !== '' && query.transmission === ''):
-        this.setState({ results: this.filterByGender(array, query.gender) }, () => console.log('Gender: Done.'));
-        break
-      case (query.transmission !== '' && query.gender === ''):
-        this.setState({ results: this.filterByTransmission(array, query.transmission) }, () => console.log('Transmission: Done.'));
-        break
-      case (query.gender !== '' && query.transmission !== ''):
-        this.setState({ results: this.filter(array, query) }, () => console.log('Both: Done.'));
-        break
+    switch (query) {
+      case query.gender !== "" && query.transmission === "":
+        this.setState(
+          { results: this.filterByGender(array, query.gender) },
+          () => console.log("Gender: Done.")
+        );
+        break;
+      case query.transmission !== "" && query.gender === "":
+        this.setState(
+          { results: this.filterByTransmission(array, query.transmission) },
+          () => console.log("Transmission: Done.")
+        );
+        break;
+      case query.gender !== "" && query.transmission !== "":
+        this.setState({ results: this.filter(array, query) }, () =>
+          console.log("Both: Done.")
+        );
+        break;
       default:
-        this.setState({ results: array }, () => console.log('None: Done.'));
-        break
+        this.setState({ results: array }, () => console.log("None: Done."));
+        break;
     }
-  }
+  };
 
   componentDidUpdate = (prevProps, prevState) => {
-    if(JSON.stringify(prevState.results) === JSON.stringify(this.state.results)) {
-      console.log('Results are equal');
+    if (
+      JSON.stringify(prevState.results) === JSON.stringify(this.state.results)
+    ) {
+      console.log("Results are equal");
     } else {
-      console.log('Results are different');
+      console.log("Results are different");
     }
-  }
-  
+  };
 
   render() {
     return (
