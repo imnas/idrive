@@ -24,7 +24,7 @@ export class InstructorResults extends Component {
     this.zipCode = this.zipCode.bind(this);
     this.filterFunction = this.filterFunction.bind(this);
   }
-  
+
   zipCode(e) {
     this.setState({
       zipCode: e.target.value
@@ -66,60 +66,59 @@ export class InstructorResults extends Component {
 
   filterByGender(array, gender) {
     return new Promise((resolve, reject) => {
-      if (gender !== '') {
+      if (gender !== "") {
         const filteredArray = array.filter(value => {
           return value.gender === gender;
         });
         resolve(filteredArray);
       } else {
-        reject('Gender: No result found.');
+        reject("Gender: No result found.");
       }
     });
   }
 
   filterByTransmission(array, transmission) {
     return new Promise((resolve, reject) => {
-      if (transmission !== '') {
+      if (transmission !== "") {
         const filteredArray = array.filter(value => {
           return value.carGearbox === transmission;
         });
         resolve(filteredArray);
-      } else { 
-        reject('Transmission: No results found.');
+      } else {
+        reject("Transmission: No results found.");
       }
     });
   }
-  
+
   async filterFunction(array, query) {
-      if (query.gender !== "" && query.transmission === "") {
-        const res = await this.filterByGender(array, query.gender);
-        return res;
-      } else if (query.transmission !== "" && query.gender === "") {
-        const res = await this.filterByTransmission(array, query.transmission);
-        return res;
-      } else if (query.gender !== "" && query.transmission !== "") {
-        const genderArray = await this.filterByGender(array, query.gender);
-        const finalArray = await this.filterByTransmission(genderArray, query.transmission);
-        return finalArray;
-      } else if (query.gender === "" && query.transmission === "") {
-        return array;
-      }
+    if (query.gender !== "" && query.transmission === "") {
+      const res = await this.filterByGender(array, query.gender);
+      return res;
+    } else if (query.transmission !== "" && query.gender === "") {
+      const res = await this.filterByTransmission(array, query.transmission);
+      return res;
+    } else if (query.gender !== "" && query.transmission !== "") {
+      const genderArray = await this.filterByGender(array, query.gender);
+      const finalArray = await this.filterByTransmission(
+        genderArray,
+        query.transmission
+      );
+      return finalArray;
+    } else if (query.gender === "" && query.transmission === "") {
+      return array;
+    }
   }
-  
+
   search() {
     const { gender, transmission, zipCode } = this.state;
     const filterQuery = {
       gender,
       transmission
     };
-    this.props.getInstructors(zipCode);
-    setTimeout(() => {
-      const unfilteredResults = this.props.results.instructors;
-      this.filterFunction(unfilteredResults, filterQuery)
-        .then(results => {
-          this.setState({ results });
-        });
-    }, 1500);
+    this.props.getInstructors(zipCode, results => {
+      console.log(results);
+      this.setState({ results: results });
+    });
   }
 
   render() {
