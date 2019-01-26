@@ -106,23 +106,20 @@ export class InstructorResults extends Component {
       }
   }
   
-  async search() {
+  search() {
     const { gender, transmission, zipCode } = this.state;
     const filterQuery = {
       gender,
       transmission
     };
-    if (this.state.results.length <= 0) {
-      this.props.getInstructors(zipCode);
-      setTimeout(() => {
-        const unfilteredResults = this.props.results.instructors;
-        this.setState({ results: unfilteredResults });
-      }, 1500);
-    } else {
+    this.props.getInstructors(zipCode);
+    setTimeout(() => {
       const unfilteredResults = this.props.results.instructors;
-      const filteredResults = await this.filterFunction(unfilteredResults, filterQuery);
-      this.setState({ results: filteredResults });
-    }
+      this.filterFunction(unfilteredResults, filterQuery)
+        .then(results => {
+          this.setState({ results });
+        });
+    }, 1500);
   }
 
   render() {
