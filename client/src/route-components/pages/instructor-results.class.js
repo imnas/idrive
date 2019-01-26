@@ -31,8 +31,7 @@ export class InstructorResults extends Component {
     };
     this.props.getInstructors(zipCode);
     setTimeout(() => {
-      console.log(this.filterByGender(this.props.results.instructors, filterQuery.gender));
-      console.log(this.filterByTransmission(this.props.results.instructors, filterQuery.transmission));
+      console.log(this.filterFunction(this.props.results.instructors, filterQuery));
     }, 1000);
   }
 
@@ -90,6 +89,34 @@ export class InstructorResults extends Component {
       });
     } else {
       return 'Transmission: No results found.';
+    }
+  }
+
+  filter = (array, query) => {
+    if (query.gender === '' && query.transmission === '') {
+      // Return the error message
+      return 'No results found.';
+    } else {
+      // Filter by gender
+      const genderArray = this.filterByGender(array, query.gender);
+      // If a string has not been returned, filter the array by transmission type
+      if (typeof genderArray !== 'string' && query.transmission !== '') {
+        const resultArray = this.filterByTransmission(genderArray, query.transmission);
+        return resultArray;
+      } else {
+        // Return the error message
+        return genderArray;
+      }
+    }
+  };
+
+  filterFunction = (array, query) => {
+    if (query.gender !== '' && query.transmission === '') {
+      return this.filterByGender(array, query.gender);
+    } else if (query.transmission !== '' && query.gender === '') {
+      return this.filterByTransmission(array, query.transmission)
+    } else if (query.gender !== '' && query.transmission !== '') {
+      return this.filter(array, query);
     }
   }
 
