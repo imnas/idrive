@@ -234,30 +234,37 @@ button {
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
     i {
-      font-size: 34px;
-      margin: 0 0 20px 0;
-      color: $primary-solid;
+      font-size: 35px;
+      margin: 0 0 25px 0;
+      color: #0b7be1;
       position: relative;
       z-index: 1;
+      top: 9px;
       &.fa-car {
         font-size: 38px;
       }
     }
     .abShape {
       position: absolute;
-      width: 57px;
-      height: 35px;
-      top: 37px;
-      border-radius: 2px;
+      width: 50px;
+      height: 50px;
+      top: 32px;
+      border-radius: 100%;
       z-index: 0;
-      border: 2px solid #23e0ab;
+      border: 7px solid rgba(35, 224, 171, 0.29);
+      &:nth-child(2) {
+        width: 71px;
+        height: 68px;
+        border: 12px solid rgba(35, 224, 171, 0.12);
+        top: 23px;
+      }
     }
     h5 {
       color: #0b7be1;
       font-size: 11px;
       letter-spacing: 1px;
       font-weight: 900;
-      margin: 15px 0 0 0;
+      margin: 25px 0 0 0;
       text-transform: uppercase;
     }
   }

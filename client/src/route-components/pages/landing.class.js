@@ -51,20 +51,24 @@ export default class Landing extends Component {
           <div className="featuresContainerBlocks">
             <div>
               <span className="abShape" />
+              <span className="abShape" />
               <i class="fal fa-file-certificate" />
               <h5>100% Pass Rate</h5>
             </div>
             <div>
+              <span className="abShape" />
               <span className="abShape" />
               <i class="fal fa-car-bump" />
               <h5>Learn in any car</h5>
             </div>
             <div>
               <span className="abShape" />
+              <span className="abShape" />
               <i class="fal fa-chalkboard-teacher" />
               <h5>Trusted teachers</h5>
             </div>
             <div>
+              <span className="abShape" />
               <span className="abShape" />
               <i class="fal fa-star-half-alt" />
               <h5>Highly rated</h5>
