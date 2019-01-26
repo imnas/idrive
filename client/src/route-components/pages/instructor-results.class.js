@@ -122,28 +122,23 @@ export class InstructorResults extends Component {
   };
 
   filterFunction = (array, query) => {
-    switch (query) {
-      case query.gender !== "" && query.transmission === "":
+      if (query.gender !== "" && query.transmission === "") {
         this.setState(
           { results: this.filterByGender(array, query.gender) },
           () => console.log("Gender: Done.")
         );
-        break;
-      case query.transmission !== "" && query.gender === "":
+      } else if (query.transmission !== "" && query.gender === "") {
         this.setState(
           { results: this.filterByTransmission(array, query.transmission) },
           () => console.log("Transmission: Done.")
         );
-        break;
-      case query.gender !== "" && query.transmission !== "":
+      } else if (query.gender !== "" && query.transmission !== "") {
         this.setState({ results: this.filter(array, query) }, () =>
           console.log("Both: Done.")
         );
-        break;
-      default:
+      } else {
         this.setState({ results: array }, () => console.log("None: Done."));
-        break;
-    }
+      }
   };
 
   componentDidUpdate = (prevProps, prevState) => {
