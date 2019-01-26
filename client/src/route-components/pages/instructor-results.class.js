@@ -22,6 +22,7 @@ export class InstructorResults extends Component {
     };
     this.search = this.search.bind(this);
     this.zipCode = this.zipCode.bind(this);
+    this.getData = this.getData.bind(this);
   }
 
   search() {
@@ -30,9 +31,13 @@ export class InstructorResults extends Component {
       gender,
       transmission
     };
+    this.getData(zipCode, filterQuery);
+  }
+  
+  getData(zipCode, query) {
     this.props.getInstructors(zipCode);
+    const results = this.filterFunction(this.props.results.instructors, query);
     setTimeout(() => {
-      const results = this.filterFunction(this.props.results.instructors, filterQuery);
       this.setState({ results });
     }, 1000);
   }
