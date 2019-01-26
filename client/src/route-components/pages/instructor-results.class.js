@@ -116,8 +116,10 @@ export class InstructorResults extends Component {
       transmission
     };
     this.props.getInstructors(zipCode, results => {
-      console.log(results);
-      this.setState({ results: results });
+      this.filterFunction(results, filterQuery)
+        .then(results => {
+          this.setState({ results });
+        })
     });
   }
 
