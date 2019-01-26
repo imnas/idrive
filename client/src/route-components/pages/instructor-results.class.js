@@ -22,7 +22,6 @@ export class InstructorResults extends Component {
     };
     this.search = this.search.bind(this);
     this.zipCode = this.zipCode.bind(this);
-    this.getData = this.getData.bind(this);
     this.filterFunction = this.filterFunction.bind(this);
   }
   
@@ -102,26 +101,28 @@ export class InstructorResults extends Component {
         const genderArray = await this.filterByGender(array, query.gender);
         const finalArray = await this.filterByTransmission(genderArray, query.transmission);
         return finalArray;
-      } else {
+      } else if (query.gender === "" && query.transmission === "") {
         return array;
       }
   }
-
-  async getData(zipCode, query) {
-    if (this.state.results.length <= 0) {
-      this.props.getInstructors(zipCode);
-    }
-    const results = await this.filterFunction(this.props.results.instructors, query);
-    this.setState({ results });
-  }
-
-  search() {
+  
+  async search() {
     const { gender, transmission, zipCode } = this.state;
     const filterQuery = {
       gender,
       transmission
     };
-    this.getData(zipCode, filterQuery);
+    if (this.state.results.length <= 0) {
+      this.props.getInstructors(zipCode);
+      setTimeout(() => {
+        const unfilteredResults = this.props.results.instructors;
+        this.setState({ results: unfilteredResults });
+      }, 1500);
+    } else {
+      const unfilteredResults = this.props.results.instructors;
+      const filteredResults = await this.filterFunction(unfilteredResults, filterQuery);
+      this.setState({ results: filteredResults });
+    }
   }
 
   render() {
