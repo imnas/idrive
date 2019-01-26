@@ -25,11 +25,15 @@ export class InstructorResults extends Component {
 
   search() {
     const { gender, transmission, zipCode } = this.state;
-    const query = {
+    const filterQuery = {
       gender,
-      transmissionTypes: transmission
+      transmission
     };
     this.props.getInstructors(zipCode);
+    setTimeout(() => {
+      console.log(this.filterByGender(this.props.results.instructors, filterQuery.gender));
+      console.log(this.filterByTransmission(this.props.results.instructors, filterQuery.transmission));
+    }, 1000);
   }
 
   zipCode(e) {
@@ -68,6 +72,26 @@ export class InstructorResults extends Component {
       distance: `${value[0]}`
     });
   };
+
+  filterByGender(array, gender) {
+    if (gender !== '') {
+      return array.filter(value => {
+        return value.gender === gender;
+      });
+    } else {
+      return 'Gender: No results found.';
+    }
+  }
+
+  filterByTransmission(array, transmission) {
+    if (transmission !== '') {
+      return array.filter(value => {
+        return value.carGearbox === transmission;
+      });
+    } else {
+      return 'Transmission: No results found.';
+    }
+  }
 
   render() {
     return (
