@@ -23,6 +23,7 @@ export class InstructorResults extends Component {
     this.search = this.search.bind(this);
     this.zipCode = this.zipCode.bind(this);
     this.getData = this.getData.bind(this);
+    this.filterFunction = this.filterFunction.bind(this);
   }
 
   search() {
@@ -38,9 +39,9 @@ export class InstructorResults extends Component {
     if (this.state.results.length === 0) {
       this.props.getInstructors(zipCode);
     }
-    setTimeout(() => {
+    // setTimeout(() => {
       this.filterFunction(this.props.results.instructors, query);
-    }, 2500);
+    // }, 2500);
   }
 
   zipCode(e) {
@@ -81,74 +82,80 @@ export class InstructorResults extends Component {
   };
 
   filterByGender(array, gender) {
-    if (gender !== "") {
-      return array.filter(value => {
-        return value.gender === gender;
-      });
-    } else {
-      return "Gender: No results found.";
-    }
+    return new Promise((resolve, reject) => {
+      if (gender !== '') {
+        const filteredArray = array.filter(value => {
+          return value.gender === gender;
+        });
+        resolve(filteredArray);
+      } else {
+        reject('Gender: No result found.');
+      }
+    });
   }
 
   filterByTransmission(array, transmission) {
-    if (transmission !== "") {
-      return array.filter(value => {
-        return value.carGearbox === transmission;
-      });
-    } else {
-      return "Transmission: No results found.";
-    }
+    return new Promise((resolve, reject) => {
+      if (transmission !== '') {
+        const filteredArray = array.filter(value => {
+          return value.carGearbox === transmission;
+        });
+        resolve(filteredArray);
+      } else { 
+        reject('Transmission: No results found.');
+      }
+    });
   }
 
   filter = (array, query) => {
-    if (query.gender === "" && query.transmission === "") {
-      // Return the error message
-      return "No results found.";
-    } else {
-      // Filter by gender
-      const genderArray = this.filterByGender(array, query.gender);
-      // If a string has not been returned, filter the array by transmission type
-      if (typeof genderArray !== "string" && query.transmission !== "") {
-        const resultArray = this.filterByTransmission(
-          genderArray,
-          query.transmission
-        );
-        return resultArray;
+    return new Promise((resolve, reject) => {
+      if (query.gender !== '' && query.transmission !== '') {
+        const genderArray = this.filterByGender(array, query.gender);
+        resolve(genderArray);
       } else {
-        // Return the error message
-        return genderArray;
+        reject('Both: No results found.')
       }
-    }
+    });
+    // if (query.gender === "" && query.transmission === "") {
+    //   // Return the error message
+    //   return "No results found.";
+    // } else {
+    //   // Filter by gender
+    //   const genderArray = this.filterByGender(array, query.gender);
+    //   // If a string has not been returned, filter the array by transmission type
+    //   if (typeof genderArray !== "string" && query.transmission !== "") {
+    //     const resultArray = this.filterByTransmission(
+    //       genderArray,
+    //       query.transmission
+    //     );
+    //     return resultArray;
+    //   } else {
+    //     // Return the error message
+    //     return genderArray;
+    //   }
+    // }
   };
 
-  filterFunction = (array, query) => {
+  async filterFunction(array, query) {
       if (query.gender !== "" && query.transmission === "") {
+        const res = await this.filterByGender(array, query.gender);
         this.setState(
-          { results: this.filterByGender(array, query.gender) },
+          { results: res },
           () => console.log("Gender: Done.")
         );
       } else if (query.transmission !== "" && query.gender === "") {
+        const res = await this.filterByTransmission(array, query.transmission);
         this.setState(
-          { results: this.filterByTransmission(array, query.transmission) },
+          { results: res },
           () => console.log("Transmission: Done.")
         );
       } else if (query.gender !== "" && query.transmission !== "") {
-        this.setState({ results: this.filter(array, query) }, () =>
-          console.log("Both: Done.")
-        );
+        const genderArray = await this.filterByGender(array, query.gender);
+        const finalArray = await this.filterByTransmission(genderArray, query.transmission);
+        this.setState({ results: finalArray }, () => console.log('Both: Done.'));
       } else {
         this.setState({ results: array }, () => console.log("None: Done."));
       }
-  };
-
-  componentDidUpdate = (prevProps, prevState) => {
-    if (
-      JSON.stringify(prevState.results) === JSON.stringify(this.state.results)
-    ) {
-      console.log("Results are equal");
-    } else {
-      console.log("Results are different");
-    }
   };
 
   render() {
