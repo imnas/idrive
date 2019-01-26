@@ -977,24 +977,24 @@ button {
   bottom: 0;
   right: 0;
   left: 0;
-  background: #0a71dd;
+  // background: #0a71dd;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   svg {
-    transform: scale(2.5);
+    transform: scale(2);
   }
   h5 {
     margin: 25px 0 0 0;
     font-size: 20px;
-    color: #fff;
+    // color: #0a71dd;
     padding: 0 0 0 15px;
   }
   p {
     margin: 10px 0 0 0;
     font-size: 13px;
-    color: #fff;
+    // color: #0a71dd;
     padding: 0 0 0 15px;
   }
 }

@@ -81,7 +81,12 @@ export class InstructorResults extends Component {
                 near:
                 <strong>{this.state.zipCode}</strong>
               </h4>
-            ) : null}
+            ) : (
+              <h4>
+                <i className="far fa-search-location" /> Enter your postcode
+                below
+              </h4>
+            )}
             <div className="filterOptionsContainer">
               <div className="filterRow">
                 <div className="individualFilterContainer">
@@ -148,7 +153,7 @@ export class InstructorResults extends Component {
                 >
                   <g
                     transform="translate(2 1)"
-                    stroke="#ffffff"
+                    stroke="#333"
                     fill="none"
                     fillRule="evenodd"
                     strokeLinecap="round"
@@ -162,7 +167,7 @@ export class InstructorResults extends Component {
                     <ellipse
                       className="car__wheel--left"
                       strokeWidth="3.2"
-                      fill="#0a71dd"
+                      fill="#f6f7f8"
                       cx="83.493"
                       cy="30.25"
                       rx="6.922"
@@ -171,7 +176,7 @@ export class InstructorResults extends Component {
                     <ellipse
                       className="car__wheel--right"
                       strokeWidth="3.2"
-                      fill="#0a71dd"
+                      fill="#f6f7f8"
                       cx="46.511"
                       cy="30.25"
                       rx="6.922"
