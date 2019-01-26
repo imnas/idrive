@@ -35,11 +35,10 @@ export class InstructorResults extends Component {
   }
   
   getData(zipCode, query) {
-    this.props.getInstructors(zipCode);
-    const results = this.filterFunction(this.props.results.instructors, query);
-    setTimeout(() => {
-      this.setState({ results });
-    }, 1000);
+    if (this.state.results.length === 0) {
+      this.props.getInstructors(zipCode);
+    }
+    this.filterFunction(this.props.results.instructors, query);
   }
 
   zipCode(e) {
@@ -119,13 +118,16 @@ export class InstructorResults extends Component {
 
   filterFunction = (array, query) => {
     if (query.gender !== '' && query.transmission === '') {
-       return this.filterByGender(array, query.gender)
+       const results = this.filterByGender(array, query.gender);
+       this.setState({ results }, () => console.log('Gender: Done.'))
     } else if (query.transmission !== '' && query.gender === '') {
-       return this.filterByTransmission(array, query.transmission)
+       const results = this.filterByTransmission(array, query.transmission);
+       this.setState({ results }, () => console.log('Transmission: Done.'))
     } else if (query.gender !== '' && query.transmission !== '') {
-       return this.filter(array, query)
+       const results = this.filter(array, query);
+       this.setState({ results }, () => console.log('Both: Done.'))
     } else {
-      return array;
+      this.setState({ results: array }, () => console.log('None: Done.'))
     }
   }
 
