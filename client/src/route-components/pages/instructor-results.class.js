@@ -38,7 +38,9 @@ export class InstructorResults extends Component {
     if (this.state.results.length === 0) {
       this.props.getInstructors(zipCode);
     }
-    this.filterFunction(this.props.results.instructors, query);
+    setTimeout(() => {
+      this.filterFunction(this.props.results.instructors, query);
+    }, 500);
   }
 
   zipCode(e) {
@@ -130,6 +132,15 @@ export class InstructorResults extends Component {
       this.setState({ results: array }, () => console.log('None: Done.'))
     }
   }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if(JSON.stringify(prevState.results) === JSON.stringify(this.state.results)) {
+      console.log('Results are equal');
+    } else {
+      console.log('Results are different');
+    }
+  }
+  
 
   render() {
     return (
