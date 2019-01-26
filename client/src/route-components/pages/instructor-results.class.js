@@ -106,36 +106,7 @@ export class InstructorResults extends Component {
       }
     });
   }
-
-  filter = (array, query) => {
-    return new Promise((resolve, reject) => {
-      if (query.gender !== '' && query.transmission !== '') {
-        const genderArray = this.filterByGender(array, query.gender);
-        resolve(genderArray);
-      } else {
-        reject('Both: No results found.')
-      }
-    });
-    // if (query.gender === "" && query.transmission === "") {
-    //   // Return the error message
-    //   return "No results found.";
-    // } else {
-    //   // Filter by gender
-    //   const genderArray = this.filterByGender(array, query.gender);
-    //   // If a string has not been returned, filter the array by transmission type
-    //   if (typeof genderArray !== "string" && query.transmission !== "") {
-    //     const resultArray = this.filterByTransmission(
-    //       genderArray,
-    //       query.transmission
-    //     );
-    //     return resultArray;
-    //   } else {
-    //     // Return the error message
-    //     return genderArray;
-    //   }
-    // }
-  };
-
+  
   async filterFunction(array, query) {
       if (query.gender !== "" && query.transmission === "") {
         const res = await this.filterByGender(array, query.gender);
