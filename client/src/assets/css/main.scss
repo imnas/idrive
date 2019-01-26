@@ -463,7 +463,7 @@ button {
 
 .resultsWrapper {
   .resultsFilterTopWrap {
-    padding: 50px 50px;
+    padding: 40px;
     background: #ffffff;
     border-top: 1px solid #ffffff14;
   }
@@ -526,7 +526,7 @@ button {
             font-weight: 900;
             text-transform: uppercase;
             height: 60px;
-            padding: 0 30px;
+            padding: 0 26px;
             border-radius: 2px;
             margin: 26px 0 0 0;
             i {
@@ -563,8 +563,10 @@ button {
 }
 
 .resultsFilterWrapper {
-  padding: 50px;
-
+  padding: 40px;
+  flex: 1;
+  overflow: auto;
+  position: Relative;
   .individualResult {
     .iRTop {
       display: flex;
@@ -670,6 +672,9 @@ button {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-gap: 25px;
+  position: relative;
+  z-index: 2;
+  background: #f6f7f8;
   .individualResultAlt {
     // max-width: 325px;
     width: 100%;
@@ -928,5 +933,68 @@ button {
   }
   100% {
     stroke-dashoffset: -22;
+  }
+}
+
+.noSearchResultsContainer {
+  display: flex;
+  position: absolute;
+  z-index: 2;
+  background: #f6f7f8;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  > div {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    i {
+      font-size: 40px;
+      margin: 0 0 30px 0;
+    }
+    h4 {
+      font-size: 20px;
+    }
+    p {
+      margin: 10px 0 0 0;
+      font-size: 13px;
+    }
+  }
+}
+
+.resultsWrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.resultsLoader {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: #0a71dd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  svg {
+    transform: scale(2.5);
+  }
+  h5 {
+    margin: 25px 0 0 0;
+    font-size: 20px;
+    color: #fff;
+    padding: 0 0 0 15px;
+  }
+  p {
+    margin: 10px 0 0 0;
+    font-size: 13px;
+    color: #fff;
+    padding: 0 0 0 15px;
   }
 }
