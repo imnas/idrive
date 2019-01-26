@@ -112,7 +112,7 @@ export class InstructorResults extends Component {
       this.props.getInstructors(zipCode);
     }
     const results = await this.filterFunction(this.props.results.instructors, query);
-    console.log(results)
+    this.setState({ results });
   }
 
   search() {
