@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Dropdown from "react-dropdown";
 import CountUp from "react-countup";
 import CircularProgressbar from "react-circular-progressbar";
@@ -24,7 +24,8 @@ export class InstructorResults extends Component {
       distance: "1",
       results: [],
       coords: [],
-      loadingSpinner: false
+      loadingSpinner: false,
+      updateButton: false
     };
     this.search = this.search.bind(this);
     this.zipCode = this.zipCode.bind(this);
@@ -160,8 +161,14 @@ export class InstructorResults extends Component {
     };
     this.findLocationCoordinates(zipCode);
     this.setState({
-      loadingSpinner: true
+      loadingSpinner: true,
+      updateButton: true
     });
+    setTimeout(() => {
+      this.setState({
+        updateButton: false
+      });
+    }, 2500);
     this.props.getInstructors(zipCode, results => {
       this.filterFunction(results, filterQuery).then(results => {
         this.setState({ results });
@@ -237,9 +244,28 @@ export class InstructorResults extends Component {
                     placeholder="Any"
                   />
                 </div>
-                <div className="searchCtaContainerResults">
-                  <button type="submit" onClick={this.search}>
-                    Update <i class="fas fa-search" />
+                <div
+                  className={
+                    this.state.updateButton
+                      ? "searchCtaContainerResults activeSearchingButton"
+                      : "searchCtaContainerResults"
+                  }
+                >
+                  <button
+                    type="submit"
+                    onClick={this.search}
+                    className={this.state.updateButton ? "updating" : ""}
+                  >
+                    {!this.state.updateButton ? (
+                      <Fragment>
+                        Update <i class="fas fa-search" />
+                      </Fragment>
+                    ) : (
+                      <div className="lds-ripple">
+                        <div />
+                        <div />
+                      </div>
+                    )}
                   </button>
                 </div>
               </div>
