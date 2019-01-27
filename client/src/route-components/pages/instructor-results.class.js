@@ -115,6 +115,19 @@ export class InstructorResults extends Component {
     }
   }
 
+  findLocationCoordinates(zipCode) {
+    fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${zipCode.replace(
+        " ",
+        ""
+      )}.json?access_token=pk.eyJ1IjoiZGVubmlzb25kZXIiLCJhIjoiY2pyZjhtNzhkMGxqYjN6bWo5cWtwdzFtcyJ9.R1ZsqRKEhrhNdYurKxO6OA`
+    )
+      .then(res => res.json())
+      .then(data => (coordinates = data.features[0].center))
+      .catch(err => console.log(err));
+    console.log(coordinates);
+  }
+
   distance(lat1, lon1, lat2, lon2) {
     if (lat1 === lat2 && lon1 === lon2) {
       return 0;
@@ -143,6 +156,7 @@ export class InstructorResults extends Component {
       gender,
       transmission
     };
+    this.findLocationCoordinates(zipCode);
     this.setState({
       loadingSpinner: true
     });
