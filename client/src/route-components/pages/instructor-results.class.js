@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Dropdown from "react-dropdown";
+import CountUp from "react-countup";
 import Header from "../includes/header.class";
 import "react-dropdown/style.css";
 import PropTypes from "prop-types";
@@ -18,7 +19,8 @@ export class InstructorResults extends Component {
       gender: "",
       transmission: "",
       distance: "1",
-      results: []
+      results: [],
+      loadingSpinner: false
     };
     this.search = this.search.bind(this);
     this.zipCode = this.zipCode.bind(this);
@@ -110,16 +112,24 @@ export class InstructorResults extends Component {
   }
 
   search() {
+    this.setState({ results: [] });
     const { gender, transmission, zipCode } = this.state;
     const filterQuery = {
       gender,
       transmission
     };
+    this.setState({
+      loadingSpinner: true
+    });
     this.props.getInstructors(zipCode, results => {
-      this.filterFunction(results, filterQuery)
-        .then(results => {
-          this.setState({ results });
-        })
+      this.filterFunction(results, filterQuery).then(results => {
+        this.setState({ results });
+        setTimeout(() => {
+          this.setState({
+            loadingSpinner: false
+          });
+        }, 2500);
+      });
     });
   }
 
@@ -129,9 +139,9 @@ export class InstructorResults extends Component {
         <Header />
         <div className="resultsFilterTopWrap">
           <div className="resultsFilterContainer">
-            {this.props.results.loading ? (
+            {this.state.loadingSpinner ? (
               <h4>
-                <i className="far fa-search-location" /> Driving instructors
+                <CountUp end={this.state.results.length} /> instructors found
                 near:
                 <strong>{this.state.zipCode}</strong>
               </h4>
@@ -195,8 +205,14 @@ export class InstructorResults extends Component {
             </div>
           </div>
         </div>
-        <div className="resultsFilterWrapper">
-          {this.props.results.loading ? (
+        <div
+          className={
+            this.state.loadingSpinner
+              ? "resultsFilterWrapper hideFlow"
+              : "resultsFilterWrapper"
+          }
+        >
+          {this.state.loadingSpinner ? (
             <div className="resultsLoader">
               <div className="loader">
                 <svg
@@ -256,6 +272,10 @@ export class InstructorResults extends Component {
               </div>
               <h5>Hold on for a sec...</h5>
               <p>We're just finding instructors close to you</p>
+              <CountUp
+                className="countUpFoundInstruct"
+                end={this.state.results.length}
+              />
             </div>
           ) : (
             <div className="noSearchResultsContainer">

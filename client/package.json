@@ -8,6 +8,7 @@
     "node-sass": "^4.11.0",
     "rc-checkbox": "^2.1.6",
     "react": "^16.7.0",
+    "react-countup": "^4.0.0",
     "react-dom": "^16.7.0",
     "react-dropdown": "^1.6.3",
     "react-redux": "^6.0.0",
