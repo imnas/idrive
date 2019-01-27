@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import Dropdown from "react-dropdown";
 import CountUp from "react-countup";
+import CircularProgressbar from "react-circular-progressbar";
 import Header from "../includes/header.class";
+import "react-circular-progressbar/dist/styles.css";
 import "react-dropdown/style.css";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -216,7 +218,9 @@ export class InstructorResults extends Component {
             <div className="resultsLoader">
               <div className="loader">
                 <svg
-                  className="car"
+                  className={
+                    this.state.results.length > 0 ? "car" : "stopCar car"
+                  }
                   width={102}
                   height={40}
                   xmlns="http://www.w3.org/2000/svg"
@@ -270,15 +274,52 @@ export class InstructorResults extends Component {
                   </g>
                 </svg>
               </div>
-              <h5>Hold on for a sec...</h5>
-              <p>We're just finding instructors close to you</p>
+              {this.state.results.length > 0 ? (
+                <div>
+                  <h5>Hold on for a sec...</h5>
+                  <p>We're just finding instructors close to you</p>
+                </div>
+              ) : (
+                <div>
+                  <h5>No instructors...</h5>
+                  <p>Unfortunately there are no instructors in your area</p>
+                </div>
+              )}
+              {/* <CircularProgressbar
+                percentage={this.state.results.length > 0 ? 100 : 0}
+                strokeWidth={2}
+                styles={{
+                  path: {
+                    stroke: `#333`
+                  }
+                }}
+              /> */}
               <CountUp
-                className="countUpFoundInstruct"
+                className={
+                  this.state.results.length > 0
+                    ? "countUpFoundInstruct"
+                    : "countUpFoundInstruct lessThanZero"
+                }
                 end={this.state.results.length}
               />
+              <span
+                className={
+                  this.state.results.length > 0
+                    ? "instructorsFound"
+                    : "instructorsFound lessThanZero"
+                }
+              >
+                found
+              </span>
             </div>
           ) : (
-            <div className="noSearchResultsContainer">
+            <div
+              className={
+                this.state.results.length <= 0
+                  ? "noSearchResultsContainer"
+                  : "noSearchResultsContainer hideIt"
+              }
+            >
               <div>
                 <i class="fal fa-map-marker-times" />
                 <h4>You haven't entered a postcode yet</h4>
@@ -292,7 +333,15 @@ export class InstructorResults extends Component {
           <div className="resultsContainer">
             {this.state.results.map((instructor, index) => {
               return (
-                <div key={index} className="individualResultAlt">
+                <div
+                  key={index}
+                  className="individualResultAlt fade-in"
+                  style={{
+                    animationDelay: !this.state.loadingSpinner
+                      ? `${index * 80 + 1500}ms`
+                      : undefined
+                  }}
+                >
                   <div className="instructorProfilePicContainer">
                     <span className="distanceFromLearner">
                       <i class="fas fa-location-circle" /> 3.4 mi
