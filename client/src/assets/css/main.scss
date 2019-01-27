@@ -673,11 +673,17 @@ button {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-gap: 25px;
   position: relative;
-  z-index: 2;
-  background: #f6f7f8;
+  // z-index: 4;
+  // background: #f6f7f8;
+  width: 100%;
+  height: 100%;
   .individualResultAlt {
     // max-width: 325px;
+    opacity: 0;
     width: 100%;
+    position: relative;
+    top: -50px;
+    // display: none;
     .instructorProfilePicContainer {
       display: flex;
       flex-direction: column;
@@ -939,7 +945,7 @@ button {
 .noSearchResultsContainer {
   display: flex;
   position: absolute;
-  z-index: 2;
+  // z-index: 3;
   background: #f6f7f8;
   left: 0;
   right: 0;
@@ -983,6 +989,14 @@ button {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  .CircularProgressbar {
+    position: absolute;
+    width: 165px;
+    margin: 0px 0 0 7px;
+  }
+  .CircularProgressbar .CircularProgressbar-trail {
+    stroke: #ececec;
+  }
   svg {
     transform: scale(2);
   }
@@ -991,12 +1005,14 @@ button {
     font-size: 20px;
     // color: #0a71dd;
     padding: 0 0 0 15px;
+    text-align: center;
   }
   p {
     margin: 10px 0 0 0;
     font-size: 13px;
     // color: #0a71dd;
     padding: 0 0 0 15px;
+    text-align: center;
   }
 }
 
@@ -1004,8 +1020,82 @@ button {
   overflow: hidden;
 }
 .countUpFoundInstruct {
-  font-size: 53px;
-  margin: 10px 0 0 0;
-  padding-left: 15px;
+  font-size: 41px;
+  margin: 25px 0 0 0;
+  padding-left: 17px;
+  font-weight: 500;
+  font-family: "Rubik", sans-serif;
+  color: #333;
+  letter-spacing: 2px;
+  transition: all 0.2s;
+}
+.instructorsFound {
+  padding-left: 16px;
   font-weight: 600;
+  font-size: 13px;
+  color: #333;
+  text-transform: uppercase;
+  font-family: "Rubik", sans-serif;
+  letter-spacing: 1px;
+}
+.lessThanZero {
+  color: #d8d8d8 !important;
+}
+
+.car {
+  transition: all 0.2s;
+  > * {
+    transition: all 0.2s;
+  }
+}
+.stopCar {
+  width: 102px;
+  margin-left: -35px;
+  opacity: 0.2;
+  transition: all 0.2s;
+  .car__line {
+    opacity: 0;
+    transition: all 0.2s;
+  }
+  .car__body {
+    animation-play-state: paused;
+  }
+}
+.fade-in {
+  -webkit-animation: 2s ease 0s normal forwards 1 fadein;
+  animation: 2s ease 0s normal forwards 1 fadein;
+  // display: unset !important;
+}
+@keyframes fadein {
+  0% {
+    opacity: 0;
+    top: -40px;
+  }
+  66% {
+    opacity: 0;
+    top: -30px;
+  }
+  100% {
+    opacity: 1;
+    top: 0px;
+  }
+}
+
+@-webkit-keyframes fadein {
+  0% {
+    opacity: 0;
+    top: -40px;
+  }
+  66% {
+    opacity: 0;
+    top: -30px;
+  }
+  100% {
+    opacity: 1;
+    top: 0px;
+  }
+}
+
+.hideIt {
+  display: none;
 }
