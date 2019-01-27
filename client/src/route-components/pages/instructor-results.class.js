@@ -123,9 +123,11 @@ export class InstructorResults extends Component {
       )}.json?access_token=pk.eyJ1IjoiZGVubmlzb25kZXIiLCJhIjoiY2pyZjhtNzhkMGxqYjN6bWo5cWtwdzFtcyJ9.R1ZsqRKEhrhNdYurKxO6OA`
     )
       .then(res => res.json())
-      .then(data => (coordinates = data.features[0].center))
+      .then(data => {
+        coordinates = data.features[0].center;
+        console.log(coordinates);
+      })
       .catch(err => console.log(err));
-    console.log(coordinates);
   }
 
   distance(lat1, lon1, lat2, lon2) {
