@@ -10,6 +10,7 @@ import { getInstructors } from "../../actions/resultActions";
 const distance = ["1 mile", "30 miles", "50 miles"];
 const transmission = ["Both", "Automatic", "Manual"];
 const gender = ["Any", "Male", "Female"];
+let coordinates = [];
 
 export class InstructorResults extends Component {
   constructor() {
@@ -20,6 +21,7 @@ export class InstructorResults extends Component {
       transmission: "",
       distance: "1",
       results: [],
+      coords: [],
       loadingSpinner: false
     };
     this.search = this.search.bind(this);
@@ -112,7 +114,7 @@ export class InstructorResults extends Component {
   }
 
   distance(lat1, lon1, lat2, lon2) {
-    if (lat1 == lat2 && lon1 == lon2) {
+    if (lat1 === lat2 && lon1 === lon2) {
       return 0;
     } else {
       const radlat1 = (Math.PI * lat1) / 180;
