@@ -2,10 +2,10 @@ import axios from "axios";
 import { SEARCH_RESULTS, SEARCH_LOADING, GET_ERRORS } from "./types";
 
 // Get instructors via zipcode
-export const getInstructors = (zipCode, sendDataBack) => dispatch => {
+export const getInstructors = sendDataBack => dispatch => {
   dispatch(setInstructorLoading());
   axios
-    .get(`http://localhost:9000/api/results/${zipCode}`)
+    .get(`http://localhost:9000/api/results/`)
     .then(res => {
       sendDataBack(res.data);
       dispatch({

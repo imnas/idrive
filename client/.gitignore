@@ -24,3 +24,6 @@ yarn-error.log*
 
 # retarded files being installed once npm install is ran
 *.cmd
+
+# env file
+.env

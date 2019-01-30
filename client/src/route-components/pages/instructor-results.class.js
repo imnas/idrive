@@ -30,6 +30,7 @@ export class InstructorResults extends Component {
     this.search = this.search.bind(this);
     this.zipCode = this.zipCode.bind(this);
     this.filterFunction = this.filterFunction.bind(this);
+    this.findLocationCoordinates = this.findLocationCoordinates.bind(this);
   }
 
   zipCode(e) {
@@ -69,6 +70,27 @@ export class InstructorResults extends Component {
     });
   };
 
+  distance(lat1, lon1, lat2, lon2) {
+    if (lat1 === lat2 && lon1 === lon2) {
+      return 0;
+    } else {
+      const radlat1 = (Math.PI * lat1) / 180;
+      const radlat2 = (Math.PI * lat2) / 180;
+      const theta = lon1 - lon2;
+      const radtheta = (Math.PI * theta) / 180;
+      let dist =
+        Math.sin(radlat1) * Math.sin(radlat2) +
+        Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      if (dist > 1) {
+        dist = 1;
+      }
+      dist = Math.acos(dist);
+      dist = (dist * 180) / Math.PI;
+      dist = dist * 60 * 1.1515;
+      return Math.round(dist * 10) / 10;
+    }
+  };
+
   // Filtering functions
 
   filterByGender(array, gender) {
@@ -97,6 +119,19 @@ export class InstructorResults extends Component {
     });
   }
 
+  filterByDistance(array, distance) {
+    return new Promise((resolve, reject) => {
+      const filteredArray = array.filter(value => {
+        return distance(value.geolocation[0], value.geolocation[1], this.state.coords[0], this.state.coords[1]) <= parseInt(distance);
+      });
+      if (filteredArray.length > 0) {
+        resolve(filteredArray);
+      } else {
+        reject('No instructors found.');
+      }
+    });
+  }
+
   async filterFunction(array, query) {
     if (query.gender !== "" && query.transmission === "") {
       const res = await this.filterByGender(array, query.gender);
@@ -116,50 +151,16 @@ export class InstructorResults extends Component {
     }
   }
 
-  findLocationCoordinates(zipCode) {
-    fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${zipCode.replace(
-        " ",
-        ""
-      )}.json?access_token=pk.eyJ1IjoiZGVubmlzb25kZXIiLCJhIjoiY2pyZjhtNzhkMGxqYjN6bWo5cWtwdzFtcyJ9.R1ZsqRKEhrhNdYurKxO6OA`
-    )
-      .then(res => res.json())
-      .then(data => {
-        coordinates = data.features[0].center;
-        console.log(coordinates);
-      })
-      .catch(err => console.log(err));
-  }
-
-  distance(lat1, lon1, lat2, lon2) {
-    if (lat1 === lat2 && lon1 === lon2) {
-      return 0;
-    } else {
-      const radlat1 = (Math.PI * lat1) / 180;
-      const radlat2 = (Math.PI * lat2) / 180;
-      const theta = lon1 - lon2;
-      const radtheta = (Math.PI * theta) / 180;
-      let dist =
-        Math.sin(radlat1) * Math.sin(radlat2) +
-        Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-      if (dist > 1) {
-        dist = 1;
-      }
-      dist = Math.acos(dist);
-      dist = (dist * 180) / Math.PI;
-      dist = dist * 60 * 1.1515;
-      return Math.round(dist * 10) / 10;
-    }
+  async findLocationCoordinates(zipCode) {
+    const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${zipCode.replace(" ", "")}.json?access_token=pk.eyJ1IjoiZGVubmlzb25kZXIiLCJhIjoiY2pyZjhtNzhkMGxqYjN6bWo5cWtwdzFtcyJ9.R1ZsqRKEhrhNdYurKxO6OA`);
+    const data = await res.json();
+    const coordinates = data.features[0].center;
+    this.setState({ coords: coordinates });
   }
 
   search() {
     this.setState({ results: [] });
-    const { gender, transmission, zipCode } = this.state;
-    const filterQuery = {
-      gender,
-      transmission
-    };
-    this.findLocationCoordinates(zipCode);
+    this.findLocationCoordinates(this.state.zipCode);
     this.setState({
       loadingSpinner: true,
       updateButton: true
@@ -169,8 +170,10 @@ export class InstructorResults extends Component {
         updateButton: false
       });
     }, 2500);
-    this.props.getInstructors(zipCode, results => {
-      this.filterFunction(results, filterQuery).then(results => {
+    const { gender, transmission, distance } = this.state;
+    const query = { gender, transmission, distance };
+    this.props.getInstructors(results => {
+      this.filterFunction(results, query).then(results => {
         this.setState({ results });
         setTimeout(() => {
           this.setState({
