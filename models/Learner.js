@@ -41,6 +41,10 @@ const learnerSchema = new Schema({
   created: {
     type: Date,
     default: Date.now
+  },
+  geolocation: {
+    type: Array,
+    required: false
   }
 });
 

@@ -38,6 +38,10 @@ const instructorSchema = new Schema({
     type: String,
     required: true
   },
+  geolocation: {
+    type: Array,
+    required: false
+  },
   created: {
     type: Date,
     default: Date.now

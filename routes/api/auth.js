@@ -8,6 +8,13 @@ const config = require("../../config/config");
 const passport = require("passport");
 const InputValidation = require("../../utils/InputValidation");
 const crossValidator = require("../../utils/CrossValidation");
+const fetch = require('node-fetch');
+
+const getLocation = async (postalCode) => {
+  const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${postalCode.replace(" ", "")}.json?access_token=${config.mapbox.token}`);
+  const data = await res.json();
+  return data.features[0].center;
+};
 
 // @PATH    - POST /api/auth/register
 // @ACCESS  - Public
@@ -43,7 +50,8 @@ router.post("/register", (req, res) => {
             password: req.body.password,
             city: req.body.city,
             postalCode: `${req.body.postalCode.replace(" ", "")}`,
-            address: req.body.address
+            address: req.body.address,
+            geolocation: []
           });
           bcrypt.genSalt(10, (err, salt) => {
             if (err) {
@@ -54,12 +62,17 @@ router.post("/register", (req, res) => {
                   throw err;
                 } else {
                   newUser.password = hash;
-                  newUser.save();
-                  res.json(newUser);
                 }
               });
             }
           });
+          getLocation(req.body.postalCode)
+          .then(data => {
+            newUser.geolocation = data;
+            newUser.save();
+            res.json(newUser);
+          })
+          .catch(err => console.log(err));
         } else {
           res.status(400).json(isValid);
         }
@@ -82,7 +95,8 @@ router.post("/register", (req, res) => {
             password: req.body.password,
             city: req.body.city,
             postalCode: `${req.body.postalCode.replace(" ", "")}`,
-            address: req.body.address
+            address: req.body.address,
+            geolocation: []
           });
           bcrypt.genSalt(10, (err, salt) => {
             if (err) {
@@ -93,12 +107,17 @@ router.post("/register", (req, res) => {
                   throw err;
                 } else {
                   newUser.password = hash;
-                  newUser.save();
-                  res.json(newUser);
                 }
               });
             }
           });
+          getLocation(req.body.postalCode)
+          .then(data => {
+            newUser.geolocation = data;
+            newUser.save();
+            res.json(newUser);
+          })
+          .catch(err => console.log(err));
         } else {
           res.status(400).json(isValid);
         }
