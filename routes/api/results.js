@@ -3,15 +3,14 @@ const router = express.Router();
 const Instructor = require("../../models/Instructor");
 const InstructorProfile = require("../../models/InstructorProfile");
 
-// @PATH    - GET /api/results/:postalCode
+// @PATH    - GET /api/results/
 // @ACCESS  - Private
 // @DESC    - Get instructors within the zip code area
 // @TODO:   - Add more data to the response
-router.get("/:postalCode", (req, res) => {
+router.get("/", (req, res) => {
   let result = [];
-  Instructor.find({
-    postalCode: req.params.postalCode
-  }).then(instructors => {
+  Instructor.find()
+  .then(instructors => {
     if (instructors.length > 0) {
       instructors.map(instructor => {
         let newInstructorResult = {};
@@ -19,7 +18,7 @@ router.get("/:postalCode", (req, res) => {
         newInstructorResult.name = `${instructor.firstName} ${
           instructor.lastName
         }`;
-        newInstructorResult.address = instructor.address;
+        newInstructorResult.geolocation = instructor.geolocation;
         result.push(newInstructorResult);
       });
       result.map((instructor, index) => {
@@ -42,7 +41,7 @@ router.get("/:postalCode", (req, res) => {
         });
       });
     } else {
-      res.status(404).send("No instructors found in your area.");
+      res.status(404).send("No instructors found.");
     }
   });
 });
