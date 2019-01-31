@@ -3,9 +3,9 @@ const router = express.Router();
 const Instructor = require("../../models/Instructor");
 const InstructorProfile = require("../../models/InstructorProfile");
 
-// @PATH    - GET /api/results/
+// @PATH    - GET /api/results
 // @ACCESS  - Private
-// @DESC    - Get instructors within the zip code area
+// @DESC    - Get instructors
 // @TODO:   - Add more data to the response
 router.get("/", (req, res) => {
   let result = [];
