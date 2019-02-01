@@ -14,7 +14,7 @@ export default class Landing extends Component {
   }
   updateSearchState = e => {
     this.setState({
-      searchValue: e.target.value
+      searchValue: e.target.value.toUpperCase()
     });
   };
   render() {
@@ -46,6 +46,7 @@ export default class Landing extends Component {
                     <input
                       placeholder="Your Postcode e.g. (LS15 8ZG)"
                       onChange={this.updateSearchState}
+                      value={this.state.searchValue}
                     />
                     <NavLink
                       to={{

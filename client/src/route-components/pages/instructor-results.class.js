@@ -248,6 +248,7 @@ export class InstructorResults extends Component {
                   <input
                     name="zipCode"
                     onChange={this.zipCode}
+                    value={this.state.zipCode}
                     placeholder="SK7 2JE"
                   />
                 </div>
