@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getInstructors } from "../../actions/resultActions";
 
-const distance = ["Any", "1 mile", "10 miles", "50 miles"];
+const distance = ["1 mile", "10 mile", "25 miles", "50 miles"];
 const transmission = ["Both", "Automatic", "Manual"];
 const gender = ["Any", "Male", "Female"];
 
@@ -20,7 +20,7 @@ export class InstructorResults extends Component {
       zipCode: "",
       gender: "",
       transmission: "",
-      distance: "",
+      distance: 1,
       results: [],
       coords: [],
       loadingSpinner: false,
@@ -143,23 +143,23 @@ export class InstructorResults extends Component {
   async filterFunction(array, query) {
     if (query.gender !== "" && query.transmission === "") {
       const res = await this.filterByGender(array, query.gender);
-      // const finalArray = await this.filterByDistance(res, query.distance);
-      return res;
+      const finalArray = await this.filterByDistance(res, query.distance);
+      return finalArray;
     } else if (query.transmission !== "" && query.gender === "") {
       const res = await this.filterByTransmission(array, query.transmission);
-      // const finalArray = await this.filterByDistance(res, query.distance);
-      return res;
+      const finalArray = await this.filterByDistance(res, query.distance);
+      return finalArray;
     } else if (query.gender !== "" && query.transmission !== "") {
       const genderArray = await this.filterByGender(array, query.gender);
       const transmissionArray = await this.filterByTransmission(
         genderArray,
         query.transmission
       );
-      // const finalArray = await this.filterByDistance(transmissionArray, query.distance);
-      return transmissionArray;
+      const finalArray = await this.filterByDistance(transmissionArray, query.distance);
+      return finalArray;
     } else if (query.gender === "" && query.transmission === "") {
-      // const distanceArray = await this.filterByDistance(array, query.distance);
-      return array;
+      const distanceArray = await this.filterByDistance(array, query.distance);
+      return distanceArray;
     }
   }
 
@@ -230,11 +230,10 @@ export class InstructorResults extends Component {
                     options={distance}
                     onChange={this._onSelectDistance}
                     value={
-                      this.state.distance === "" ? 'Any'
-                      : this.state.distance === 1 ? `${this.state.distance} mile`
+                      this.state.distance === 1 ? `${this.state.distance} mile`
                       : `${this.state.distance} miles`  
                     }
-                    placeholder="Any"
+                    placeholder="1 mile"
                   />
                 </div>
                 <div className="individualFilterContainer">
