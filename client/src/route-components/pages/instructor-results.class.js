@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import Dropdown from "react-dropdown";
 import CountUp from "react-countup";
+import { withRouter } from "react-router-dom";
 import CircularProgressbar from "react-circular-progressbar";
 import Header from "../includes/header.class";
 import "react-circular-progressbar/dist/styles.css";
@@ -30,6 +31,17 @@ export class InstructorResults extends Component {
     this.zipCode = this.zipCode.bind(this);
     this.filterFunction = this.filterFunction.bind(this);
     this.findLocationCoordinates = this.findLocationCoordinates.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.props.location.state.searchQuery) {
+      this.setState({
+        zipCode: this.props.location.state.searchQuery
+      });
+      setTimeout(() => {
+        this.search();
+      }, 250);
+    }
   }
 
   zipCode(e) {
@@ -94,7 +106,7 @@ export class InstructorResults extends Component {
       dist = dist * 60 * 1.1515;
       return Math.round(dist * 10) / 10;
     }
-  };
+  }
 
   // Filtering functions
 
@@ -128,14 +140,21 @@ export class InstructorResults extends Component {
     return new Promise((resolve, reject) => {
       let filteredArray = [];
       for (let i = 0; i < array.length; i++) {
-        if (this.calculateDistance(array[i].geolocation[0], array[i].geolocation[1], this.state.coords[0], this.state.coords[1]) <= distance) {
+        if (
+          this.calculateDistance(
+            array[i].geolocation[0],
+            array[i].geolocation[1],
+            this.state.coords[0],
+            this.state.coords[1]
+          ) <= distance
+        ) {
           filteredArray.push(array[i]);
         }
-      };
+      }
       if (filteredArray.length > 0) {
         resolve(filteredArray);
       } else {
-        reject('No instructors found.');
+        reject("No instructors found.");
       }
     });
   }
@@ -164,7 +183,12 @@ export class InstructorResults extends Component {
   }
 
   async findLocationCoordinates(zipCode) {
-    const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${zipCode.replace(" ", "")}.json?access_token=pk.eyJ1IjoiZGVubmlzb25kZXIiLCJhIjoiY2pyZjhtNzhkMGxqYjN6bWo5cWtwdzFtcyJ9.R1ZsqRKEhrhNdYurKxO6OA`);
+    const res = await fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${zipCode.replace(
+        " ",
+        ""
+      )}.json?access_token=pk.eyJ1IjoiZGVubmlzb25kZXIiLCJhIjoiY2pyZjhtNzhkMGxqYjN6bWo5cWtwdzFtcyJ9.R1ZsqRKEhrhNdYurKxO6OA`
+    );
     const data = await res.json();
     const coordinates = data.features[0].center;
     this.setState({ coords: coordinates });
@@ -230,9 +254,11 @@ export class InstructorResults extends Component {
                     options={distance}
                     onChange={this._onSelectDistance}
                     value={
-                      this.state.distance === "" ? 'Any'
-                      : this.state.distance === 1 ? `${this.state.distance} mile`
-                      : `${this.state.distance} miles`  
+                      this.state.distance === ""
+                        ? "Any"
+                        : this.state.distance === 1
+                        ? `${this.state.distance} mile`
+                        : `${this.state.distance} miles`
                     }
                     placeholder="Any"
                   />
@@ -491,7 +517,14 @@ const mapStateToProps = state => ({
   results: state.results
 });
 
-export default connect(
-  mapStateToProps,
-  { getInstructors }
-)(InstructorResults);
+// export default connect(
+//   mapStateToProps,
+//   { getInstructors }
+// )(InstructorResults);
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { getInstructors }
+  )(InstructorResults)
+);

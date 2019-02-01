@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 import Header from "../includes/header.class";
 import Footer from "../includes/footer.class";
 import bg from "../../assets/bg.png";
@@ -7,8 +8,15 @@ import bgBot from "../../assets/bgBot.png";
 export default class Landing extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      searchValue: ""
+    };
   }
+  updateSearchState = e => {
+    this.setState({
+      searchValue: e.target.value
+    });
+  };
   render() {
     return (
       <div className="homeContainer">
@@ -35,10 +43,18 @@ export default class Landing extends Component {
               <div className="ctaFormContainer">
                 <form className="homeCtaLocator">
                   <div>
-                    <input placeholder="Your Postcode e.g. (LS15 8ZG)" />
-                    <button>
+                    <input
+                      placeholder="Your Postcode e.g. (LS15 8ZG)"
+                      onChange={this.updateSearchState}
+                    />
+                    <NavLink
+                      to={{
+                        pathname: "/search",
+                        state: { searchQuery: this.state.searchValue }
+                      }}
+                    >
                       <i className="far fa-search-location" />
-                    </button>
+                    </NavLink>
                   </div>
                 </form>
               </div>
