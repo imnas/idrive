@@ -4,6 +4,7 @@ import LoginPage from "./login.class";
 import RegisterPage from "./register.class";
 import RecoverPage from "./recover.class";
 import InstructorResults from "./instructor-results.class";
+import InstructorRegister from "./instructor-register.class";
 
 export {
   Container,
@@ -11,5 +12,6 @@ export {
   LoginPage,
   RegisterPage,
   RecoverPage,
-  InstructorResults
+  InstructorResults,
+  InstructorRegister
 };
