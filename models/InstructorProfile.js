@@ -85,6 +85,10 @@ const instructorProfileSchema = new Schema({
   rate: {
     type: String,
     required: true
+  },
+  website: {
+    type: String,
+    required: false
   }
 });
 

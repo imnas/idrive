@@ -4,14 +4,13 @@ const Instructor = require("../../models/Instructor");
 const Learner = require("../../models/Learner");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const config = require("../../config/config");
 const passport = require("passport");
 const InputValidation = require("../../utils/InputValidation");
 const crossValidator = require("../../utils/CrossValidation");
 const fetch = require('node-fetch');
 
 const getLocation = async (postalCode) => {
-  const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${postalCode.replace(" ", "")}.json?access_token=${config.mapbox.token}`);
+  const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${postalCode.replace(" ", "")}.json?access_token=${process.env.MAPBOX_TOKEN}`);
   const data = await res.json();
   return data.features[0].center;
 };
@@ -153,7 +152,7 @@ router.post("/login", (req, res) => {
               };
               jwt.sign(
                 payload,
-                config.db.secretOrKey,
+                process.env.SECRET_OR_KEY,
                 {
                   expiresIn: 86400
                 },
@@ -198,7 +197,7 @@ router.post("/login", (req, res) => {
               };
               jwt.sign(
                 payload,
-                config.db.secretOrKey,
+                process.env.SECRET_OR_KEY,
                 {
                   expiresIn: 86400
                 },

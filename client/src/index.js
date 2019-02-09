@@ -6,8 +6,6 @@ import configureStore from "./store";
 import "./assets/css/fonts/fontawesome/css/all.css";
 import "./assets/css/index.scss";
 
-require('dotenv').config({path: '/'});
-
 class App extends Component {
   render() {
     return <Routes />;

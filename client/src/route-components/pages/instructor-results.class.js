@@ -41,6 +41,8 @@ export class InstructorResults extends Component {
       setTimeout(() => {
         this.search();
       }, 250);
+    } else {
+      this.setState({ zipCode: '' });
     }
   }
 
@@ -109,7 +111,6 @@ export class InstructorResults extends Component {
   }
 
   // Filtering functions
-
   filterByGender(array, gender) {
     return new Promise((resolve, reject) => {
       if (gender !== "") {
