@@ -12,6 +12,9 @@ export default class Landing extends Component {
       searchValue: ""
     };
   }
+  componentDidMount = () => {
+    document.title = 'InstantDriving - Home';
+  }
   updateSearchState = e => {
     this.setState({
       searchValue: e.target.value.toUpperCase()

@@ -40,6 +40,7 @@ class Login extends Component {
   }
 
   componentDidMount() {
+    document.title = 'InstantDriving - Login';
     if (this.props.auth.isAuthenticated) {
       window.location.href = "/search";
       this.setState({ loadingForm: false });

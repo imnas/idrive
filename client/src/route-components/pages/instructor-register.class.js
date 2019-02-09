@@ -11,6 +11,10 @@ export default class InstructorRegister extends Component {
     this.state = { gender: "" };
   }
 
+  componentDidMount = () => {
+    document.title = 'InstantDriving - Profile'; 
+  }
+
   gender = e => {
     if (e.target.checked) {
       this.setState({
@@ -22,6 +26,11 @@ export default class InstructorRegister extends Component {
       });
     }
   };
+
+  addProfile = () => {
+    const data = {};
+    console.log(data);
+  }
 
   render() {
     return (
@@ -73,7 +82,7 @@ export default class InstructorRegister extends Component {
                       class="inputText"
                       required
                     />
-                    <span class="floating-label">Years as a instructor</span>
+                    <span class="floating-label">Years as a instructor:</span>
                   </div>
                   <h5>Certifications:</h5>
                   <div className="formLinks">
@@ -232,7 +241,7 @@ export default class InstructorRegister extends Component {
               </div>
 
               <div className="formCta">
-                <button>Apply</button>
+                <button onClick={this.addProfile}>Apply</button>
               </div>
             </form>
           </div>

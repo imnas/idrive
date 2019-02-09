@@ -10,6 +10,10 @@ export default class Recover extends Component {
     this.state = { disabled: false };
   }
 
+  componentDidMount = () => {
+    document.title = 'InstantDriving - Recover Password';
+  }
+
   toggle = () => {
     this.setState(state => ({
       disabled: !state.disabled

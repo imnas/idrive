@@ -34,6 +34,7 @@ export class InstructorResults extends Component {
   }
 
   componentDidMount() {
+    document.title = 'InstantDriving - Search';
     if (this.props.location.state.searchQuery) {
       this.setState({
         zipCode: this.props.location.state.searchQuery

@@ -55,6 +55,7 @@ class Register extends Component {
     }
 
     componentDidMount() {
+      document.title = 'InstantDriving - Register';
       if (this.props.auth.isAuthenticated) {
         this.props.history.push('/search');
       };
