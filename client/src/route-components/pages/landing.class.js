@@ -50,6 +50,9 @@ export default class Landing extends Component {
                       placeholder="Your Postcode e.g. (LS15 8ZG)"
                       onChange={this.updateSearchState}
                       value={this.state.searchValue}
+                      onKeyDown={e => {
+                        if (e.keyCode === 13) e.preventDefault();
+                      }}
                     />
                     <NavLink
                       to={{
