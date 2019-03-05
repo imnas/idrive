@@ -4,6 +4,7 @@ import { RadioGroup, RadioButton } from "react-radio-buttons";
 import { NavLink } from "react-router-dom";
 import Header from "../includes/header.class";
 import ReactCrop from "react-image-crop";
+import * as blobToBase64 from "blob-to-base64";
 import "react-image-crop/dist/ReactCrop.css";
 import "rc-checkbox/assets/index.css";
 
@@ -16,6 +17,8 @@ export default class InstructorRegister extends Component {
       imagesrc1: null,
       imagesrc2: null,
       imagesrc3: null,
+      croppedImageUrl: null,
+      blob: null,
       crop: {
         aspect: 1,
         width: 50
@@ -111,10 +114,10 @@ export default class InstructorRegister extends Component {
     return new Promise((resolve, reject) => {
       canvas.toBlob(blob => {
         if (!blob) {
-          //reject(new Error('Canvas is empty'));
           console.error("Canvas is empty");
           return;
         }
+        this.setState({ blob });
         blob.name = fileName;
         window.URL.revokeObjectURL(this.fileUrl);
         this.fileUrl = window.URL.createObjectURL(blob);
@@ -124,6 +127,11 @@ export default class InstructorRegister extends Component {
   }
 
   addProfile = () => {
+    blobToBase64(this.state.blob, (error, base64) => {
+      if (!error) {
+        console.log(base64);
+      }
+    });
     const data = {};
     console.log(data);
   };

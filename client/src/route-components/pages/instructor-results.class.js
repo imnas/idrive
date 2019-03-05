@@ -25,7 +25,8 @@ export class InstructorResults extends Component {
       results: [],
       coords: [],
       loadingSpinner: false,
-      updateButton: false
+      updateButton: false,
+      distances: []
     };
     this.search = this.search.bind(this);
     this.zipCode = this.zipCode.bind(this);
@@ -141,20 +142,24 @@ export class InstructorResults extends Component {
   filterByDistance(array, distance) {
     return new Promise((resolve, reject) => {
       let filteredArray = [];
+      let distanceArray = [];
       for (let i = 0; i < array.length; i++) {
+        const calculatedDistance = this.calculateDistance(
+          array[i].geolocation[0],
+          array[i].geolocation[1],
+          this.state.coords[0],
+          this.state.coords[1]
+        );
         if (
-          this.calculateDistance(
-            array[i].geolocation[0],
-            array[i].geolocation[1],
-            this.state.coords[0],
-            this.state.coords[1]
-          ) <= distance
+          calculatedDistance <= distance
         ) {
           filteredArray.push(array[i]);
+          distanceArray.push(calculatedDistance);
         }
       }
       if (filteredArray.length > 0) {
         resolve(filteredArray);
+        this.setState({ distances: distanceArray });
       } else {
         reject("No instructors found.");
       }
@@ -193,6 +198,7 @@ export class InstructorResults extends Component {
         " ",
         ""
       )}.json?access_token=pk.eyJ1IjoiZGVubmlzb25kZXIiLCJhIjoiY2pyZjhtNzhkMGxqYjN6bWo5cWtwdzFtcyJ9.R1ZsqRKEhrhNdYurKxO6OA`
+      // Replace the token string to an env variable for security
     );
     const data = await res.json();
     const coordinates = data.features[0].center;
@@ -238,11 +244,11 @@ export class InstructorResults extends Component {
                 <strong>{this.state.zipCode}</strong>
               </h4>
             ) : (
-              <h4>
-                <i className="far fa-search-location" /> Enter your postcode
-                below
+                <h4>
+                  <i className="far fa-search-location" /> Enter your postcode
+                  below
               </h4>
-            )}
+              )}
             <div className="filterOptionsContainer">
               <div className="filterRow">
                 <div className="individualFilterContainer">
@@ -306,11 +312,11 @@ export class InstructorResults extends Component {
                         Update <i class="fas fa-search" />
                       </Fragment>
                     ) : (
-                      <div className="lds-ripple">
-                        <div />
-                        <div />
-                      </div>
-                    )}
+                        <div className="lds-ripple">
+                          <div />
+                          <div />
+                        </div>
+                      )}
                   </button>
                 </div>
               </div>
@@ -390,11 +396,11 @@ export class InstructorResults extends Component {
                   <p>We're just finding instructors close to you</p>
                 </div>
               ) : (
-                <div>
-                  <h5>No instructors...</h5>
-                  <p>Unfortunately there are no instructors in your area</p>
-                </div>
-              )}
+                  <div>
+                    <h5>No instructors...</h5>
+                    <p>Unfortunately there are no instructors in your area</p>
+                  </div>
+                )}
               {/* <CircularProgressbar
                 percentage={this.state.results.length > 0 ? 100 : 0}
                 strokeWidth={2}
@@ -423,23 +429,23 @@ export class InstructorResults extends Component {
               </span>
             </div>
           ) : (
-            <div
-              className={
-                this.state.results.length <= 0
-                  ? "noSearchResultsContainer"
-                  : "noSearchResultsContainer hideIt"
-              }
-            >
-              <div>
-                <i class="fal fa-map-marker-times" />
-                <h4>You haven't entered a postcode yet</h4>
-                <p>
-                  Please use the location field above and click update to view
-                  results
+              <div
+                className={
+                  this.state.results.length <= 0
+                    ? "noSearchResultsContainer"
+                    : "noSearchResultsContainer hideIt"
+                }
+              >
+                <div>
+                  <i class="fal fa-map-marker-times" />
+                  <h4>You haven't entered a postcode yet</h4>
+                  <p>
+                    Please use the location field above and click update to view
+                    results
                 </p>
+                </div>
               </div>
-            </div>
-          )}
+            )}
           <div className="resultsContainer">
             {this.state.results.map((instructor, index) => {
               return (
@@ -454,7 +460,7 @@ export class InstructorResults extends Component {
                 >
                   <div className="instructorProfilePicContainer">
                     <span className="distanceFromLearner">
-                      <i class="fas fa-location-circle" /> 3.4 mi
+                      <i class="fas fa-location-circle" /> {this.state.distances[index]} mi
                     </span>
                     <div
                       className="instructorCarContainer"
