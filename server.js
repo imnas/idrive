@@ -25,14 +25,11 @@ app.use(bodyParser.json());
 // TEMP: Remove after testing
 app.use(cors())
 
-// Public/Static Folder
-app.use(express.static('./public'));
-
 // Method Override
 app.use(methodOverride('_method'));
 
 // Mongoose
-const database = db.createConnection(process.env.MONGO_URI);
+const database = db.createConnection(process.env.MONGO_URI, { useNewUrlParser: true });
 
 // Init GridFS
 let gfs;

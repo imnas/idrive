@@ -89,7 +89,29 @@ const instructorProfileSchema = new Schema({
   website: {
     type: String,
     required: false
-  }
+  },
+  liabilityInsurance: {
+    type: Boolean,
+    required: true
+  },
+  vatRegistered: {
+    type: String,
+    required: true
+  },
+  services: [{
+    pickupAndDropoff: {
+      type: Boolean,
+      required: false,
+    },
+    passPlus: {
+      type: Boolean,
+      required: false
+    },
+    carHireForTest: {
+      type: Boolean,
+      requiredL: false
+    }
+  }]
 });
 
 module.exports = InstructorProfile = mongoose.model('instructorProfiles', instructorProfileSchema);
