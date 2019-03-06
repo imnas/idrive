@@ -106,7 +106,15 @@ router.post(
                 image: req.body.image,
                 fuel: req.body.fuel
               },
-              rate: req.body.rate
+              rate: req.body.rate,
+              website: req.body.website,
+              liabilityInsurance: req.body.liabilityInsurance,
+              vatRegistered: req.body.vatRegistered,
+              services: {
+                pickupAndDropoff: req.body.pickupAndDropoff,
+                passPlus: req.body.passPlus,
+                carHireForTest: req.body.carHireForTest
+              }
             });
             newProfile.save();
             res.status(200).json(newProfile);

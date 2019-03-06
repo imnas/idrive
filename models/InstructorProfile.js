@@ -111,7 +111,11 @@ const instructorProfileSchema = new Schema({
       type: Boolean,
       requiredL: false
     }
-  }]
+  }],
+  verified: {
+    type: Boolean,
+    default: false
+  }
 });
 
 module.exports = InstructorProfile = mongoose.model('instructorProfiles', instructorProfileSchema);
