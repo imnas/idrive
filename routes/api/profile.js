@@ -22,15 +22,15 @@ router.get(
       } = crossValidator.types;
       if (finalResult === "instructor") {
         InstructorProfile.findOne({
-            user: req.user.id
-          })
+          user: req.user.id
+        })
           .then(profile => {
             if (!profile) {
               res
                 .status(404)
                 .send(
                   `${req.user.firstName} ${
-                    req.user.lastName
+                  req.user.lastName
                   } does not have a profile.`
                 );
             } else {
@@ -47,7 +47,7 @@ router.get(
               .status(404)
               .send(
                 `${req.user.firstName} ${
-                  req.user.lastName
+                req.user.lastName
                 } does not have a profile.`
               );
           } else {
@@ -304,22 +304,22 @@ router.delete(
 // @DESC    - Add a car
 router.post('/cars/add', passport.authenticate('jwt', { session: false }), (req, res) => {
   InstructorProfile.findOne({ user: req.user.id })
-      .then(profile => {
-        if (profile) {
-          const newCar = {
-            make: req.body.make,
-            model: req.body.model,
-            year: req.body.year,
-            registration: req.body.registration,
-            gearbox: req.body.registration,
-            image: req.body.image,
-            fuel: req.body.fuel
-          };
-          profile.cars.push(newCar);
-          profile.save();
-          res.status(200).json(profile);
-        }
-      })
+    .then(profile => {
+      if (profile) {
+        const newCar = {
+          make: req.body.make,
+          model: req.body.model,
+          year: req.body.year,
+          registration: req.body.registration,
+          gearbox: req.body.registration,
+          image: req.body.image,
+          fuel: req.body.fuel
+        };
+        profile.cars.push(newCar);
+        profile.save();
+        res.status(200).json(profile);
+      }
+    })
 });
 
 // @PATH    - PUT /api/profile/cars/edit/:index
@@ -327,22 +327,22 @@ router.post('/cars/add', passport.authenticate('jwt', { session: false }), (req,
 // @DESC    - Edit a car
 router.put('/cars/edit/:index', passport.authenticate('jwt', { session: false }), (req, res) => {
   InstructorProfile.findOne({ user: req.user.id })
-      .then(profile => {
-        if (profile) {
-          const editedCar = {
-            make: req.body.make,
-            model: req.body.model,
-            year: req.body.year,
-            registration: req.body.registration,
-            gearbox: req.body.registration,
-            image: req.body.image,
-            fuel: req.body.fuel
-          };
-          profile.cars[req.params.index] = editedCar;
-          profile.save();
-          res.status(200).json(profile);
-        }
-      })
+    .then(profile => {
+      if (profile) {
+        const editedCar = {
+          make: req.body.make,
+          model: req.body.model,
+          year: req.body.year,
+          registration: req.body.registration,
+          gearbox: req.body.registration,
+          image: req.body.image,
+          fuel: req.body.fuel
+        };
+        profile.cars[req.params.index] = editedCar;
+        profile.save();
+        res.status(200).json(profile);
+      }
+    })
 });
 
 // @PATH    - DELETE /api/profile/cars/delete/:index
@@ -350,13 +350,13 @@ router.put('/cars/edit/:index', passport.authenticate('jwt', { session: false })
 // @DESC    - Delete a car
 router.delete('/cars/delete/:index', passport.authenticate('jwt', { session: false }), (req, res) => {
   InstructorProfile.findOne({ user: req.user.id })
-      .then(profile => {
-        if (profile) {
-          profile.cars.splice(req.params.index, 1);
-          profile.save();
-          res.status(200).json(profile);
-        }
-      })
+    .then(profile => {
+      if (profile) {
+        profile.cars.splice(req.params.index, 1);
+        profile.save();
+        res.status(200).json(profile);
+      }
+    })
 });
 
 module.exports = router;

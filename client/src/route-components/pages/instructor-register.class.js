@@ -4,9 +4,10 @@ import { RadioGroup, RadioButton } from "react-radio-buttons";
 import { NavLink } from "react-router-dom";
 import Header from "../includes/header.class";
 import ReactCrop from "react-image-crop";
-import * as blobToBase64 from "blob-to-base64";
 import "react-image-crop/dist/ReactCrop.css";
 import "rc-checkbox/assets/index.css";
+
+// Guess what, time to do some REEEEEEEEEEEEEEEEFACTORING
 
 export default class InstructorRegister extends Component {
   constructor() {
@@ -122,18 +123,12 @@ export default class InstructorRegister extends Component {
         window.URL.revokeObjectURL(this.fileUrl);
         this.fileUrl = window.URL.createObjectURL(blob);
         resolve(this.fileUrl);
-      }, "image/jpeg");
+      }, "image/jpeg", 0.7);
     });
   }
 
   addProfile = () => {
-    blobToBase64(this.state.blob, (error, base64) => {
-      if (!error) {
-        console.log(base64);
-      }
-    });
-    const data = {};
-    console.log(data);
+    // Execute the functions here
   };
 
   render() {
@@ -413,6 +408,7 @@ export default class InstructorRegister extends Component {
               <div className="formCta">
                 <button onClick={this.addProfile}>Apply</button>
               </div>
+
             </form>
           </div>
         </div>
