@@ -4,6 +4,7 @@ import { RadioGroup, RadioButton } from "react-radio-buttons";
 import Header from "../includes/header.class";
 import "react-image-crop/dist/ReactCrop.css";
 import "rc-checkbox/assets/index.css";
+import axios from "axios";
 
 export default class InstructorRegister extends Component {
   constructor() {
@@ -69,6 +70,8 @@ export default class InstructorRegister extends Component {
   addProfile = () => {
     // Execute the functions here
     // Send out the request for the functions first, then sent the profile creation request with the returned filenames
+    const image = document.getElementById('fileBtn');
+    console.log(image.value);
   };
 
   render() {
@@ -79,6 +82,15 @@ export default class InstructorRegister extends Component {
           <div className="formContainer registerForm">
             <h2>Congratulations newUser.firstName!</h2>
             <h4>You're only a minute away from getting signed up!</h4>
+            <div className="sectionBlocksQuestion" style={{ marginBottom: '25px' }}>
+              <div className="sectionBlockHeader">
+                <h4 style={{ margin: '0' }}>Profile Picture:</h4>
+                <form action="http://localhost:9000/api/fs/upload" encType="multipart/form-data" method="POST">
+                  <input type="file" name="file" />
+                  <input type="submit" value="Submit" />
+                </form>
+              </div>
+            </div>
             <form>
               <div className="sectionBlocksQuestion">
                 <div className="sectionBlockHeader">

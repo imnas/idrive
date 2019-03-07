@@ -12,7 +12,10 @@ const cors = require('cors');
 const methodOverride = require('method-override');
 
 // Config
-require('dotenv').config()
+require('dotenv').config();
+
+// Database
+db.connect(process.env.MONGO_URI, { useNewUrlParser: true }, () => console.log('MongoDB connected!'));
 
 // Body Parser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -23,9 +26,6 @@ app.use(cors())
 
 // Method Override
 app.use(methodOverride('_method'));
-
-// Database
-db.connect(process.env.MONGO_URI, { useNewUrlParser: true }, () => console.log('MongoDB connected!'));
 
 // Passport
 app.use(passport.initialize());
