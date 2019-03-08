@@ -279,7 +279,7 @@ export default class InstructorRegister extends Component {
                       type="text"
                       class="inputText"
                     />
-                    <span class="floating-label">Business website address</span>
+                    <span class="floating-label">Business website address (Leave blank if you do not have a website)</span>
                   </div>
 
                   <h5>Do you hold public liability insurance?</h5>
