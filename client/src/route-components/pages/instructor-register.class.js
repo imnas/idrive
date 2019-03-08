@@ -91,6 +91,26 @@ export default class InstructorRegister extends Component {
       .catch(err => console.log(err));
   };
 
+  uploadAdiPicture = () => {
+    const image = document.getElementById('fileUpload');
+    let newImage = new FormData();
+    newImage.append('file', image.files[0]);
+    axios.post('http://localhost:9000/api/fs/upload', newImage, { headers: { 'Content-Type': 'multipart/form-data' } })
+      .then(res => res.data)
+      .then(data => this.setState({ adi: data.file }))
+      .catch(err => console.log(err));
+  };
+
+  uploadCpdPicture = () => {
+    const image = document.getElementById('fileUpload');
+    let newImage = new FormData();
+    newImage.append('file', image.files[0]);
+    axios.post('http://localhost:9000/api/fs/upload', newImage, { headers: { 'Content-Type': 'multipart/form-data' } })
+      .then(res => res.data)
+      .then(data => this.setState({ cpd: data.file }))
+      .catch(err => console.log(err));
+  };
+
   uploadCarPicture = () => {
     const image = document.getElementById('fileUploadCar');
     let newImage = new FormData();
@@ -222,10 +242,11 @@ export default class InstructorRegister extends Component {
                   <h4>ADI Certification:</h4>
                 </div>
                 <div className="sectionBlockHeader">
+                  <h5 style={{ marginBottom: '25px' }}>Please provide a picture of the certificate for validation.</h5>
                   <input type="file" className="custom-file-input" name="file" id="fileUpload" />
                   <form onSubmit={e => e.preventDefault()}>
                     <div className="formCta">
-                      <button onClick={this.uploadProfilePicture}>Confirm Image Upload</button>
+                      <button onClick={this.uploadAdiPicture}>Confirm Image Upload</button>
                     </div>
                   </form>
                 </div>
@@ -236,10 +257,11 @@ export default class InstructorRegister extends Component {
                   <h4>CPD Certification:</h4>
                 </div>
                 <div className="sectionBlockHeader">
+                  <h5 style={{ marginBottom: '25px' }}>Please provide a picture of the certificate for validation.</h5>
                   <input type="file" className="custom-file-input" name="file" id="fileUpload" />
                   <form onSubmit={e => e.preventDefault()}>
                     <div className="formCta">
-                      <button onClick={this.uploadProfilePicture}>Confirm Image Upload</button>
+                      <button onClick={this.uploadCpdPicture}>Confirm Image Upload</button>
                     </div>
                   </form>
                 </div>
