@@ -82,7 +82,7 @@ export default class InstructorRegister extends Component {
   };
 
   uploadProfilePicture = () => {
-    const image = document.getElementById('fileUpload');
+    const image = document.getElementById('fileUploadProfile');
     let newImage = new FormData();
     newImage.append('file', image.files[0]);
     axios.post('http://localhost:9000/api/fs/upload', newImage, { headers: { 'Content-Type': 'multipart/form-data' } })
@@ -92,7 +92,7 @@ export default class InstructorRegister extends Component {
   };
 
   uploadAdiPicture = () => {
-    const image = document.getElementById('fileUpload');
+    const image = document.getElementById('fileUploadAdi');
     let newImage = new FormData();
     newImage.append('file', image.files[0]);
     axios.post('http://localhost:9000/api/fs/upload', newImage, { headers: { 'Content-Type': 'multipart/form-data' } })
@@ -102,7 +102,7 @@ export default class InstructorRegister extends Component {
   };
 
   uploadCpdPicture = () => {
-    const image = document.getElementById('fileUpload');
+    const image = document.getElementById('fileUploadCpd');
     let newImage = new FormData();
     newImage.append('file', image.files[0]);
     axios.post('http://localhost:9000/api/fs/upload', newImage, { headers: { 'Content-Type': 'multipart/form-data' } })
@@ -138,7 +138,7 @@ export default class InstructorRegister extends Component {
                 <h4>Profile Picture:</h4>
               </div>
               <div className="sectionBlockHeader">
-                <input type="file" className="custom-file-input" name="file" id="fileUpload" />
+                <input type="file" className="custom-file-input" name="file" id="fileUploadProfile" />
                 <form onSubmit={e => e.preventDefault()}>
                   <div className="formCta">
                     <button onClick={this.uploadProfilePicture}>Confirm Image Upload</button>
@@ -243,7 +243,7 @@ export default class InstructorRegister extends Component {
                 </div>
                 <div className="sectionBlockHeader">
                   <h5 style={{ marginBottom: '25px' }}>Please provide a picture of the certificate for validation.</h5>
-                  <input type="file" className="custom-file-input" name="file" id="fileUpload" />
+                  <input type="file" className="custom-file-input" name="file" id="fileUploadAdi" />
                   <form onSubmit={e => e.preventDefault()}>
                     <div className="formCta">
                       <button onClick={this.uploadAdiPicture}>Confirm Image Upload</button>
@@ -258,7 +258,7 @@ export default class InstructorRegister extends Component {
                 </div>
                 <div className="sectionBlockHeader">
                   <h5 style={{ marginBottom: '25px' }}>Please provide a picture of the certificate for validation.</h5>
-                  <input type="file" className="custom-file-input" name="file" id="fileUpload" />
+                  <input type="file" className="custom-file-input" name="file" id="fileUploadCpd" />
                   <form onSubmit={e => e.preventDefault()}>
                     <div className="formCta">
                       <button onClick={this.uploadCpdPicture}>Confirm Image Upload</button>
