@@ -82,45 +82,26 @@ export default class InstructorRegister extends Component {
     });
   };
 
-  uploadProfilePicture = () => {
-    const image = document.getElementById('fileUploadProfile');
-    let newImage = new FormData();
-    newImage.append('file', image.files[0]);
-    axios.post('http://localhost:9000/api/fs/upload', newImage, { headers: { 'Content-Type': 'multipart/form-data', 'Authorization': localStorage.jwt } })
-      .then(res => res.data)
-      .then(data => this.setState({ profilePicture: data.file }))
-      .catch(err => console.log(err));
-  };
+  setImage = e => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    const output = document.getElementById(e.target.alt);
+    output.title = e.target.name;
+    reader.onload = (e) => {
+      output.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
 
-  uploadAdiPicture = () => {
-    const image = document.getElementById('fileUploadAdi');
+  uploadPicture = (element, stateProp) => {
+    const image = document.getElementById(element);
     let newImage = new FormData();
     newImage.append('file', image.files[0]);
     axios.post('http://localhost:9000/api/fs/upload', newImage, { headers: { 'Content-Type': 'multipart/form-data', 'Authorization': localStorage.jwt } })
       .then(res => res.data)
-      .then(data => this.setState({ adi: data.file }))
+      .then(data => this.setState({ [stateProp]: data.file }))
       .catch(err => console.log(err));
-  };
-
-  uploadCpdPicture = () => {
-    const image = document.getElementById('fileUploadCpd');
-    let newImage = new FormData();
-    newImage.append('file', image.files[0]);
-    axios.post('http://localhost:9000/api/fs/upload', newImage, { headers: { 'Content-Type': 'multipart/form-data', 'Authorization': localStorage.jwt } })
-      .then(res => res.data)
-      .then(data => this.setState({ cpd: data.file }))
-      .catch(err => console.log(err));
-  };
-
-  uploadCarPicture = () => {
-    const image = document.getElementById('fileUploadCar');
-    let newImage = new FormData();
-    newImage.append('file', image.files[0]);
-    axios.post('http://localhost:9000/api/fs/upload', newImage, { headers: { 'Content-Type': 'multipart/form-data', 'Authorization': localStorage.jwt } })
-      .then(res => res.data)
-      .then(data => this.setState({ image: data.file }))
-      .catch(err => console.log(err));
-  };
+  }
 
   addProfile = () => {
     const currentDate = new Date();
@@ -167,10 +148,13 @@ export default class InstructorRegister extends Component {
                 <h4>Profile Picture:</h4>
               </div>
               <div className="sectionBlockHeader">
-                <input type="file" className="custom-file-input" name="file" id="fileUploadProfile" />
+                <input type="file" className="custom-file-input" name="file" id="fileUploadProfile" alt="profilePictureOutput" onChange={this.setImage} />
+                <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <img src="https://plantsonwalls.com/wp-content/uploads/2018/04/placeholder-400x200.jpg" alt="" id="profilePictureOutput" style={{ width: '100%' }} />
+                </div>
                 <form onSubmit={e => e.preventDefault()}>
                   <div className="formCta">
-                    <button onClick={this.uploadProfilePicture}>Confirm Image Upload</button>
+                    <button onClick={() => this.uploadPicture('fileUploadProfile', 'profilePicture')}>Confirm Image Upload</button>
                   </div>
                 </form>
               </div>
@@ -272,10 +256,13 @@ export default class InstructorRegister extends Component {
                 </div>
                 <div className="sectionBlockHeader">
                   <h5 style={{ marginBottom: '25px' }}>Please provide a picture of the certificate for validation.</h5>
-                  <input type="file" className="custom-file-input" name="file" id="fileUploadAdi" />
+                  <input type="file" className="custom-file-input" name="file" id="fileUploadApi" alt="adiOutput" onChange={this.setImage} />
+                  <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <img src="https://plantsonwalls.com/wp-content/uploads/2018/04/placeholder-400x200.jpg" alt="" id="adiOutput" style={{ width: '100%' }} />
+                  </div>
                   <form onSubmit={e => e.preventDefault()}>
                     <div className="formCta">
-                      <button onClick={this.uploadAdiPicture}>Confirm Image Upload</button>
+                      <button onClick={() => this.uploadPicture('fileUploadApi', 'adi')}>Confirm Image Upload</button>
                     </div>
                   </form>
                 </div>
@@ -287,10 +274,13 @@ export default class InstructorRegister extends Component {
                 </div>
                 <div className="sectionBlockHeader">
                   <h5 style={{ marginBottom: '25px' }}>Please provide a picture of the certificate for validation.</h5>
-                  <input type="file" className="custom-file-input" name="file" id="fileUploadCpd" />
+                  <input type="file" className="custom-file-input" name="file" id="fileUploadCpd" alt="cpdOutput" onChange={this.setImage} />
+                  <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <img src="https://plantsonwalls.com/wp-content/uploads/2018/04/placeholder-400x200.jpg" alt="" id="cpdOutput" style={{ width: '100%' }} />
+                  </div>
                   <form onSubmit={e => e.preventDefault()}>
                     <div className="formCta">
-                      <button onClick={this.uploadCpdPicture}>Confirm Image Upload</button>
+                      <button onClick={() => this.uploadPicture('fileUploadCpd', 'cpd')}>Confirm Image Upload</button>
                     </div>
                   </form>
                 </div>
@@ -533,10 +523,14 @@ export default class InstructorRegister extends Component {
                     </RadioGroup>
                   </div>
                   <h5 style={{ marginBottom: '25px' }}>Car Picture:</h5>
-                  <input type="file" className="custom-file-input" name="file" id="fileUploadCar" />
+                  <h5 style={{ marginBottom: '25px' }}>Please provide a picture of the certificate for validation.</h5>
+                  <input type="file" className="custom-file-input" name="file" id="fileUploadCar" alt="carOutput" onChange={this.setImage} />
+                  <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <img src="https://plantsonwalls.com/wp-content/uploads/2018/04/placeholder-400x200.jpg" alt="" id="carOutput" style={{ width: '100%' }} />
+                  </div>
                   <form onSubmit={e => e.preventDefault()}>
                     <div className="formCta">
-                      <button onClick={this.uploadCarPicture}>Confirm Image Upload</button>
+                      <button onClick={() => this.uploadPicture('fileUploadCar', 'image')}>Confirm Image Upload</button>
                     </div>
                   </form>
                 </div>
