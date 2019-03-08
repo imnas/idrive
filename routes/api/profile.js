@@ -319,7 +319,7 @@ router.post('/cars/add', passport.authenticate('jwt', { session: false }), (req,
           model: req.body.model,
           year: req.body.year,
           registration: req.body.registration,
-          gearbox: req.body.registration,
+          gearbox: req.body.gearbox,
           image: req.body.image,
           fuel: req.body.fuel
         };
@@ -342,7 +342,7 @@ router.put('/cars/edit/:index', passport.authenticate('jwt', { session: false })
           model: req.body.model,
           year: req.body.year,
           registration: req.body.registration,
-          gearbox: req.body.registration,
+          gearbox: req.body.gearbox,
           image: req.body.image,
           fuel: req.body.fuel
         };

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Checkbox from "rc-checkbox";
 import { RadioGroup, RadioButton } from "react-radio-buttons";
 import Header from "../includes/header.class";
-import "react-image-crop/dist/ReactCrop.css";
 import "rc-checkbox/assets/index.css";
 import axios from "axios";
 
@@ -12,18 +11,26 @@ export default class InstructorRegister extends Component {
     this.state = {
       gender: "",
       experience: "",
-      certifications: {},
-      transmissionTypes: {},
+      adiHook: false,
+      cpdHook: false,
+      adi: '',
+      cpd: '',
+      manual: false,
+      automatic: false,
       website: '',
-      liabilityInsurance: null,
-      vatRegistered: null,
-      services: {},
+      liabilityInsurance: false,
+      vatRegistered: false,
+      pickupAndDropoff: false,
+      passPlus: false,
+      carHireForTest: false,
       make: '',
       model: '',
-      year: null,
+      year: NaN,
       registration: '',
-      gearbox: null,
-      fuelType: ''
+      gearbox: '',
+      fuel: '',
+      profilePicture: "",
+      image: ""
     };
   }
 
@@ -57,7 +64,7 @@ export default class InstructorRegister extends Component {
 
   onChangeFuelType = e => {
     this.setState({
-      fuelType: e.toLowerCase()
+      fuel: e.toLowerCase()
     });
   }
 
@@ -67,11 +74,35 @@ export default class InstructorRegister extends Component {
     });
   };
 
+  onClick = e => {
+    const value = this.state[e.target.name]
+    this.setState({
+      [e.target.name]: !value
+    });
+  };
+
+  uploadProfilePicture = () => {
+    const image = document.getElementById('fileUpload');
+    let newImage = new FormData();
+    newImage.append('file', image.files[0]);
+    axios.post('http://localhost:9000/api/fs/upload', newImage, { headers: { 'Content-Type': 'multipart/form-data' } })
+      .then(res => res.data)
+      .then(data => this.setState({ profilePicture: data.file }))
+      .catch(err => console.log(err));
+  };
+
+  uploadCarPicture = () => {
+    const image = document.getElementById('fileUploadCar');
+    let newImage = new FormData();
+    newImage.append('file', image.files[0]);
+    axios.post('http://localhost:9000/api/fs/upload', newImage, { headers: { 'Content-Type': 'multipart/form-data' } })
+      .then(res => res.data)
+      .then(data => this.setState({ image: data.file }))
+      .catch(err => console.log(err));
+  };
+
   addProfile = () => {
-    // Execute the functions here
-    // Send out the request for the functions first, then sent the profile creation request with the returned filenames
-    const image = document.getElementById('fileBtn');
-    console.log(image.value);
+    // https://www.youtube.com/watch?v=xLxHtBt2jtU
   };
 
   render() {
@@ -84,10 +115,14 @@ export default class InstructorRegister extends Component {
             <h4>You're only a minute away from getting signed up!</h4>
             <div className="sectionBlocksQuestion" style={{ marginBottom: '25px' }}>
               <div className="sectionBlockHeader">
-                <h4 style={{ margin: '0' }}>Profile Picture:</h4>
-                <form action="http://localhost:9000/api/fs/upload" encType="multipart/form-data" method="POST">
-                  <input type="file" name="file" />
-                  <input type="submit" value="Submit" />
+                <h4>Profile Picture:</h4>
+              </div>
+              <div className="sectionBlockHeader">
+                <input type="file" className="custom-file-input" name="file" id="fileUpload" />
+                <form onSubmit={e => e.preventDefault()}>
+                  <div className="formCta">
+                    <button onClick={this.uploadProfilePicture}>Confirm Image Upload</button>
+                  </div>
                 </form>
               </div>
             </div>
@@ -147,7 +182,7 @@ export default class InstructorRegister extends Component {
                   <div className="formLinks">
                     <p>
                       <label>
-                        <Checkbox />
+                        <Checkbox name="adiHook" onClick={this.onClick} />
                         &nbsp;&nbsp;&nbsp; ADI CoP ( Approved Driving Instructor
                         )
                       </label>
@@ -156,7 +191,7 @@ export default class InstructorRegister extends Component {
                   <div className="formLinks">
                     <p>
                       <label>
-                        <Checkbox />
+                        <Checkbox name="cpdHook" onClick={this.onClick} />
                         &nbsp;&nbsp;&nbsp; CPD ( Continued Professional
                         Development )
                       </label>
@@ -166,7 +201,7 @@ export default class InstructorRegister extends Component {
                   <div className="formLinks">
                     <p>
                       <label>
-                        <Checkbox />
+                        <Checkbox name="manual" onClick={this.onClick} />
                         &nbsp;&nbsp;&nbsp; Manual
                       </label>
                     </p>
@@ -174,11 +209,39 @@ export default class InstructorRegister extends Component {
                   <div className="formLinks">
                     <p>
                       <label>
-                        <Checkbox />
+                        <Checkbox name="automatic" onClick={this.onClick} />
                         &nbsp;&nbsp;&nbsp; Automatic
                       </label>
                     </p>
                   </div>
+                </div>
+              </div>
+
+              <div className="sectionBlocksQuestion" style={{ marginBottom: '25px', display: this.state.adiHook ? 'block' : 'none' }}>
+                <div className="sectionBlockHeader">
+                  <h4>ADI Certification:</h4>
+                </div>
+                <div className="sectionBlockHeader">
+                  <input type="file" className="custom-file-input" name="file" id="fileUpload" />
+                  <form onSubmit={e => e.preventDefault()}>
+                    <div className="formCta">
+                      <button onClick={this.uploadProfilePicture}>Confirm Image Upload</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <div className="sectionBlocksQuestion" style={{ marginBottom: '25px', display: this.state.cpdHook ? 'block' : 'none' }}>
+                <div className="sectionBlockHeader">
+                  <h4>CPD Certification:</h4>
+                </div>
+                <div className="sectionBlockHeader">
+                  <input type="file" className="custom-file-input" name="file" id="fileUpload" />
+                  <form onSubmit={e => e.preventDefault()}>
+                    <div className="formCta">
+                      <button onClick={this.uploadProfilePicture}>Confirm Image Upload</button>
+                    </div>
+                  </form>
                 </div>
               </div>
 
@@ -193,18 +256,10 @@ export default class InstructorRegister extends Component {
                       name="website"
                       type="text"
                       class="inputText"
-                      required
                     />
                     <span class="floating-label">Business website address</span>
                   </div>
-                  <div className="formLinks">
-                    <p>
-                      <label>
-                        <Checkbox />
-                        &nbsp;&nbsp;&nbsp; I don't have a website
-                      </label>
-                    </p>
-                  </div>
+
                   <h5>Do you hold public liability insurance?</h5>
 
                   <RadioGroup
@@ -275,7 +330,7 @@ export default class InstructorRegister extends Component {
                   <div className="formLinks">
                     <p>
                       <label>
-                        <Checkbox />
+                        <Checkbox name="pickupAndDropoff" onClick={this.onClick} />
                         &nbsp;&nbsp;&nbsp; Pickup and dropoff
                       </label>
                     </p>
@@ -283,7 +338,7 @@ export default class InstructorRegister extends Component {
                   <div className="formLinks">
                     <p>
                       <label>
-                        <Checkbox />
+                        <Checkbox name="passPlus" onClick={this.onClick} />
                         &nbsp;&nbsp;&nbsp; Pass plus
                       </label>
                     </p>
@@ -291,7 +346,7 @@ export default class InstructorRegister extends Component {
                   <div className="formLinks">
                     <p>
                       <label>
-                        <Checkbox />
+                        <Checkbox name="carHireForTest" onClick={this.onClick} />
                         &nbsp;&nbsp;&nbsp; Car hire for test
                       </label>
                     </p>
@@ -426,6 +481,13 @@ export default class InstructorRegister extends Component {
                     </RadioButton>
                     </RadioGroup>
                   </div>
+                  <h5 style={{ marginBottom: '25px' }}>Car Picture:</h5>
+                  <input type="file" className="custom-file-input" name="file" id="fileUploadCar" />
+                  <form onSubmit={e => e.preventDefault()}>
+                    <div className="formCta">
+                      <button onClick={this.uploadCarPicture}>Confirm Image Upload</button>
+                    </div>
+                  </form>
                 </div>
               </div>
 
