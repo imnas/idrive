@@ -91,7 +91,7 @@ const instructorProfileSchema = new Schema({
     required: false
   },
   liabilityInsurance: {
-    type: Boolean,
+    type: String,
     required: true
   },
   vatRegistered: {

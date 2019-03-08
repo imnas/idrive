@@ -51,7 +51,7 @@ const upload = multer({ storage });
 // @PATH    - POST /api/fs/upload
 // @ACCESS  - Private
 // @DESC    - Add a picture to the database
-router.post('/upload', upload.single('file'), (req, res) => {
+router.post('/upload', passport.authenticate('jwt', { session: false }), upload.single('file'), (req, res) => {
     if (req.file.contentType === 'image/jpeg' || req.file.contentType === 'image/png') {
         return res.status(200).json({ file: req.file.filename });
     } else {

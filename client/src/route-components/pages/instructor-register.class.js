@@ -10,7 +10,7 @@ export default class InstructorRegister extends Component {
     super();
     this.state = {
       gender: "",
-      experience: "",
+      from: NaN,
       adiHook: false,
       cpdHook: false,
       adi: '',
@@ -30,7 +30,8 @@ export default class InstructorRegister extends Component {
       gearbox: '',
       fuel: '',
       profilePicture: "",
-      image: ""
+      image: "",
+      rate: NaN
     };
   }
 
@@ -85,7 +86,7 @@ export default class InstructorRegister extends Component {
     const image = document.getElementById('fileUploadProfile');
     let newImage = new FormData();
     newImage.append('file', image.files[0]);
-    axios.post('http://localhost:9000/api/fs/upload', newImage, { headers: { 'Content-Type': 'multipart/form-data' } })
+    axios.post('http://localhost:9000/api/fs/upload', newImage, { headers: { 'Content-Type': 'multipart/form-data', 'Authorization': localStorage.jwt } })
       .then(res => res.data)
       .then(data => this.setState({ profilePicture: data.file }))
       .catch(err => console.log(err));
@@ -95,7 +96,7 @@ export default class InstructorRegister extends Component {
     const image = document.getElementById('fileUploadAdi');
     let newImage = new FormData();
     newImage.append('file', image.files[0]);
-    axios.post('http://localhost:9000/api/fs/upload', newImage, { headers: { 'Content-Type': 'multipart/form-data' } })
+    axios.post('http://localhost:9000/api/fs/upload', newImage, { headers: { 'Content-Type': 'multipart/form-data', 'Authorization': localStorage.jwt } })
       .then(res => res.data)
       .then(data => this.setState({ adi: data.file }))
       .catch(err => console.log(err));
@@ -105,7 +106,7 @@ export default class InstructorRegister extends Component {
     const image = document.getElementById('fileUploadCpd');
     let newImage = new FormData();
     newImage.append('file', image.files[0]);
-    axios.post('http://localhost:9000/api/fs/upload', newImage, { headers: { 'Content-Type': 'multipart/form-data' } })
+    axios.post('http://localhost:9000/api/fs/upload', newImage, { headers: { 'Content-Type': 'multipart/form-data', 'Authorization': localStorage.jwt } })
       .then(res => res.data)
       .then(data => this.setState({ cpd: data.file }))
       .catch(err => console.log(err));
@@ -115,14 +116,42 @@ export default class InstructorRegister extends Component {
     const image = document.getElementById('fileUploadCar');
     let newImage = new FormData();
     newImage.append('file', image.files[0]);
-    axios.post('http://localhost:9000/api/fs/upload', newImage, { headers: { 'Content-Type': 'multipart/form-data' } })
+    axios.post('http://localhost:9000/api/fs/upload', newImage, { headers: { 'Content-Type': 'multipart/form-data', 'Authorization': localStorage.jwt } })
       .then(res => res.data)
       .then(data => this.setState({ image: data.file }))
       .catch(err => console.log(err));
   };
 
   addProfile = () => {
-    // https://www.youtube.com/watch?v=xLxHtBt2jtU
+    const currentDate = new Date();
+    const experience = currentDate.getFullYear() - parseInt(this.state.from) + 1;
+    const newProfile = {
+      gender: this.state.gender,
+      from: `01-01-${experience}`,
+      adi: this.state.adi,
+      cpd: this.state.cpd,
+      manual: this.state.manual,
+      automatic: this.state.automatic,
+      website: this.state.website,
+      liabilityInsurance: this.state.liabilityInsurance,
+      vatRegistered: this.state.vatRegistered,
+      pickupAndDropoff: this.state.pickupAndDropoff,
+      passPlus: this.state.passPlus,
+      carHireForTest: this.state.carHireForTest,
+      make: this.state.make,
+      model: this.state.model,
+      year: this.state.year,
+      registration: this.state.registration,
+      gearbox: this.state.gearbox,
+      fuel: this.state.fuel,
+      profilePicture: this.state.profilePicture,
+      image: this.state.image,
+      rate: `£${this.state.rate}`
+    };
+    axios.post('http://localhost:9000/api/profile/add', newProfile, { headers: { 'Authorization': localStorage.jwt } })
+      .then(res => res.data)
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -146,7 +175,7 @@ export default class InstructorRegister extends Component {
                 </form>
               </div>
             </div>
-            <form>
+            <form onSubmit={e => e.preventDefault()}>
               <div className="sectionBlocksQuestion">
                 <div className="sectionBlockHeader">
                   <h4 style={{ margin: '0' }}>Gender:</h4>
@@ -191,7 +220,7 @@ export default class InstructorRegister extends Component {
                   >
                     <input
                       onChange={this.onChange}
-                      name="experience"
+                      name="from"
                       type="number"
                       class="inputText"
                       required
@@ -510,6 +539,27 @@ export default class InstructorRegister extends Component {
                       <button onClick={this.uploadCarPicture}>Confirm Image Upload</button>
                     </div>
                   </form>
+                </div>
+              </div>
+
+              <div className="sectionBlocksQuestion" style={{ marginBottom: '25px' }}>
+                <div className="sectionBlockHeader">
+                  <h4>Your Rate:</h4>
+                </div>
+                <div className="sectionBlockHeader">
+                  <div
+                    className="floatingInputContainer"
+                    style={{ margin: "25px 0 0 0" }}
+                  >
+                    <input
+                      onChange={this.onChange}
+                      name="rate"
+                      type="number"
+                      class="inputText"
+                      required
+                    />
+                    <span class="floating-label">Rate in GBP:</span>
+                  </div>
                 </div>
               </div>
 
