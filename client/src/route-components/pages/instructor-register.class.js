@@ -133,6 +133,7 @@ export default class InstructorRegister extends Component {
       .then(res => res.data)
       .then(data => console.log(data))
       .catch(err => console.log(err));
+    localStorage.removeItem('temp_name');
   };
 
   render() {
@@ -141,7 +142,7 @@ export default class InstructorRegister extends Component {
         <Header />
         <div class="formContainerExternal">
           <div className="formContainer registerForm">
-            <h2>Congratulations newUser.firstName!</h2>
+            <h2>Congratulations{localStorage.temp_name ? ', ' + localStorage.temp_name : ''}!</h2>
             <h4>You're only a minute away from getting signed up!</h4>
             <div className="sectionBlocksQuestion" style={{ marginBottom: '25px' }}>
               <div className="sectionBlockHeader">

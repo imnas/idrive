@@ -1,19 +1,19 @@
 import React, { Component } from "react";
-import Checkbox from "rc-checkbox";
 import Header from "../includes/header.class";
 import { NavLink } from "react-router-dom";
 import "rc-checkbox/assets/index.css";
 import { registerUser } from '../../actions/authActions';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import Checkbox from "rc-checkbox";
+import { RadioGroup, RadioButton } from "react-radio-buttons";
 import { connect } from 'react-redux';
 
 class Register extends Component {
   constructor() {
     super();
     this.state = {
-      // Temporary solution for testing
-      type: 'learner',
+      type: '',
       firstName: '',
       lastName: '',
       email: '',
@@ -23,6 +23,7 @@ class Register extends Component {
       address: '',
       password: '',
       confirmPassword: '',
+      accepted: false,
       errors: {}
     };
     this.registerUser = this.registerUser.bind(this);
@@ -31,41 +32,57 @@ class Register extends Component {
 
   registerUser = (e) => {
     e.preventDefault();
-    const newUser = {
-      // Change to learner - currently set to instructor for testing
-      type: 'instructor',
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email,
-      postalCode: this.state.postalCode,
-      phone: this.state.phone,
-      city: this.state.city,
-      address: this.state.address,
-      password: this.state.password,
-      confirmPassword: this.state.confirmPassword 
-    };
-    console.log(newUser);
-    this.props.registerUser(newUser, this.props.history);
-    };
-
-    onChange = (e) => {
-      this.setState({
-        [e.target.name]: e.target.value
-      });
-    }
-
-    componentDidMount() {
-      document.title = 'InstantDriving - Register';
-      if (this.props.auth.isAuthenticated) {
-        this.props.history.push('/search');
+    if (!this.state.accepted) {
+      console.log('Please accept the terms and conditions.');
+    } else {
+      const newUser = {
+        type: this.state.type,
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        email: this.state.email,
+        postalCode: this.state.postalCode,
+        phone: this.state.phone,
+        city: this.state.city,
+        address: this.state.address,
+        password: this.state.password,
+        confirmPassword: this.state.confirmPassword
       };
+      localStorage.setItem('temp_name', newUser.firstName);
+      this.props.registerUser(newUser, this.props.history);
     }
-  
-    componentWillReceiveProps(nextProps) {
-      if(nextProps.errors) {
-        this.setState({errors: nextProps.errors})
-      }
+  };
+
+  onCheck = e => {
+    const value = this.state[e.target.name]
+    this.setState({
+      [e.target.name]: !value
+    });
+  };
+
+  onChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
+  onChangeAccountType = e => {
+    this.setState({
+      type: e.toLowerCase()
+    });
+  }
+
+  componentDidMount() {
+    document.title = 'InstantDriving - Register';
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/search');
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors })
     }
+  }
 
   render() {
     return (
@@ -78,6 +95,33 @@ class Register extends Component {
             </h2>
             <h4>Hey, register and get your first lesson absolutely free!</h4>
             <form>
+              <div className="sectionBlocksQuestion">
+                <div className="sectionBlockBody">
+                  <h5>Are you an instructor or a learner?</h5>
+                  <RadioGroup
+                    className="radiosContainers"
+                    horizontal
+                    onChange={this.onChangeAccountType}
+                  >
+                    <RadioButton
+                      value="Instructor"
+                      iconSize={20}
+                      pointColor={"#0a71dd"}
+                      rootColor={"#e8eaf0"}
+                    >
+                      Instructor
+                    </RadioButton>
+                    <RadioButton
+                      value="Learner"
+                      iconSize={20}
+                      pointColor={"#0a71dd"}
+                      rootColor={"#e8eaf0"}
+                    >
+                      Learner
+                    </RadioButton>
+                  </RadioGroup>
+                </div>
+              </div>
               <div className="dualFloatingInputs">
                 <div className="floatingInputContainer">
                   <input onChange={this.onChange} name="firstName" type="text" class="inputText" required />
@@ -125,7 +169,7 @@ class Register extends Component {
               <div className="formLinks">
                 <p>
                   <label>
-                    <Checkbox />
+                    <Checkbox name="accepted" onClick={this.onCheck} />
                     &nbsp;&nbsp;&nbsp; By creating an account, I accept the
                     terms and conditions
                   </label>

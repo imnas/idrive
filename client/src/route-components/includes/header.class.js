@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/logo.png";
@@ -12,7 +13,7 @@ export class Header extends Component {
       >
         <div className="uMLeft">
           <NavLink to="/" className="logo">
-            <img src={logo} />
+            <img src={logo} alt="" />
           </NavLink>
           <div className="umLeftMenu">
             <ul>
@@ -34,7 +35,7 @@ export class Header extends Component {
               <NavLink to="/login">Login</NavLink>
             </li>
             <li className="getStarted">
-              <a>Get Started</a>
+              <NavLink to="/register">Get Started</NavLink>
             </li>
           </ul>
         </div>

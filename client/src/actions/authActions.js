@@ -26,13 +26,14 @@ export const loginUser = userData => dispatch => {
       setAuthToken(token);
       const decoded = jwt_decode(token);
       dispatch(setCurrentUser(decoded));
-      window.location.href = '/search';
+      window.location.href = '/profile';
     })
-    .catch(err =>{
+    .catch(err => {
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
-      })}
+      })
+    }
     );
 };
 
