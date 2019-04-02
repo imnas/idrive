@@ -1281,3 +1281,134 @@ img[src=""] {
   border-radius: 2px;
   color: #fff;
 }
+
+.publicProfile {
+  .publicProfileContainer {
+    max-width: 1200px;
+    margin: 60px auto;
+    display: flex;
+    flex-direction: row;
+
+    .pProfileLeft {
+      > a {
+        flex: 1;
+        height: 65px;
+        border: 0;
+        font-weight: bold;
+        font-size: 13px;
+        color: #fff;
+        border-radius: 2px;
+        background: $primary-solid;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 25px 0;
+      }
+
+      .actualProfilePicture {
+        height: 300px;
+        background-size: cover;
+        width: 300px;
+        background-position: Center center;
+        border: 10px solid white;
+      }
+
+      .qualificationsContainer {
+        padding: 25px;
+        background: #fff;
+
+        .qualContainer {
+          margin: 0px 0 0 0;
+          display: flex;
+          flex-direction: column;
+          font-size: 13px;
+          font-weight: bold;
+
+          > div i {
+            font-size: 18px;
+            margin-right: 10px;
+            color: #23e0ab;
+          }
+
+          & > div:not(:first-child) {
+            margin: 10px 0 0 0;
+          }
+        }
+        margin: 25px 0 0 0;
+      }
+
+      .repContainer {
+        padding: 60px 25px 25px 25px;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        small {
+          text-align: center;
+          font-weight: bold;
+        }
+
+        .qualContainer {
+          margin: 15px 0 0 0;
+          display: flex;
+          flex-direction: column;
+          font-size: 13px;
+          font-weight: bold;
+
+          > div i {
+            font-size: 18px;
+            margin-right: 10px;
+            color: #23e0ab;
+          }
+
+          & > div:not(:first-child) {
+            margin: 10px 0 0 0;
+          }
+        }
+
+        .starRatingInstructor {
+          position: absolute;
+          z-index: 1;
+          top: 20px;
+          right: 0;
+          left: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: #525252;
+          max-width: 110px;
+          padding: 7.5px 0;
+          margin: auto;
+          border-radius: 2px;
+          color: #23e0ab;
+          font-size: 12px;
+          i:not(:first-child) {
+            margin-left: 5px;
+          }
+        }
+      }
+    }
+
+    .pProfileRight {
+      margin: 0 0 0 30px;
+
+      h4 {
+        font-size: 26px;
+        font-weight: 800;
+      }
+
+      p {
+        line-height: 26px;
+      }
+
+      small {
+        margin: 10px 0;
+        display: flex;
+        text-transform: uppercase;
+        font-weight: 900;
+        color: #0a71dd;
+      }
+    }
+  }
+}

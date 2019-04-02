@@ -7,6 +7,7 @@ import RegisterPage from "./register";
 import RecoverPage from "./recover";
 import InstructorResults from "./instructor-results";
 import InstructorRegister from "./instructor-register";
+import PublicProfile from "./public-profile";
 
 export default () => (
   <BrowserRouter>
@@ -15,6 +16,7 @@ export default () => (
       <Route path="/login" exact component={LoginPage} />
       <Route path="/register" exact component={RegisterPage} />
       <Route path="/profile" exact component={InstructorRegister} />
+      <Route path="/profile/id" exact component={PublicProfile} />
       <Route path="/recover" exact component={RecoverPage} />
       <Route path="/search" exact component={InstructorResults} />
     </Switch>
